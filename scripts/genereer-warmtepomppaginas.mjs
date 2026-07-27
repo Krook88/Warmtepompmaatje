@@ -8,10 +8,19 @@
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { createRequire } from "node:module";
+
+// Dezelfde icoonset als de browser gebruikt, zodat een pomppagina nooit een
+// ander icoon toont dan de vergelijker.
+const vereis = createRequire(import.meta.url);
+const Iconen = vereis("../assets/iconen.js");
+
+// Het merkicoon staat in de kop en de voet van elke pagina.
+const ICOON_LOGO = Iconen.svg("warmte", { klasse: "icoon-groot" });
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const SITE = "https://warmtepompmaatje.nl";
-const ASSET_VERSIE = "20260727b";
+const ASSET_VERSIE = "20260727c";
 const VANDAAG = new Date().toISOString().slice(0, 10);
 
 const data = JSON.parse(readFileSync(join(ROOT, "data", "warmtepompen.json"), "utf8"));
@@ -30,7 +39,7 @@ function driewaardig(v) {
 }
 const punt = (v) => { const s = driewaardig(v).status; return s === "ja" ? 2 : s === "deels" ? 1 : 0; };
 const koppelScore = (w) => punt(w.sturing) + punt(w.home_assistant) + punt(w.homey);
-const d3html = (v) => { const d = driewaardig(v); const icoon = d.status === "ja" ? "✓" : d.status === "deels" ? "~" : "✕"; return `<b>${icoon}</b> ${esc(d.tekst)}`; };
+const d3html = (v) => { const d = driewaardig(v); const icoon = Iconen.svg(d.status === "ja" ? "ja" : d.status === "deels" ? "deels" : "nee"); return `<b>${icoon}</b> ${esc(d.tekst)}`; };
 
 function bestePrijs(w) {
   const aanbiedingen = (w.aanbiedingen || []).filter((a) => a && a.prijs_eur);
@@ -79,7 +88,7 @@ function kop(actief, diepte) {
   return `<header class="site-header">
   <div class="container">
     <a class="logo" href="${p}index.html">
-      <span class="logo-icoon">🔥</span>
+      <span class="logo-icoon">${ICOON_LOGO}</span>
       <span>Warmtepomp<b>maatje</b></span>
     </a>
     <nav class="hoofdnav">
@@ -89,7 +98,7 @@ function kop(actief, diepte) {
       <a href="${p}uitleg.html">Uitleg</a>
       <a href="${p}subsidie.html">Subsidie</a>
       <details class="nav-meer">
-        <summary>Meer ▾</summary>
+        <summary>Meer ${Iconen.svg("chevron")}</summary>
         <div class="nav-meer-paneel">
           <a href="${p}over-ons.html">Over ons</a>
           <a href="${p}contact.html">Contact</a>
@@ -105,7 +114,7 @@ function voet(diepte) {
   const p = diepte ? "../" : "";
   return `<footer class="site-footer">
   <div class="container">
-    <b>🔥 Warmtepompmaatje</b>
+    <b>${Iconen.svg("warmte")} Warmtepompmaatje</b>
     <p>Onafhankelijke vergelijking van warmtepompen voor Nederlandse huishoudens. Zustersite van <a href="https://zonnestroommaatje.nl/" target="_blank" rel="noopener">Zonnestroommaatje</a> (zonnepanelen en omvormers) en <a href="https://batterijmaatje.nl/" target="_blank" rel="noopener">Batterijmaatje.nl</a> (thuisbatterijen).</p>
     <p><a href="${p}index.html">Warmtepompen</a> · <a href="${p}advies.html">Keuzehulp</a> · <a href="${p}rekenmodule.html">Terugverdientijd</a> · <a href="${p}uitleg.html">Uitleg</a> · <a href="${p}subsidie.html">Subsidie</a> · <a href="${p}over-ons.html">Over ons</a> · <a href="${p}contact.html">Contact</a> · <a href="${p}privacy.html">Privacy &amp; disclaimer</a></p>
     <p class="disclaimer">Disclaimer: prijzen en specificaties zijn indicaties; er kunnen geen rechten aan worden ontleend. De prijs en voorwaarden op de website van de aanbieder zijn altijd leidend.</p>
@@ -139,6 +148,7 @@ function pompPagina(w) {
   <meta name="twitter:card" content="summary_large_image">
   ${productLd(w)}
   <link rel="stylesheet" href="../assets/style.css?v=${ASSET_VERSIE}">
+  <script src="../assets/iconen.js?v=${ASSET_VERSIE}" defer></script>
   <script src="../assets/nav.js?v=${ASSET_VERSIE}" defer></script>
   <link rel="icon" href="../assets/favicon.svg?v=1" type="image/svg+xml">
   <style>
@@ -164,7 +174,7 @@ ${kop("index", true)}
   <p class="breadcrumb"><a href="../index.html">Warmtepompen</a> › ${esc(naam)}</p>
   <h1 style="margin:8px 0 4px;">${esc(naam)}</h1>
   <p style="margin:0 0 6px;color:var(--kleur-tekst-licht);">${w.type === "hybride" ? "Hybride warmtepomp (werkt samen met je cv-ketel)" : "All-electric warmtepomp (vervangt de cv-ketel volledig)"}${w.voorbeeld_variant ? ` · prijzen voor: ${esc(w.voorbeeld_variant)}` : ""}</p>
-  <p style="margin:0 0 10px;"><span class="badge zeker-score ${score >= 5 ? "zeker-hoog" : score >= 3 ? "zeker-midden" : "zeker-laag"}">🔗 Koppel-score ${score}/6</span></p>
+  <p style="margin:0 0 10px;"><span class="badge zeker-score ${score >= 5 ? "zeker-hoog" : score >= 3 ? "zeker-midden" : "zeker-laag"}">${Iconen.svg("koppeling")} Koppel-score ${score}/6</span></p>
 
   <div class="product-indeling">
     <div class="product-paneel">
@@ -194,11 +204,11 @@ ${kop("index", true)}
 
       <h2>Slim koppelen (Koppel-score ${score}/6)</h2>
       <dl class="koppel-blok" style="margin:0;">
-        <dt>${driewaardig(w.sturing).status === "ja" ? "✓" : driewaardig(w.sturing).status === "deels" ? "~" : "✕"} Slimme aansturing</dt><dd>${esc(driewaardig(w.sturing).tekst)}</dd>
-        <dt>${driewaardig(w.home_assistant).status === "ja" ? "✓" : driewaardig(w.home_assistant).status === "deels" ? "~" : "✕"} Home Assistant</dt><dd>${esc(driewaardig(w.home_assistant).tekst)}</dd>
-        <dt>${driewaardig(w.homey).status === "ja" ? "✓" : driewaardig(w.homey).status === "deels" ? "~" : "✕"} Homey</dt><dd>${esc(driewaardig(w.homey).tekst)}</dd>
+        <dt>${Iconen.svg(driewaardig(w.sturing).status === "ja" ? "ja" : driewaardig(w.sturing).status === "deels" ? "deels" : "nee")} Slimme aansturing</dt><dd>${esc(driewaardig(w.sturing).tekst)}</dd>
+        <dt>${Iconen.svg(driewaardig(w.home_assistant).status === "ja" ? "ja" : driewaardig(w.home_assistant).status === "deels" ? "deels" : "nee")} Home Assistant</dt><dd>${esc(driewaardig(w.home_assistant).tekst)}</dd>
+        <dt>${Iconen.svg(driewaardig(w.homey).status === "ja" ? "ja" : driewaardig(w.homey).status === "deels" ? "deels" : "nee")} Homey</dt><dd>${esc(driewaardig(w.homey).tekst)}</dd>
       </dl>
-      <p class="hint" style="margin-top:12px;">Integraties veranderen per firmware- en appversie; controleer de actuele status vóór aankoop. <a href="../index.html#koppel-score">Zo werkt de Koppel-score →</a></p>
+      <p class="hint" style="margin-top:12px;">Integraties veranderen per firmware- en appversie; controleer de actuele status vóór aankoop. <a href="../index.html#koppel-score">Zo werkt de Koppel-score ${Iconen.svg("pijl-rechts")}</a></p>
     </div>
 
     <div class="product-paneel">
@@ -208,9 +218,9 @@ ${kop("index", true)}
       ${aanbiedingen.length ? `<ul class="winkel-lijst" style="list-style:none;padding:0;margin:0 0 10px;">${aanbiedingen.map((a) => `<li style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;padding:6px 0;border-bottom:1px dotted var(--kleur-rand);min-width:0;"><span style="min-width:0;overflow-wrap:anywhere;">${esc(a.winkel)}</span><span style="white-space:nowrap;"><b>${eur(a.prijs_eur)}</b> <a href="${esc(a.affiliate_url || a.url)}" target="_blank" rel="noopener${a.affiliate_url ? " sponsored" : ""}">bekijk</a></span></li>`).join("")}</ul>` : ""}
       ${w.prijs_datum ? `<p class="datum-stempel" style="margin:0 0 12px;">Prijzen gecontroleerd: ${esc(datumNL(w.prijs_datum))}. Zonder controledatum is de prijs een indicatie.</p>` : ""}
       <p style="margin:0;display:flex;flex-direction:column;gap:8px;">
-        ${beste && (beste.url || beste.affiliate_url) ? `<a class="knop" href="${esc(beste.affiliate_url || beste.url)}" target="_blank" rel="noopener">${uitWinkel ? "Bekijk aanbieding →" : "Naar fabrikant →"}</a>` : ""}
-        <a class="knop knop-secundair" href="../rekenmodule.html?pomp=${encodeURIComponent(w.id)}">Bereken je terugverdientijd →</a>
-        <a class="knop knop-secundair" href="../advies.html">Past deze pomp bij mijn huis? →</a>
+        ${beste && (beste.url || beste.affiliate_url) ? `<a class="knop" href="${esc(beste.affiliate_url || beste.url)}" target="_blank" rel="noopener">${uitWinkel ? `Bekijk aanbieding ${Iconen.svg("pijl-rechts")}` : `Naar fabrikant ${Iconen.svg("pijl-rechts")}`}</a>` : ""}
+        <a class="knop knop-secundair" href="../rekenmodule.html?pomp=${encodeURIComponent(w.id)}">Bereken je terugverdientijd ${Iconen.svg("pijl-rechts")}</a>
+        <a class="knop knop-secundair" href="../advies.html">Past deze pomp bij mijn huis? ${Iconen.svg("pijl-rechts")}</a>
       </p>
     </div>
   </div>

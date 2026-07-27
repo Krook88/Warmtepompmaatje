@@ -89,6 +89,35 @@ body {
   .advies-kaart table td { white-space: normal !important; }
 }
 
+/* --------------------------------------------------------------------------
+   Iconen
+
+   Lijniconen uit Lucide, zie assets/iconen.js. Ze erven de tekstkleur en
+   schalen mee met de tekstgrootte, zodat ze overal in verhouding blijven.
+   -------------------------------------------------------------------------- */
+
+.icoon {
+  width: 1.15em;
+  height: 1.15em;
+  flex: none;
+  vertical-align: -0.19em;
+}
+
+.icoon-groot { width: 1.5em; height: 1.5em; vertical-align: -0.3em; }
+
+/* Iconen in badges en knoppen lijnen uit met de tekst ernaast */
+.badge { display: inline-flex; align-items: center; gap: 5px; }
+.badge .icoon { width: 0.95em; height: 0.95em; vertical-align: baseline; }
+.knop { display: inline-flex; align-items: center; justify-content: center; gap: 7px; }
+
+/* Het chevron in de filterknop wijst omhoog zodra het paneel openstaat */
+.icoon.gedraaid { transform: rotate(180deg); }
+
+/* Sterren voor koppelgemak: gevuld en leeg uit dezelfde set, zodat ze dezelfde
+   vorm hebben in plaats van twee losse tekens. */
+.sterren-rij { display: inline-flex; gap: 2px; color: var(--kleur-accent); }
+.sterren-rij .icoon { width: 1em; height: 1em; vertical-align: middle; }
+
 /* Koppen krijgen strakkere letterafstand naarmate ze groter zijn: bij grote
    letters oogt standaardafstand al snel los. */
 h1, h2, h3 { line-height: 1.2; text-wrap: balance; }
@@ -153,7 +182,7 @@ a { color: var(--kleur-primair); }
   text-decoration: none;
 }
 
-.logo .logo-icoon { font-size: 1.5rem; }
+.logo .logo-icoon { display: inline-flex; color: var(--kleur-accent); }
 .logo span b { color: var(--kleur-primair); }
 
 .hoofdnav {
@@ -267,7 +296,8 @@ a { color: var(--kleur-primair); }
   font-size: 0.95rem;
 }
 
-.regel-banner .icoon { font-size: 1.3rem; line-height: 1.3; }
+.regel-banner > .icoon { width: 1.35em; height: 1.35em; color: var(--kleur-accent-donker); }
+.regel-banner a .icoon { width: 1em; height: 1em; }
 .regel-banner p { min-width: 0; }
 /* hidden-attribuut wint van display:flex (voor de kruisverwijzing-banner) */
 .regel-banner[hidden] { display: none; }
@@ -570,7 +600,7 @@ h1 .merk-logo { height: 28px; vertical-align: -4px; }
   font-size: 0.97rem;
   line-height: 1.55;
 }
-.icoon-kaart .icoon { font-size: 1.6rem; display: block; }
+.icoon-kaart .icoon { width: 1.7em; height: 1.7em; color: var(--kleur-primair); }
 
 /* Genummerde stappen: opgemaakte cijfers in plaats van keycap-emoji, die per
    platform anders worden getekend en niet te kleuren zijn. */
@@ -658,7 +688,8 @@ details.lees-meer[open] summary::after { content: " ▴"; }
 
 /* Koppelgemak sterren */
 .koppelgemak { padding: 0 20px 12px; font-size: 0.9rem; }
-.koppelgemak .sterren { color: var(--kleur-accent); letter-spacing: 2px; font-size: 1rem; }
+.koppelgemak .sterren { color: var(--kleur-accent); display: inline-flex; gap: 2px; }
+.koppelgemak .sterren .icoon { width: 1em; height: 1em; }
 .koppelgemak .uitleg { color: var(--kleur-tekst-licht); font-size: 0.85rem; margin-top: 2px; }
 
 .kaart-prijs {

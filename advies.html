@@ -14,8 +14,9 @@
   <meta property="og:site_name" content="Warmtepompmaatje.nl">
   <meta property="og:image" content="https://warmtepompmaatje.nl/assets/og-image.png">
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="stylesheet" href="assets/style.css?v=20260727b">
-  <script src="assets/advies.js?v=20260727b" defer></script>
+  <link rel="stylesheet" href="assets/style.css?v=20260727c">
+  <script src="assets/iconen.js?v=20260727c" defer></script>
+  <script src="assets/advies.js?v=20260727c" defer></script>
   <script src="assets/nav.js?v=20260722a" defer></script>
   <link rel="icon" href="assets/favicon.svg?v=1" type="image/svg+xml">
   <style>
@@ -43,7 +44,7 @@
 <header class="site-header">
   <div class="container">
     <a class="logo" href="index.html">
-      <span class="logo-icoon">🔥</span>
+      <span class="logo-icoon"><svg class="icoon icoon-groot" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3q1 4 4 6.5t3 5.5a1 1 0 0 1-14 0 5 5 0 0 1 1-3 1 1 0 0 0 5 0c0-2-1.5-3-1.5-5q0-2 2.5-4" /></svg></span>
       <span>Warmtepomp<b>maatje</b></span>
     </a>
     <nav class="hoofdnav">
@@ -53,7 +54,7 @@
       <a href="uitleg.html">Uitleg</a>
       <a href="subsidie.html">Subsidie</a>
       <details class="nav-meer">
-        <summary>Meer ▾</summary>
+        <summary>Meer <svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg></summary>
         <div class="nav-meer-paneel">
           <a href="over-ons.html">Over ons</a>
           <a href="contact.html">Contact</a>
@@ -124,7 +125,7 @@
       </div>
 
       <div class="veld">
-        <label for="smartHome">🏠 Gebruik je een smart home-systeem?</label>
+        <label for="smartHome"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" /> <path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /></svg> Gebruik je een smart home-systeem?</label>
         <select id="smartHome">
           <option value="geen" selected>Nee / niet belangrijk</option>
           <option value="home_assistant">Ja, Home Assistant</option>
@@ -135,8 +136,8 @@
 
       <div class="veld">
         <div class="checkbox-groep">
-          <label><input type="checkbox" id="checkZon"> ☀️ Ik heb zonnepanelen (of concrete plannen)</label>
-          <label><input type="checkbox" id="checkBatterij"> 🔋 Ik heb een thuisbatterij (of concrete plannen)</label>
+          <label><input type="checkbox" id="checkZon"> <svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4" /> <path d="M12 2v2" /> <path d="M12 20v2" /> <path d="m4.93 4.93 1.41 1.41" /> <path d="m17.66 17.66 1.41 1.41" /> <path d="M2 12h2" /> <path d="M20 12h2" /> <path d="m6.34 17.66-1.41 1.41" /> <path d="m19.07 4.93-1.41 1.41" /></svg> Ik heb zonnepanelen (of concrete plannen)</label>
+          <label><input type="checkbox" id="checkBatterij"> <svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m11 7-3 5h4l-3 5" /> <path d="M14.856 6H16a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.935" /> <path d="M22 14v-4" /> <path d="M5.14 18H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h2.936" /></svg> Ik heb een thuisbatterij (of concrete plannen)</label>
         </div>
         <span class="hint">Een slim aangestuurde pomp draait dan extra op je eigen zonnestroom of op goedkope uren uit de batterij</span>
       </div>
@@ -166,7 +167,7 @@
 
 <footer class="site-footer">
   <div class="container">
-    <b>🔥 Warmtepompmaatje</b>
+    <b><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3q1 4 4 6.5t3 5.5a1 1 0 0 1-14 0 5 5 0 0 1 1-3 1 1 0 0 0 5 0c0-2-1.5-3-1.5-5q0-2 2.5-4" /></svg> Warmtepompmaatje</b>
     <p>Onafhankelijke vergelijking van warmtepompen voor Nederlandse huishoudens. Zustersite van <a href="https://zonnestroommaatje.nl/" target="_blank" rel="noopener">Zonnestroommaatje</a> (zonnepanelen en omvormers) en <a href="https://batterijmaatje.nl/" target="_blank" rel="noopener">Batterijmaatje.nl</a> (thuisbatterijen).</p>
     <p><a href="index.html">Warmtepompen</a> · <a href="advies.html">Keuzehulp</a> · <a href="rekenmodule.html">Terugverdientijd</a> · <a href="uitleg.html">Uitleg</a> · <a href="subsidie.html">Subsidie</a> · <a href="over-ons.html">Over ons</a> · <a href="contact.html">Contact</a> · <a href="privacy.html">Privacy &amp; disclaimer</a></p>
     <p class="disclaimer">Disclaimer: dit advies is een indicatie; er kunnen geen rechten aan worden ontleend. Controleer voor aankoop de actuele specificaties, de RVO-apparatenlijst en de geschiktheid voor jouw woning.</p>

@@ -128,7 +128,7 @@
           <div class="vgl-rij"><span class="vgl-label">Met deze pomp</span>${balk(naDelen)}<b class="vgl-bedrag">${eurFmt.format(totaalNa)}</b></div>
         </div>
         <p class="vgl-legenda">${legendaKleuren.map(([label, kleur]) => `<span><i style="background:${kleur};"></i>${label}</span>`).join(" ")}</p>
-        <p class="vgl-verschil">${besparingJaar >= 0 ? `↓ ${eurFmt.format(besparingJaar)} per jaar lager` : `↑ ${eurFmt.format(-besparingJaar)} per jaar hoger`}</p>
+        <p class="vgl-verschil">${besparingJaar >= 0 ? `${Iconen.svg("omlaag")} ${eurFmt.format(besparingJaar)} per jaar lager` : `${Iconen.svg("omhoog")} ${eurFmt.format(-besparingJaar)} per jaar hoger`}</p>
       </div>`;
 
     el("resultaatInhoud").innerHTML = `
@@ -147,9 +147,9 @@
       <div class="resultaat-rij"><span>Netto voordeel over ${LEVENSDUUR_JAAR} jaar</span><b>${eurFmt.format(besparingLevensduur - netto)}</b></div>
       <div class="resultaat-rij"><span>Vermeden CO₂-uitstoot per jaar <small>(indicatie)</small></span><b>circa ${numFmt.format(co2)} kg</b></div>
       ${voorNaDiagram}
-      ${tvt !== null && tvt > LEVENSDUUR_JAAR ? `<p class="hint" style="margin-top:12px;background:var(--kleur-accent-licht);border-radius:8px;padding:10px 12px;">⚠️ De terugverdientijd is langer dan de gemiddelde levensduur van ${LEVENSDUUR_JAAR} jaar. Financieel is dit dan vooral een duurzame keuze. Check of een goedkopere pomp, een hybride of eerst isoleren beter uitpakt; de <a href="advies.html">keuzehulp</a> helpt daarbij.</p>` : ""}
-      ${s.type === "all-electric" && !s.gasAf ? `<p class="hint" style="margin-top:12px;">💡 Laat je de gasaansluiting aan (bijvoorbeeld om op gas te koken), dan blijf je circa ${eurFmt.format(s.vastrecht)} per jaar aan vaste gaskosten betalen. Die zijn hier niet als besparing meegerekend.</p>` : ""}
-      <p style="margin-top:14px;"><a href="pomp/${encodeURIComponent(s.w.id)}.html">Alle details van de ${escapeHtml(s.w.merk)} ${escapeHtml(s.w.model)} →</a></p>
+      ${tvt !== null && tvt > LEVENSDUUR_JAAR ? `<p class="hint" style="margin-top:12px;background:var(--kleur-accent-licht);border-radius:8px;padding:10px 12px;">${Iconen.svg("let-op")} De terugverdientijd is langer dan de gemiddelde levensduur van ${LEVENSDUUR_JAAR} jaar. Financieel is dit dan vooral een duurzame keuze. Check of een goedkopere pomp, een hybride of eerst isoleren beter uitpakt; de <a href="advies.html">keuzehulp</a> helpt daarbij.</p>` : ""}
+      ${s.type === "all-electric" && !s.gasAf ? `<p class="hint" style="margin-top:12px;">${Iconen.svg("tip")} Laat je de gasaansluiting aan (bijvoorbeeld om op gas te koken), dan blijf je circa ${eurFmt.format(s.vastrecht)} per jaar aan vaste gaskosten betalen. Die zijn hier niet als besparing meegerekend.</p>` : ""}
+      <p style="margin-top:14px;"><a href="pomp/${encodeURIComponent(s.w.id)}.html">Alle details van de ${escapeHtml(s.w.merk)} ${escapeHtml(s.w.model)} ${Iconen.svg("pijl-rechts")}</a></p>
       <p class="hint" style="margin-top:10px;">Indicatie op basis van jouw invoer en onze aannames; geen offerte of financieel advies.</p>
     `;
   }

@@ -89,12 +89,12 @@
   function koppelScoreBadge(w) {
     const score = koppelScore(w);
     const klasse = score >= 5 ? "zeker-hoog" : score >= 3 ? "zeker-midden" : "zeker-laag";
-    return `<span class="badge zeker-score ${klasse}" title="Koppel-score ${score} van 6: punten voor slimme aansturing (SG-ready/Modbus), Home Assistant en Homey (2 punten per onderdeel). Tik voor de details.">🔗 Koppel-score ${score}/6</span>`;
+    return `<span class="badge zeker-score ${klasse}" title="Koppel-score ${score} van 6: punten voor slimme aansturing (SG-ready/Modbus), Home Assistant en Homey (2 punten per onderdeel). Tik voor de details.">${Iconen.svg("koppeling")} Koppel-score ${score}/6</span>`;
   }
 
   function badgeHtml(label, waarde) {
     const d = driewaardig(waarde);
-    const icoon = d.status === "ja" ? "✓" : d.status === "deels" ? "~" : "✕";
+    const icoon = Iconen.svg(d.status === "ja" ? "ja" : d.status === "deels" ? "deels" : "nee");
     return `<span class="badge ${d.status}" data-uitleg="${escapeHtml(label)}" title="${escapeHtml(d.tekst)}">${icoon} ${escapeHtml(label)}</span>`;
   }
 
@@ -217,7 +217,7 @@
         </div>
       </div>
       <div class="kaart-acties">
-        ${beste && beste.url ? `<a class="knop" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener" aria-label="Bekijk de ${escapeHtml(w.merk)} ${escapeHtml(w.model)}">${uitWinkel ? "Bekijk aanbieding →" : "Naar fabrikant →"}</a>` : ""}
+        ${beste && beste.url ? `<a class="knop" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener" aria-label="Bekijk de ${escapeHtml(w.merk)} ${escapeHtml(w.model)}">${uitWinkel ? `Bekijk aanbieding ${Iconen.svg("pijl-rechts")}` : `Naar fabrikant ${Iconen.svg("pijl-rechts")}`}</a>` : ""}
         <a class="knop knop-secundair" href="pomp/${encodeURIComponent(w.id)}.html" title="Alle specificaties, prijzen en koppelingsdetails van de ${escapeHtml(w.merk)} ${escapeHtml(w.model)}">Alle details</a>
         <a class="knop knop-secundair" href="rekenmodule.html?pomp=${encodeURIComponent(w.id)}" title="Bereken de besparing en terugverdientijd van de ${escapeHtml(w.merk)} ${escapeHtml(w.model)}">Terugverdientijd</a>
         <a class="knop knop-secundair" href="advies.html" title="Welke warmtepomp past bij jouw huis? Doe de keuzehulp">Keuzehulp</a>
@@ -254,13 +254,13 @@
     }
     const checkCel = (v) => {
       const d = driewaardig(v);
-      if (d.status === "ja") return '<span class="check-ja">✓</span>';
-      if (d.status === "deels") return `<span class="check-deels" title="${escapeHtml(d.tekst)}">~</span>`;
-      return '<span class="check-nee">✕</span>';
+      if (d.status === "ja") return `<span class="check-ja">${Iconen.svg("ja")}</span>`;
+      if (d.status === "deels") return `<span class="check-deels" title="${escapeHtml(d.tekst)}">${Iconen.svg("deels")}</span>`;
+      return `<span class="check-nee">${Iconen.svg("nee")}</span>`;
     };
     return `
     <table class="vergelijk-tabel">
-      <thead><tr>${tabelKolommen.map((k) => `<th data-kolom="${k.key}">${k.label}${k.key !== "actie" ? ' <span class="sorteer-pijl">⇅</span>' : ""}</th>`).join("")}</tr></thead>
+      <thead><tr>${tabelKolommen.map((k) => `<th data-kolom="${k.key}">${k.label}${k.key !== "actie" ? ` <span class="sorteer-pijl">${Iconen.svg("sorteren")}</span>` : ""}</th>`).join("")}</tr></thead>
       <tbody>
         ${rijen.map((w) => {
           const beste = bestePrijs(w);
@@ -274,7 +274,7 @@
             <td title="Punten voor slimme aansturing, Home Assistant en Homey"><b>${koppelScore(w)}/6</b></td>
             <td>${checkCel(w.home_assistant)}</td>
             <td>${checkCel(w.homey)}</td>
-            <td>${beste && beste.url ? `<a class="knop" style="padding:7px 12px;font-size:0.85rem;" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener">Bekijk →</a>` : ""}</td>
+            <td>${beste && beste.url ? `<a class="knop" style="padding:7px 12px;font-size:0.85rem;" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener">Bekijk ${Iconen.svg("pijl-rechts")}</a>` : ""}</td>
           </tr>`;
         }).join("")}
       </tbody>
@@ -287,7 +287,7 @@
 
   function vergelijkModalHtml(items) {
     const rij = (label, fn) => `<tr><th style="text-align:left;padding:8px 10px;background:var(--kleur-achtergrond);white-space:nowrap;position:sticky;left:0;z-index:1;box-shadow:2px 0 0 var(--kleur-rand);">${label}</th>${items.map((w) => `<td style="padding:8px 10px;border-bottom:1px solid var(--kleur-rand);">${fn(w)}</td>`).join("")}</tr>`;
-    const d3 = (v) => { const d = driewaardig(v); return d.status === "nee" ? `✕ ${escapeHtml(d.tekst)}` : d.status === "deels" ? `~ ${escapeHtml(d.tekst)}` : `✓ ${escapeHtml(d.tekst)}`; };
+    const d3 = (v) => { const d = driewaardig(v); return d.status === "nee" ? `${Iconen.svg("nee")} ${escapeHtml(d.tekst)}` : d.status === "deels" ? `${Iconen.svg("deels")} ${escapeHtml(d.tekst)}` : `${Iconen.svg("ja")} ${escapeHtml(d.tekst)}`; };
     return `
       <h2>Vergelijking</h2>
       <div style="overflow-x:auto;">
@@ -307,7 +307,7 @@
         ${rij("Homey", (w) => d3(w.homey))}
         ${rij("App", (w) => escapeHtml(w.app || "?"))}
         ${rij("Garantie", (w) => (w.garantie_jaar ? w.garantie_jaar + " jaar" : "?"))}
-        ${rij("", (w) => { const b = bestePrijs(w); return b && b.url ? `<a class="knop" href="${escapeHtml(koopUrl(b))}" target="_blank" rel="noopener">Naar fabrikant →</a>` : ""; })}
+        ${rij("", (w) => { const b = bestePrijs(w); return b && b.url ? `<a class="knop" href="${escapeHtml(koopUrl(b))}" target="_blank" rel="noopener">Naar fabrikant ${Iconen.svg("pijl-rechts")}</a>` : ""; })}
       </table>
       </div>`;
   }
@@ -437,7 +437,7 @@
       filterToggle.addEventListener("click", () => {
         const balk = el("filterbalk");
         const ingeklapt = balk.classList.toggle("ingeklapt");
-        filterToggle.textContent = ingeklapt ? "🔍 Filteren en sorteren ▾" : "🔍 Filteren en sorteren ▴";
+        filterToggle.innerHTML = `${Iconen.svg("zoeken")} Filteren en sorteren ${Iconen.svg("chevron", { klasse: ingeklapt ? "" : "gedraaid" })}`;
       });
     }
   }
