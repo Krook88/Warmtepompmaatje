@@ -65,6 +65,15 @@
     return `<div class="prijs-let-op">${regels.join(" ")}</div>`;
   }
 
+  /**
+   * Een winkel-URL kan alvast in het databestand staan voordat de dagelijkse
+   * prijscontrole er een bedrag bij heeft gevonden. Zonder deze functie zou
+   * daar "€ NaN" komen te staan.
+   */
+  function bedragOfWacht(bedrag) {
+    return typeof bedrag === "number" ? eurFmt.format(bedrag) : "prijs volgt";
+  }
+
   function bestePrijs(w) {
     const aanbiedingen = (w.aanbiedingen || []).filter((a) => a && a.prijs_eur);
     if (aanbiedingen.length) {
@@ -204,7 +213,7 @@
         <dt>Warm tapwater</dt><dd>${escapeHtml(w.tapwater || "?")}</dd>
         <dt>Maximale aanvoertemperatuur</dt><dd>${w.max_aanvoer_c ? w.max_aanvoer_c + " °C" : "?"} (hoe hoger, hoe geschikter voor bestaande radiatoren)</dd>
         ${w.opmerkingen ? `<dt>Goed om te weten</dt><dd>${escapeHtml(w.opmerkingen)}</dd>` : ""}
-        ${(w.aanbiedingen || []).length ? `<dt>Verkrijgbaar bij</dt><dd><ul class="winkel-lijst">${w.aanbiedingen.map((a) => `<li><span>${escapeHtml(a.winkel)}</span><span><b>${eurFmt.format(a.prijs_eur)}</b> &nbsp;<a href="${escapeHtml(koopUrl(a))}" target="_blank" rel="noopener${a.affiliate_url ? " sponsored" : ""}">bekijk</a></span></li>`).join("")}</ul>${w.prijs_datum ? `<span class="datum-stempel" style="display:block;margin-top:8px;">Prijzen gecontroleerd: ${escapeHtml(datumNL(w.prijs_datum))}. Zonder controledatum is de prijs een indicatie.</span>` : ""}</dd>` : ""}
+        ${(w.aanbiedingen || []).length ? `<dt>Verkrijgbaar bij</dt><dd><ul class="winkel-lijst">${w.aanbiedingen.map((a) => `<li><span>${escapeHtml(a.winkel)}</span><span><b>${bedragOfWacht(a.prijs_eur)}</b> &nbsp;<a href="${escapeHtml(koopUrl(a))}" target="_blank" rel="noopener${a.affiliate_url ? " sponsored" : ""}">bekijk</a></span></li>`).join("")}</ul>${w.prijs_datum ? `<span class="datum-stempel" style="display:block;margin-top:8px;">Prijzen gecontroleerd: ${escapeHtml(datumNL(w.prijs_datum))}. Zonder controledatum is de prijs een indicatie.</span>` : ""}</dd>` : ""}
         ${w.product_url ? `<dt>Fabrikant</dt><dd><a href="${escapeHtml(w.product_url)}" target="_blank" rel="noopener">officiële website van ${escapeHtml(w.merk)}</a></dd>` : ""}
       </div>
       <div class="kaart-prijs">
