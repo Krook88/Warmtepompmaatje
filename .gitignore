@@ -1,0 +1,3 @@
+# Alleen nodig voor de serverloze functie; Vercel installeert deze zelf bij het
+# deployen aan de hand van package.json en package-lock.json.
+node_modules/

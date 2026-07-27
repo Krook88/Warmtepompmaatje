@@ -12,6 +12,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="assets/style.css?v=20260727c">
   <script src="assets/iconen.js?v=20260727c" defer></script>
+  <script src="assets/contact.js?v=20260727c" defer></script>
   <script src="assets/nav.js?v=20260727c" defer></script>
   <link rel="icon" href="assets/favicon.svg?v=1" type="image/svg+xml">
 </head>
@@ -53,6 +54,53 @@
     <li><b>Samenwerken of adverteren.</b> Wij houden scores en volgorde strikt onafhankelijk; lees eerst <a href="over-ons.html">hoe wij werken</a>.</li>
   </ul>
   <p>Let op: wij geven geen persoonlijk installatie-advies en maken geen warmteverliesberekeningen. Gebruik de <a href="advies.html">keuzehulp</a> en vraag offertes aan bij gecertificeerde installateurs.</p>
+
+  <h2 id="formulier">Stuur ons een bericht</h2>
+
+  <form id="contactFormulier" class="contact-formulier" method="post" action="/api/contact">
+    <div class="veld">
+      <label for="naam">Je naam</label>
+      <input id="naam" name="naam" type="text" maxlength="100" autocomplete="name" required>
+    </div>
+
+    <div class="veld">
+      <label for="email">Je e-mailadres</label>
+      <input id="email" name="email" type="email" maxlength="254" autocomplete="email" required>
+      <small>Alleen om je antwoord te sturen.</small>
+    </div>
+
+    <div class="veld">
+      <label for="onderwerp">Waar gaat het over?</label>
+      <select id="onderwerp" name="onderwerp">
+        <option>Fout of verouderde prijs melden</option>
+        <option>Warmtepomp toevoegen aan de vergelijker</option>
+        <option>Vraag over een warmtepomp of de rekenmodule</option>
+        <option>Vraag over de ISDE-subsidie</option>
+        <option>Pers of overname van cijfers</option>
+        <option>Samenwerken of adverteren</option>
+        <option>Iets anders</option>
+      </select>
+    </div>
+
+    <div class="veld">
+      <label for="bericht">Je bericht</label>
+      <textarea id="bericht" name="bericht" rows="7" maxlength="5000" required
+        placeholder="Gaat het om een foutmelding? Vermeld de warmtepomp of pagina, en wat er volgens jou zou moeten staan."></textarea>
+    </div>
+
+    <!-- Onzichtbaar voor bezoekers; veel bots vullen zo'n veld toch in en
+         verraden zich daarmee. Zie api/contact.js. -->
+    <div class="honingpot" aria-hidden="true">
+      <label for="website">Website (niet invullen)</label>
+      <input id="website" name="website" type="text" tabindex="-1" autocomplete="off">
+    </div>
+    <input type="hidden" name="geopend_op" id="geopendOp" value="">
+
+    <button class="knop" type="submit" id="verstuurKnop">Verstuur bericht</button>
+    <p class="formulier-status" id="formulierStatus" role="status" aria-live="polite"></p>
+
+    <p class="datum-stempel formulier-voetnoot">Je naam, e-mailadres en bericht worden alleen gebruikt om je vraag te beantwoorden. Ze worden per mail doorgestuurd naar de gedeelde postbus van de maatje-sites en niet opgeslagen in een database of gedeeld met derden. Zie ook onze <a href="privacy.html">privacyverklaring</a>.</p>
+  </form>
 
 </main>
 

@@ -1100,3 +1100,73 @@ body.vergelijkbalk-actief { padding-bottom: 150px; }
   .kaart-details[hidden] { display: none !important; }
   a { color: #000; text-decoration: none; }
 }
+
+/* --------------------------------------------------------------------------
+   Contactformulier
+   -------------------------------------------------------------------------- */
+
+.contact-formulier {
+  background: var(--kleur-wit);
+  border: 1px solid var(--kleur-rand);
+  border-radius: var(--radius);
+  box-shadow: var(--schaduw);
+  padding: 24px;
+  max-width: 640px;
+}
+
+.contact-formulier .veld { margin-bottom: 18px; }
+
+.contact-formulier label {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.contact-formulier input,
+.contact-formulier select,
+.contact-formulier textarea {
+  width: 100%;
+  padding: 11px 13px;
+  border: 1px solid var(--kleur-rand);
+  border-radius: var(--radius-klein);
+  background: var(--kleur-wit);
+  font: inherit;
+  color: inherit;
+}
+
+.contact-formulier textarea { resize: vertical; min-height: 140px; }
+
+.contact-formulier input:focus-visible,
+.contact-formulier select:focus-visible,
+.contact-formulier textarea:focus-visible {
+  outline: 2px solid var(--kleur-primair);
+  outline-offset: 1px;
+  border-color: var(--kleur-primair);
+}
+
+.contact-formulier .veld small {
+  display: block;
+  margin-top: 5px;
+  color: var(--kleur-tekst-licht);
+  font-size: 0.85rem;
+}
+
+/* Het honingpotveld moet onzichtbaar zijn voor mensen maar wel invulbaar voor
+   bots, dus niet display:none - sommige bots slaan verborgen velden over. */
+.honingpot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.formulier-status {
+  margin: 14px 0 0;
+  min-height: 1.5em;
+  font-weight: 600;
+}
+.formulier-status.gelukt { color: #166534; }
+.formulier-status.mislukt { color: var(--kleur-rood); }
+
+.formulier-voetnoot { margin-top: 16px; }
