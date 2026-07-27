@@ -107,6 +107,97 @@ function veiligVoorKopregel(waarde) {
   return String(waarde).replace(/[\r\n]+/g, " ").trim();
 }
 
+/* ------------------------------------------------------------------
+   Opmaak van de mail
+
+   Alles wat de bezoeker invult komt in een HTML-mail terecht, dus het
+   moet eerst ontdaan worden van tekens die markup kunnen vormen. Zonder
+   dit kan iemand via het berichtveld opmaak of links in jouw postvak
+   krijgen.
+   ------------------------------------------------------------------ */
+
+function ontsnap(waarde) {
+  return String(waarde == null ? "" : waarde)
+    .replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;").replaceAll("'", "&#39;");
+}
+
+// Regeleindes uit een textarea worden regeleindes in de mail.
+function alinea(waarde) {
+  return ontsnap(waarde).replace(/\r?\n/g, "<br>");
+}
+
+/* Kleuren van de site. Mailprogramma's kennen geen stylesheet en geen
+   custom properties, dus elke regel staat rechtstreeks op het element.
+   Om dezelfde reden is de indeling met tabellen gemaakt: Outlook zet
+   flexbox en grid gewoon naast zich neer. */
+const KLEUR = {
+  inkt: "#431407",
+  primair: "#c2410c",
+  accent: "#f59e0b",
+  papier: "#f6f3ec",
+  wit: "#ffffff",
+  rand: "#e7e1d3",
+  tekst: "#24312f",
+  tekstLicht: "#5d6d6a",
+};
+
+// Figtree staat er wel bij voor het geval een client webfonts toestaat,
+// maar vrijwel overal wint de systeemfont erachter. Daarom een stack die
+// er ook zonder Figtree rustig uitziet.
+const FONT = 'Figtree, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif';
+
+/**
+ * Zet de inhoud in het briefpapier van de site: donkere kop met een amber
+ * streepje eronder, zoals de koppen op de website, en een rustige voet.
+ *
+ * voorvertoning = de regel die postvakken naast het onderwerp tonen. Laat je
+ * die weg, dan pakken ze de eerste zin uit de mail, en dat is hier de kop.
+ */
+function briefpapier({ titel, voorvertoning, inhoud, voet }) {
+  return `<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>${ontsnap(titel)}</title>
+</head>
+<body style="margin:0; padding:0; background:${KLEUR.papier}; color:${KLEUR.tekst}; font-family:${FONT}; font-size:16px; line-height:1.6;">
+<div style="display:none; max-height:0; overflow:hidden; opacity:0;">${ontsnap(voorvertoning)}</div>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:${KLEUR.papier};">
+<tr><td align="center" style="padding:24px 12px;">
+  <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="width:100%; max-width:600px; background:${KLEUR.wit}; border:1px solid ${KLEUR.rand}; border-radius:16px; overflow:hidden;">
+
+    <tr><td style="background:${KLEUR.inkt}; padding:22px 28px;">
+      <span style="color:${KLEUR.wit}; font-size:19px; font-weight:800; letter-spacing:-0.02em;">Warmtepomp<span style="color:${KLEUR.accent};">maatje</span></span>
+    </td></tr>
+    <tr><td style="height:4px; background:${KLEUR.accent}; font-size:0; line-height:0;">&nbsp;</td></tr>
+
+    <tr><td style="padding:28px;">
+      <h1 style="margin:0 0 16px; font-size:21px; font-weight:800; letter-spacing:-0.02em; color:${KLEUR.inkt};">${ontsnap(titel)}</h1>
+      ${inhoud}
+    </td></tr>
+
+    <tr><td style="padding:18px 28px 24px; border-top:1px solid ${KLEUR.rand}; background:${KLEUR.papier}; color:${KLEUR.tekstLicht}; font-size:13px; line-height:1.5;">
+      ${voet}
+    </td></tr>
+
+  </table>
+</td></tr>
+</table>
+</body>
+</html>`;
+}
+
+// Een rij uit het overzicht bovenaan de meldmail: label links, waarde rechts.
+function gegevensRij(label, waarde) {
+  return `<tr>
+    <td style="padding:7px 12px 7px 0; color:${KLEUR.tekstLicht}; font-size:13px; white-space:nowrap; vertical-align:top;">${ontsnap(label)}</td>
+    <td style="padding:7px 0; font-size:15px; font-weight:600; vertical-align:top;">${waarde}</td>
+  </tr>`;
+}
+
 // De omgeving levert de inhoud van het verzoek soms al uitgepakt aan (bij JSON
 // en urlencoded) en soms onbewerkt als Buffer (bij alle andere formaten, zoals
 // multipart). Lukt uitpakken niet, dan geeft deze functie null terug in plaats
@@ -200,7 +291,11 @@ module.exports = async function handler(req, res) {
     return antwoord(req, res, 503, `Het formulier is nog niet ingesteld. Mail zolang naar ${aan}.`);
   }
 
-  const regels = [
+  const herkomst = veiligVoorKopregel(req.headers["host"] || SITE);
+
+  /* ----- 1. De melding naar de gedeelde postbus ------------------- */
+
+  const meldingTekst = [
     `Site: ${SITE}`,
     `Naam: ${naam}`,
     `E-mail: ${email}`,
@@ -209,11 +304,70 @@ module.exports = async function handler(req, res) {
     bericht,
     "",
     "---",
-    `Verstuurd via het contactformulier op ${veiligVoorKopregel(req.headers["host"] || SITE)}`,
+    `Verstuurd via het contactformulier op ${herkomst}`,
     `Dit adres (${aan}) is de gedeelde postbus van de maatje-sites:`,
     "Batterijmaatje.nl, Zonnestroommaatje.nl en Warmtepompmaatje.nl.",
     "Dit bericht gaat over warmtepompen.",
-  ];
+  ].join("\n");
+
+  const meldingHtml = briefpapier({
+    titel: onderwerp,
+    voorvertoning: `${naam}: ${bericht.slice(0, 90)}`,
+    inhoud: `
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width:100%; margin-bottom:20px;">
+        ${gegevensRij("Van", ontsnap(naam))}
+        ${gegevensRij("E-mail", `<a href="mailto:${ontsnap(email)}" style="color:${KLEUR.primair};">${ontsnap(email)}</a>`)}
+        ${gegevensRij("Onderwerp", ontsnap(onderwerp))}
+      </table>
+      <div style="border-left:3px solid ${KLEUR.accent}; background:${KLEUR.papier}; border-radius:0 8px 8px 0; padding:14px 16px; font-size:15px;">
+        ${alinea(bericht)}
+      </div>
+      <p style="margin:20px 0 0; font-size:14px; color:${KLEUR.tekstLicht};">Beantwoorden gaat rechtstreeks naar ${ontsnap(naam)}.</p>`,
+    voet: `Verstuurd via het contactformulier op ${ontsnap(herkomst)}.<br>
+           Dit adres (${ontsnap(aan)}) is de gedeelde postbus van de maatje-sites: Batterijmaatje.nl, Zonnestroommaatje.nl en Warmtepompmaatje.nl.
+           <b>Dit bericht gaat over warmtepompen.</b>`,
+  });
+
+  /* ----- 2. De bevestiging naar de afzender ----------------------- */
+
+  const bevestigingTekst = [
+    `Hoi ${naam},`,
+    "",
+    "Bedankt voor je bericht aan Warmtepompmaatje. We hebben het goed ontvangen",
+    "en je krijgt doorgaans binnen een dag antwoord.",
+    "",
+    "Dit stuurde je ons:",
+    "",
+    `Onderwerp: ${onderwerp}`,
+    "",
+    bericht,
+    "",
+    "---",
+    "Antwoorden komen van info@batterijmaatje.nl. Dat is de gedeelde postbus van",
+    "onze drie sites: Batterijmaatje.nl (thuisbatterijen), Zonnestroommaatje.nl",
+    "(zonnepanelen) en Warmtepompmaatje.nl (warmtepompen). Je hoeft daar niets",
+    "mee te doen; het is dus geen vreemde afzender.",
+    "",
+    "Op deze mail hoef je niet te reageren.",
+  ].join("\n");
+
+  const bevestigingHtml = briefpapier({
+    titel: "Bedankt, we hebben je bericht ontvangen",
+    voorvertoning: "Je krijgt doorgaans binnen een dag antwoord.",
+    inhoud: `
+      <p style="margin:0 0 16px;">Hoi ${ontsnap(naam)},</p>
+      <p style="margin:0 0 20px;">Bedankt voor je bericht aan Warmtepompmaatje. We hebben het goed ontvangen en je krijgt doorgaans binnen een dag antwoord.</p>
+      <p style="margin:0 0 8px; font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:${KLEUR.tekstLicht};">Dit stuurde je ons</p>
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width:100%; margin-bottom:12px;">
+        ${gegevensRij("Onderwerp", ontsnap(onderwerp))}
+      </table>
+      <div style="border-left:3px solid ${KLEUR.accent}; background:${KLEUR.papier}; border-radius:0 8px 8px 0; padding:14px 16px; font-size:15px;">
+        ${alinea(bericht)}
+      </div>
+      <p style="margin:22px 0 0;"><a href="https://warmtepompmaatje.nl/" style="display:inline-block; background:${KLEUR.primair}; color:${KLEUR.wit}; text-decoration:none; font-weight:700; font-size:15px; padding:12px 22px; border-radius:999px;">Terug naar Warmtepompmaatje</a></p>`,
+    voet: `Ons antwoord komt van <b>${ontsnap(aan)}</b>, de gedeelde postbus van onze drie sites: Batterijmaatje.nl (thuisbatterijen), Zonnestroommaatje.nl (zonnepanelen) en Warmtepompmaatje.nl (warmtepompen). Dat is dus geen vreemde afzender.<br><br>
+           Op deze bevestiging hoef je niet te reageren.`,
+  });
 
   try {
     const poort = Number(process.env.SMTP_POORT) || 465;
@@ -240,8 +394,29 @@ module.exports = async function handler(req, res) {
       // De sitenaam staat vooraan in het onderwerp, want deze postbus ontvangt
       // ook de post van de zustersites.
       subject: `[Warmtepompmaatje] ${veiligVoorKopregel(onderwerp)}`,
-      text: regels.join("\n"),
+      text: meldingTekst,
+      html: meldingHtml,
     });
+
+    // De bevestiging is een dienst aan de bezoeker, geen voorwaarde. Mislukt
+    // die - een postvak dat vol zit, een adres dat toch niet bestaat - dan is
+    // het bericht nog steeds bij ons binnen. Daarom een eigen try, en geen
+    // foutmelding aan de bezoeker over een mail die hij zelf niet miste.
+    try {
+      await postbode.sendMail({
+        from: { name: SITE, address: van },
+        to: { name: veiligVoorKopregel(naam), address: email },
+        replyTo: aan,
+        subject: `We hebben je bericht ontvangen - ${SITE}`,
+        text: bevestigingTekst,
+        html: bevestigingHtml,
+        // Automatische bevestigingen horen zich als zodanig te melden, zodat
+        // afwezigheidsantwoorden en filters er niet op reageren.
+        headers: { "Auto-Submitted": "auto-replied", "X-Auto-Response-Suppress": "All" },
+      });
+    } catch (fout) {
+      console.warn("Contactformulier: bevestiging aan de afzender mislukt:", fout && fout.message);
+    }
   } catch (fout) {
     console.error("Contactformulier: versturen mislukt:", fout && fout.message);
     return antwoord(req, res, 502, `Het versturen lukte niet. Mail ons rechtstreeks op ${aan}.`);
