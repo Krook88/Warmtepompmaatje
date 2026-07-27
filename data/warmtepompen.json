@@ -48,9 +48,9 @@
     {
       "id": "daikin-altherma-hybrid",
       "merk": "Daikin",
-      "model": "Altherma R Hybrid",
+      "model": "Altherma H Hybride",
       "type": "hybride",
-      "voorbeeld_variant": "Altherma hybride monoblock 4 kW",
+      "voorbeeld_variant": "Altherma H Hybride 4 kW (monoblock, EJHA04AV3)",
       "vermogen_kw": 4,
       "scop_toelichting": "sterk in grotere woningen; koppelt met een Daikin-gasketel of bestaande ketel",
       "geluid_db": 59,
@@ -60,7 +60,7 @@
       "max_aanvoer_c": 55,
       "richtprijs_eur": 3800,
       "prijs_toelichting": "los toestel, excl. installatie en cv-ketel",
-      "isde_indicatie_eur": 2000,
+      "isde_indicatie_eur": 1700,
       "sturing": {
         "status": "deels",
         "tekst": "Aansturing via de Daikin-regelaar en Onecta-cloud; Madoka-thermostaat, geen open Modbus voor derden."
@@ -75,7 +75,7 @@
       },
       "app": "Daikin Onecta",
       "garantie_jaar": 5,
-      "opmerkingen": "Wereldmarktleider in warmtepompen. Sterk dealernetwerk; de hybride presteert goed in grotere woningen met een hogere warmtevraag.",
+      "opmerkingen": "Wereldmarktleider in warmtepompen, met een sterk dealernetwerk. De H Hybride is de monoblock-uitvoering die naast de bestaande cv-ketel hangt; Daikin levert daarnaast de Altherma R Hybride, een split met aparte binnen- en buitenunit.",
       "product_url": "https://www.daikin.nl/nl_nl/producten/altherma.html",
       "aanbiedingen": [
         {
@@ -85,7 +85,8 @@
           "datum": "2026-07-27"
         }
       ],
-      "prijs_datum": "2026-07-27"
+      "prijs_datum": "2026-07-27",
+      "isde_meldcode": "KA14853"
     },
     {
       "id": "quatt-hybrid",
