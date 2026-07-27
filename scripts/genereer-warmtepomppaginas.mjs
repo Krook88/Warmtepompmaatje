@@ -11,7 +11,7 @@ import { fileURLToPath } from "node:url";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const SITE = "https://warmtepompmaatje.nl";
-const ASSET_VERSIE = "20260727a";
+const ASSET_VERSIE = "20260727b";
 const VANDAAG = new Date().toISOString().slice(0, 10);
 
 const data = JSON.parse(readFileSync(join(ROOT, "data", "warmtepompen.json"), "utf8"));
