@@ -15,9 +15,26 @@
       ]
     },
     {
-      "source": "/assets/(.*)",
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "(.*\\.vercel\\.app|dev\\..*)" }],
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }]
+    },
+    {
+      "source": "/assets/(.*).(css|js|woff2)",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=604800, stale-while-revalidate=86400" }
+      ]
+    },
+    {
+      "source": "/assets/(.*).(png|svg|jpg|jpeg|webp|ico)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=2592000, stale-while-revalidate=86400" }
+      ]
+    },
+    {
+      "source": "/data/(.*).json",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=0, s-maxage=300, stale-while-revalidate=3600" }
       ]
     }
   ]
