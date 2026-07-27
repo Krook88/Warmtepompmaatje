@@ -8,8 +8,6 @@ on:
 
 permissions:
   contents: write
-  # Nodig om na een prijswijziging de publicatie-workflow te mogen starten
-  actions: write
 
 jobs:
   update-prijzen:
@@ -34,27 +32,17 @@ jobs:
       - name: Productpagina's regenereren (prijzen staan ook op de pomp-pagina's)
         run: node scripts/genereer-warmtepomppaginas.mjs
 
+      # Vercel is via de GitHub-app aan deze repo gekoppeld en publiceert
+      # automatisch bij elke push naar main; er hoeft hier dus geen
+      # publicatie-workflow gestart te worden.
       - name: Wijzigingen committen en pushen
-        id: commit
         run: |
           git config user.name "prijsupdate-bot"
           git config user.email "actions@github.com"
           git add data/warmtepompen.json pomp/ sitemap.xml
           if git diff --cached --quiet; then
             echo "Geen prijswijzigingen vandaag."
-            echo "gewijzigd=false" >> "$GITHUB_OUTPUT"
           else
             git commit -m "Dagelijkse prijsupdate $(date -u +%F)"
             git push
-            echo "gewijzigd=true" >> "$GITHUB_OUTPUT"
           fi
-
-      # Een push met het standaard GITHUB_TOKEN start uit zichzelf geen andere
-      # workflows (beveiliging tegen kettingreacties). Daarom starten we de
-      # publicatie naar de website hier expliciet; workflow_dispatch is daarvan
-      # uitgezonderd.
-      - name: Publicatie naar de website starten
-        if: steps.commit.outputs.gewijzigd == 'true'
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: gh workflow run deploy-pages.yml --ref "${{ github.ref_name }}"
