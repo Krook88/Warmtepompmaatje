@@ -812,6 +812,76 @@
       ],
       "prijs_datum": "2026-07-27",
       "isde_meldcode": "KA22405"
+    },
+    {
+      "id": "atag-energion-m-hybrid",
+      "merk": "ATAG",
+      "model": "ENERGION M Hybrid",
+      "type": "hybride",
+      "voorbeeld_variant": "ENERGION M Hybrid Zone 50 (5 kW)",
+      "vermogen_kw": 5,
+      "scop_toelichting": "hangt naast de bestaande cv-ketel; ATAG stuurt beide aan via de ATAG One-thermostaat",
+      "geluid_toelichting": "geluidsvermogen nog niet vastgesteld; ATAG afficheert de M-serie als stil, maar publiceert vooral geluidsdruk op 3 meter en dat is niet vergelijkbaar met de labelwaarde die hier staat",
+      "koudemiddel": "R32",
+      "tapwater": "via de cv-ketel",
+      "prijs_toelichting": "richtprijs nog niet vastgesteld; de winkelprijs wordt dagelijks gecontroleerd zodra de aanbieding is nagelopen",
+      "isde_indicatie_eur": 2350,
+      "isde_meldcode": "KA21380",
+      "sturing": {
+        "status": "deels",
+        "tekst": "Aansturing via OpenTherm samen met de cv-ketel en de ATAG One-thermostaat; geen open lokale API of Modbus voor derden."
+      },
+      "home_assistant": {
+        "status": "deels",
+        "tekst": "Geen integratie voor de warmtepomp zelf; de ATAG One-thermostaat heeft wel een officiele integratie, en voor de ENERGION bestaat een community-integratie via het Ariston-platform."
+      },
+      "homey": {
+        "status": "deels",
+        "tekst": "Geen eigen app voor de warmtepomp; de ATAG One 2.0-app in de Homey Community Store stuurt de thermostaat aan."
+      },
+      "app": "ATAG One",
+      "opmerkingen": "Dedicated hybride die naast de bestaande cv-ketel komt en apart op de ISDE-lijst staat. De Zone- en All-uitvoeringen verschillen in hoe de verwarmingszones worden aangestuurd; het subsidiebedrag is voor beide gelijk.",
+      "aanbiedingen": [
+        {
+          "winkel": "CV Totaal",
+          "url": "https://www.cvtotaal.nl/atag-energion-m-hybrid-zone-50-hybride-warmtepomp-5kw.html"
+        }
+      ]
+    },
+    {
+      "id": "itho-vincent-v45-hybride",
+      "merk": "Itho Daalderop",
+      "model": "Vincent V45-Hybride",
+      "type": "hybride",
+      "voorbeeld_variant": "Vincent V45-Hybride 4,5 kW (binnenopstelling)",
+      "vermogen_kw": 4.5,
+      "scop_toelichting": "binnenopgestelde warmtepomp op propaan; werkt samen met de bestaande cv-ketel",
+      "geluid_toelichting": "geluidsvermogen nog niet vastgesteld; de unit staat binnen, waardoor de labelwaarde anders uitpakt dan bij een buitenunit",
+      "koudemiddel": "R290",
+      "tapwater": "via de cv-ketel",
+      "prijs_toelichting": "richtprijs nog niet vastgesteld; de winkelprijs wordt dagelijks gecontroleerd zodra de aanbieding is nagelopen",
+      "isde_indicatie_eur": 1925,
+      "isde_meldcode": "KA20994",
+      "sturing": {
+        "status": "onbekend",
+        "tekst": "Niet vastgesteld welke open aansturing deze unit biedt."
+      },
+      "home_assistant": {
+        "status": "onbekend",
+        "tekst": "Geen betrouwbare bron gevonden over een integratie voor deze warmtepomp."
+      },
+      "homey": {
+        "status": "onbekend",
+        "tekst": "Geen betrouwbare bron gevonden over een app voor deze warmtepomp."
+      },
+      "opmerkingen": "Opvallend: de warmtepomp staat binnen in plaats van in de tuin, wat schelen kan als er weinig ruimte is of de buren dichtbij wonen. Op natuurlijk koudemiddel R290.",
+      "product_url": "https://www.ithodaalderop.nl/nl-NL/consument/product/03-00660",
+      "aanbiedingen": [
+        {
+          "winkel": "Aircozonderstek",
+          "url": "https://www.aircozonderstek.nl/product/itho-daalderop-vincent-v45-hybride-lucht-water-propaan-r290-warmtepomp-4-5-kw/"
+        }
+      ]
     }
   ]
 }

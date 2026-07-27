@@ -556,6 +556,11 @@ a.term-link:hover { color: var(--kleur-primair); }
 .badge.ja { background: var(--kleur-groen-licht); border-color: #bbf7d0; color: #166534; }
 .badge.deels { background: var(--kleur-accent-licht); border-color: #fde68a; color: #92400e; }
 
+/* Onbekend is iets anders dan "niet ondersteund": we hebben het simpelweg niet
+   kunnen vaststellen. Gestippelde rand zodat het ook zonder kleur te zien is. */
+.badge.onbekend { background: var(--kleur-achtergrond); border-style: dashed; color: var(--kleur-tekst-licht); }
+.vergelijk-tabel .check-onbekend { color: var(--kleur-tekst-licht); cursor: help; opacity: 0.8; }
+
 /* Oplichten van de uitleg waar een aangetikte badge bij hoort */
 .kaart-details .uitgelicht,
 .kaart-details.uitgelicht {
