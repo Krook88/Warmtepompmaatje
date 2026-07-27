@@ -628,6 +628,19 @@ details.lees-meer[open] summary::after { content: " ▴"; }
 .prijs-blok .prijs-per-kwh { font-size: 0.82rem; color: var(--kleur-tekst-licht); }
 .prijs-blok .prijs-winkel { font-size: 0.82rem; color: var(--kleur-tekst-licht); }
 
+/* Uitleg wanneer het getoonde bedrag afwijkt van wat de winkel toont: een
+   prijs excl. btw, of een aanbieding die minder dekt dan de richtprijs. */
+.prijs-let-op {
+  margin-top: 8px;
+  padding: 8px 10px;
+  border-left: 3px solid var(--kleur-accent);
+  background: var(--kleur-accent-licht);
+  border-radius: 0 8px 8px 0;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: var(--kleur-tekst);
+}
+
 .knop {
   display: inline-flex;
   align-items: center;

@@ -48,6 +48,23 @@
     return (a && (a.affiliate_url || a.url)) || "";
   }
 
+  /**
+   * Alle bedragen op de site staan inclusief btw en gaan over het losse
+   * toestel. Wijkt een aanbieding daarvan af, dan legt dit blokje uit waarom
+   * het getoonde bedrag niet gelijk is aan wat je bij de winkel ziet staan.
+   *   btw: "excl"  -> de winkel toont een bedrag zonder btw (installateursshop)
+   *   dekt: tekst  -> de prijs dekt iets anders dan het complete toestel
+   */
+  function prijsLetOp(a) {
+    const regels = [];
+    if (a.btw === "excl") {
+      regels.push(`De winkel toont ${eurFmt.format(Math.round(a.prijs_eur / 1.21))} exclusief btw; hierboven staat het bedrag inclusief 21% btw.`);
+    }
+    if (a.dekt) regels.push(escapeHtml(a.dekt));
+    if (!regels.length) return "";
+    return `<div class="prijs-let-op">${regels.join(" ")}</div>`;
+  }
+
   function bestePrijs(w) {
     const aanbiedingen = (w.aanbiedingen || []).filter((a) => a && a.prijs_eur);
     if (aanbiedingen.length) {
@@ -196,6 +213,7 @@
           ${beste ? `<div class="prijs-winkel">${uitWinkel ? "bij " + escapeHtml(beste.winkel) : beste.winkel}</div>` : ""}
           ${w.voorbeeld_variant ? `<div class="prijs-per-kwh">prijs voor: ${escapeHtml(w.voorbeeld_variant)}</div>` : ""}
           ${w.prijs_toelichting ? `<div class="prijs-winkel">${escapeHtml(w.prijs_toelichting)}</div>` : ""}
+          ${beste ? prijsLetOp(beste) : ""}
         </div>
       </div>
       <div class="kaart-acties">
