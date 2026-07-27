@@ -312,7 +312,7 @@
       "max_aanvoer_c": 70,
       "richtprijs_eur": 8000,
       "prijs_toelichting": "buitenunit + hydrobox, excl. installatie",
-      "isde_indicatie_eur": 3200,
+      "isde_indicatie_eur": 2350,
       "sturing": {
         "status": "ja",
         "tekst": "SG-ready en Modbus via interface; MELCloud-regeling standaard."
@@ -335,7 +335,8 @@
           "url": "https://groupsumi.nl/airconditioning/aerotherm/monoblock-lucht-water-warmtepomp/monobloc-lucht-water-warmtepomp-mitsubishi-ecodan-puz-wz-r290-6-kw-puz-wz60vaa-bs",
           "dekt": "Dit is de kale monoblock zonder hydrobox; de richtprijs hiernaast geldt voor het complete systeem."
         }
-      ]
+      ],
+      "isde_meldcode": "KA27330"
     },
     {
       "id": "daikin-altherma-3",
@@ -438,7 +439,7 @@
       "max_aanvoer_c": 75,
       "richtprijs_eur": 7200,
       "prijs_toelichting": "buitenunit + binnenunit, excl. boiler en installatie",
-      "isde_indicatie_eur": 3000,
+      "isde_indicatie_eur": 2350,
       "sturing": {
         "status": "ja",
         "tekst": "SG-ready; via de CZ-TAW1-module op de Aquarea-cloud, of volledig lokaal via HeishaMon."
@@ -454,7 +455,8 @@
       "app": "Aquarea Smart Cloud",
       "garantie_jaar": 5,
       "opmerkingen": "Favoriet bij zelfbouwers en Home Assistant-gebruikers dankzij HeishaMon (lokaal, gratis, open source). Degelijke Japanse techniek met R290.",
-      "product_url": "https://www.aircon.panasonic.eu/NL_nl/ranges/aquarea/"
+      "product_url": "https://www.aircon.panasonic.eu/NL_nl/ranges/aquarea/",
+      "isde_meldcode": "KA26158"
     },
     {
       "id": "lg-therma-v",
@@ -497,7 +499,8 @@
           "datum": "2026-07-27"
         }
       ],
-      "prijs_datum": "2026-07-27"
+      "prijs_datum": "2026-07-27",
+      "isde_meldcode": "KA29289"
     },
     {
       "id": "samsung-ehs-mono-ht",
@@ -515,7 +518,7 @@
       "max_aanvoer_c": 70,
       "richtprijs_eur": 6800,
       "prijs_toelichting": "buitenunit + regelset, excl. boiler en installatie",
-      "isde_indicatie_eur": 3300,
+      "isde_indicatie_eur": 3025,
       "sturing": {
         "status": "ja",
         "tekst": "SG-ready en Modbus (MIM-modules); daardoor goed in energiemanagementsystemen op te nemen."
@@ -531,7 +534,8 @@
       "app": "SmartThings",
       "garantie_jaar": 5,
       "opmerkingen": "Sterke prijs-prestatieverhouding en hoge aanvoertemperatuur; de Quiet-uitvoering mikt op rijtjeshuizen met buren dichtbij.",
-      "product_url": "https://www.samsung.com/nl/climate/"
+      "product_url": "https://www.samsung.com/nl/climate/",
+      "isde_meldcode": "KA23536"
     },
     {
       "id": "weheat-blackbird",
@@ -777,7 +781,7 @@
       "max_aanvoer_c": 60,
       "richtprijs_eur": 3500,
       "prijs_toelichting": "richtprijs losse monoblock; het budgetsegment onder de A-merken",
-      "isde_indicatie_eur": 3200,
+      "isde_indicatie_eur": 3050,
       "product_url": "https://www.gree.nl/gree-versati-warmtepompen",
       "sturing": {
         "status": "deels",
@@ -805,7 +809,8 @@
           "datum": null
         }
       ],
-      "prijs_datum": "2026-07-27"
+      "prijs_datum": "2026-07-27",
+      "isde_meldcode": "KA22405"
     }
   ]
 }
