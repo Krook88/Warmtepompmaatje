@@ -17,7 +17,7 @@
       "max_aanvoer_c": 55,
       "richtprijs_eur": 3299,
       "prijs_toelichting": "winkelprijs is een vanafprijs voor de basisconfiguratie; compleet toestel (buitenunit + binnenmodule) circa € 3.300, excl. installatie en cv-ketel",
-      "isde_indicatie_eur": 2100,
+      "isde_indicatie_eur": 1700,
       "sturing": {
         "status": "deels",
         "tekst": "OpenTherm-aansturing samen met de cv-ketel; geen open lokale API of Modbus voor derden."
@@ -42,7 +42,8 @@
           "datum": "2026-07-27"
         }
       ],
-      "prijs_datum": "2026-07-27"
+      "prijs_datum": "2026-07-27",
+      "isde_meldcode": "KA17438"
     },
     {
       "id": "daikin-altherma-hybrid",
@@ -101,7 +102,7 @@
       "max_aanvoer_c": 55,
       "richtprijs_eur": 3500,
       "prijs_toelichting": "indicatie toestel; Quatt verkoopt vooral compleet geïnstalleerd (circa € 4.500 tot € 6.500 incl. montage, vóór subsidie)",
-      "isde_indicatie_eur": 2200,
+      "isde_indicatie_eur": 2125,
       "sturing": {
         "status": "deels",
         "tekst": "Slimme aansturing via de eigen Quatt CIC (internet vereist); geen open lokale API, wel een lokaal uitleesbare statuspagina."
@@ -117,7 +118,8 @@
       "app": "Quatt-app",
       "garantie_jaar": 7,
       "opmerkingen": "Nederlandse uitdager met alles-in-één aanpak: vaste prijs inclusief installatie, monitoring en app. Duo-uitvoering (twee buitenunits) voor grotere woningen.",
-      "product_url": "https://www.quatt.io/"
+      "product_url": "https://www.quatt.io/",
+      "isde_meldcode": "KA21789"
     },
     {
       "id": "intergas-xtend",
@@ -134,7 +136,7 @@
       "max_aanvoer_c": 55,
       "richtprijs_eur": 3100,
       "prijs_toelichting": "los toestel, excl. installatie; het voordeligst in combinatie met een Intergas-ketel",
-      "isde_indicatie_eur": 2100,
+      "isde_indicatie_eur": 1925,
       "sturing": {
         "status": "deels",
         "tekst": "OpenTherm-regeling met de (Intergas-)ketel; geen open lokale API voor derden."
@@ -156,7 +158,8 @@
           "winkel": "123Klimaatshop",
           "url": "https://www.123klimaatshop.nl/product/intergas-hybride-xtend-lucht-water-warmtepomp-50-kw/"
         }
-      ]
+      ],
+      "isde_meldcode": "KA22154"
     },
     {
       "id": "vaillant-arotherm-plus",
@@ -174,7 +177,7 @@
       "max_aanvoer_c": 75,
       "richtprijs_eur": 7300,
       "prijs_toelichting": "toestel met binnenmodule, excl. boiler en installatie",
-      "isde_indicatie_eur": 3000,
+      "isde_indicatie_eur": 2125,
       "sturing": {
         "status": "ja",
         "tekst": "SG-ready en via de eBUS volledig lokaal aan te sturen (ebusd); uitgebreide regelaar (sensoCOMFORT)."
@@ -197,7 +200,8 @@
           "url": "https://woonopstroom.nl/products/vaillant-arotherm-plus-vwl-55-6-a-230v-5-4-kw",
           "dekt": "Dit is de losse buitenunit; de richtprijs hiernaast geldt voor een compleet systeem met binnenunit."
         }
-      ]
+      ],
+      "isde_meldcode": "KA16912"
     },
     {
       "id": "viessmann-vitocal-250a",
@@ -215,7 +219,7 @@
       "max_aanvoer_c": 70,
       "richtprijs_eur": 8500,
       "prijs_toelichting": "toestel met binnenunit, excl. boiler en installatie",
-      "isde_indicatie_eur": 3200,
+      "isde_indicatie_eur": 2575,
       "sturing": {
         "status": "ja",
         "tekst": "SG-ready; uitgebreide regeling via de Vitocal-regelaar en ViCare-platform."
@@ -246,7 +250,8 @@
           "datum": null
         }
       ],
-      "prijs_datum": "2026-07-27"
+      "prijs_datum": "2026-07-27",
+      "isde_meldcode": "KA28388"
     },
     {
       "id": "nibe-s2125",
@@ -264,7 +269,7 @@
       "max_aanvoer_c": 75,
       "richtprijs_eur": 9500,
       "prijs_toelichting": "buitenunit + binnenunit, excl. installatie",
-      "isde_indicatie_eur": 3600,
+      "isde_indicatie_eur": 2350,
       "sturing": {
         "status": "ja",
         "tekst": "SG-ready en Modbus; uitgebreide eigen regelaar met weersafhankelijke regeling."
@@ -288,7 +293,8 @@
           "url": "https://www.123klimaatshop.nl/product/nibe-s2125-8-lucht-water-monoblock-warmtepomp-67-kw-exclusief-binnen-unit-1x230v/",
           "datum": null
         }
-      ]
+      ],
+      "isde_meldcode": "KA20867"
     },
     {
       "id": "mitsubishi-ecodan",
@@ -347,7 +353,7 @@
       "max_aanvoer_c": 65,
       "richtprijs_eur": 7000,
       "prijs_toelichting": "buitenunit + binnenunit, excl. boiler en installatie",
-      "isde_indicatie_eur": 3000,
+      "isde_indicatie_eur": 2575,
       "sturing": {
         "status": "deels",
         "tekst": "SG-ready contact; verdere regeling via de Daikin-regelaar en Onecta-cloud."
@@ -363,7 +369,8 @@
       "app": "Daikin Onecta",
       "garantie_jaar": 5,
       "opmerkingen": "Het meest geïnstalleerde all-electric platform van Nederland: overal onderdelen en monteurs. Nieuwere Altherma 4-generatie (R290) komt beschikbaar.",
-      "product_url": "https://www.daikin.nl/nl_nl/producten/altherma.html"
+      "product_url": "https://www.daikin.nl/nl_nl/producten/altherma.html",
+      "isde_meldcode": "KA22094"
     },
     {
       "id": "bosch-compress-5800i",
@@ -381,7 +388,7 @@
       "max_aanvoer_c": 75,
       "richtprijs_eur": 7800,
       "prijs_toelichting": "winkelprijs betreft de losse buitenunit; binnenunit (circa € 1.500 tot € 4.200) en installatie komen erbij",
-      "isde_indicatie_eur": 3000,
+      "isde_indicatie_eur": 2375,
       "sturing": {
         "status": "ja",
         "tekst": "SG-ready en EEBUS; energiemanagers van derden kunnen hem aansturen."
@@ -412,7 +419,8 @@
           "datum": null
         }
       ],
-      "prijs_datum": "2026-07-27"
+      "prijs_datum": "2026-07-27",
+      "isde_meldcode": "KA28185"
     },
     {
       "id": "panasonic-aquarea-l",
@@ -541,7 +549,7 @@
       "max_aanvoer_c": 70,
       "richtprijs_eur": 7000,
       "prijs_toelichting": "toestel, excl. boiler en installatie",
-      "isde_indicatie_eur": 3000,
+      "isde_indicatie_eur": 2575,
       "sturing": {
         "status": "ja",
         "tekst": "Open instelling: SG-ready en een gedocumenteerde koppeling voor energiemanagement."
@@ -557,7 +565,8 @@
       "app": "Weheat-app",
       "garantie_jaar": 7,
       "opmerkingen": "Nederlandse fabrikant (Delft) met focus op design, rendement en openheid richting slimme huizen; officiële Home Assistant-ondersteuning is zeldzaam in deze markt.",
-      "product_url": "https://www.weheat.nl/"
+      "product_url": "https://www.weheat.nl/",
+      "isde_meldcode": "KA28196"
     },
     {
       "id": "stiebel-wpl-a07",
@@ -575,7 +584,7 @@
       "max_aanvoer_c": 75,
       "richtprijs_eur": 8500,
       "prijs_toelichting": "richtprijs monoblock met hydraulische module, excl. installatie en boiler",
-      "isde_indicatie_eur": 3100,
+      "isde_indicatie_eur": 2800,
       "product_url": "https://www.stiebel-eltron.nl/",
       "sturing": {
         "status": "ja",
@@ -603,7 +612,8 @@
           "datum": null
         }
       ],
-      "prijs_datum": "2026-07-27"
+      "prijs_datum": "2026-07-27",
+      "isde_meldcode": "KA19406"
     },
     {
       "id": "wolf-cha-07",
@@ -621,7 +631,7 @@
       "max_aanvoer_c": 70,
       "richtprijs_eur": 6900,
       "prijs_toelichting": "richtprijs losse buitenunit met regelmodule, excl. installatie en boiler",
-      "isde_indicatie_eur": 3000,
+      "isde_indicatie_eur": 2575,
       "product_url": "https://www.wolf.eu/monobloc-cha",
       "sturing": {
         "status": "deels",
@@ -655,7 +665,8 @@
           "datum": null
         }
       ],
-      "prijs_datum": "2026-07-27"
+      "prijs_datum": "2026-07-27",
+      "isde_meldcode": "KA15251"
     },
     {
       "id": "itho-amber-95",
@@ -707,7 +718,8 @@
           "datum": null
         }
       ],
-      "prijs_datum": "2026-07-27"
+      "prijs_datum": "2026-07-27",
+      "isde_meldcode": "KA24521"
     },
     {
       "id": "inventum-ecolution-combi",
@@ -724,7 +736,7 @@
       "max_aanvoer_c": 55,
       "richtprijs_eur": 2900,
       "prijs_toelichting": "richtprijs toestel, excl. installatie; werkt samen met de cv-ketel",
-      "isde_indicatie_eur": 1300,
+      "isde_indicatie_eur": 1675,
       "product_url": "https://www.inventum.com/ecolution-combi-50/62010050",
       "sturing": {
         "status": "deels",
@@ -746,7 +758,8 @@
           "datum": "2026-07-27"
         }
       ],
-      "prijs_datum": "2026-07-27"
+      "prijs_datum": "2026-07-27",
+      "isde_meldcode": "KA01709"
     },
     {
       "id": "gree-versati-iv-10",
