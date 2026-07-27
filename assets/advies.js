@@ -163,18 +163,18 @@
     const advies = typeAdvies(s);
     const b = besparing(s, advies.type);
     const top = scorePompen(s, advies.type);
-    const plekken = ["🥇 Beste match", "🥈 Tweede keus", "🥉 Derde keus"];
+    const plekken = [`${Iconen.svg("medaille")} Beste match`, `${Iconen.svg("medaille")} Tweede keus`, `${Iconen.svg("medaille")} Derde keus`];
 
     const smartRegel = (() => {
       if (!top.length) return "";
       const w = top[0].w;
       if (s.smartHome === "home_assistant") {
         const d = driewaardig(w.home_assistant);
-        return `Home Assistant: ${d.status === "ja" ? "✓ officiële integratie" : d.status === "deels" ? "~ via community-integratie" : "✕ geen bekende integratie"}`;
+        return `Home Assistant: ${d.status === "ja" ? `${Iconen.svg("ja")} officiële integratie` : d.status === "deels" ? `${Iconen.svg("deels")} via community-integratie` : `${Iconen.svg("nee")} geen bekende integratie`}`;
       }
       if (s.smartHome === "homey") {
         const d = driewaardig(w.homey);
-        return `Homey: ${d.status === "ja" ? "✓ app beschikbaar" : d.status === "deels" ? "~ via community-app" : "✕ geen app; verbruik wel zichtbaar via de Homey Energy Dongle (P1)"}`;
+        return `Homey: ${d.status === "ja" ? `${Iconen.svg("ja")} app beschikbaar` : d.status === "deels" ? `${Iconen.svg("deels")} via community-app` : `${Iconen.svg("nee")} geen app; verbruik wel zichtbaar via de Homey Energy Dongle (P1)`}`;
       }
       return "";
     })();
@@ -184,9 +184,9 @@
         <div class="groot">${advies.type === "hybride" ? "Hybride warmtepomp" : "All-electric warmtepomp"}</div>
         <p style="margin:6px 0 0;">${advies.reden}</p>
         <p style="margin:8px 0 0;">Indicatie: circa <b>${numFmt.format(b.gasBespaard)} m³ gas minder</b> per jaar, tegen circa ${numFmt.format(b.stroomKwh)} kWh extra stroom. Netto besparing: <b>circa ${eurFmt.format(b.nettoPerJaar)} per jaar</b> (≈ ${eurFmt.format(b.nettoPerJaar / 12)} per maand).</p>
-        ${s.zon ? '<p class="hint" style="margin:6px 0 0;">☀️ Met zonnepanelen wordt het voordeliger: een slim aangestuurde pomp draait extra wanneer je panelen stroom over hebben. Daarom wegen wij slimme aansturing zwaarder mee.</p>' : ""}
-        ${s.batterij ? '<p class="hint" style="margin:6px 0 0;">🔋 Met een thuisbatterij loont slimme aansturing dubbel: de pomp verwarmt op momenten dat stroom goedkoop is of de batterij vol zit. Daarom wegen wij slimme aansturing zwaarder mee. Nog geen batterij? Vergelijk ze op <a href="https://batterijmaatje.nl/" target="_blank" rel="noopener">Batterijmaatje.nl</a>.</p>' : ""}
-        ${s.buren === "dichtbij" ? '<p class="hint" style="margin:6px 0 0;">🤫 Omdat je buren dichtbij wonen, wegen wij het geluid van de buitenunit zwaar mee. Op de erfgrens geldt in de nacht een eis van 40 dB.</p>' : ""}
+        ${s.zon ? `<p class="hint" style="margin:6px 0 0;">${Iconen.svg("zon")} Met zonnepanelen wordt het voordeliger: een slim aangestuurde pomp draait extra wanneer je panelen stroom over hebben. Daarom wegen wij slimme aansturing zwaarder mee.</p>` : ""}
+        ${s.batterij ? `<p class="hint" style="margin:6px 0 0;">${Iconen.svg("batterij")} Met een thuisbatterij loont slimme aansturing dubbel: de pomp verwarmt op momenten dat stroom goedkoop is of de batterij vol zit. Daarom wegen wij slimme aansturing zwaarder mee. Nog geen batterij? Vergelijk ze op <a href="https://batterijmaatje.nl/" target="_blank" rel="noopener">Batterijmaatje.nl</a>.</p>` : ""}
+        ${s.buren === "dichtbij" ? `<p class="hint" style="margin:6px 0 0;">${Iconen.svg("stil")} Omdat je buren dichtbij wonen, wegen wij het geluid van de buitenunit zwaar mee. Op de erfgrens geldt in de nacht een eis van 40 dB.</p>` : ""}
       </div>
 
       <h2 style="margin-top:20px;">De drie best passende warmtepompen</h2>
@@ -198,16 +198,16 @@
           <h3>${escapeHtml(w.merk)} ${escapeHtml(w.model)}</h3>
           <div class="reden">${redenVoor(w, s)}</div>
           <p style="margin:8px 0 0;font-size:0.95rem;">${beste && beste.winkel ? `laagste prijs <b>${eurFmt.format(beste.prijs_eur)}</b>, goedkoopst bij <a href="${escapeHtml(beste.url || "")}" target="_blank" rel="noopener">${escapeHtml(beste.winkel)}</a>` : `richtprijs <b>${beste ? eurFmt.format(beste.prijs_eur) : "?"}</b>`} · ISDE-subsidie circa <b>${w.isde_indicatie_eur ? eurFmt.format(w.isde_indicatie_eur) : "?"}</b> · netto circa <b>${eurFmt.format(netto)}</b> voor het toestel (excl. installatie)</p>
-          <p style="margin:8px 0 0;">${beste && beste.winkel && beste.url ? `<a class="knop" style="padding:8px 14px;font-size:0.88rem;" href="${escapeHtml(beste.url)}" target="_blank" rel="noopener">Bekijk aanbieding →</a> ` : ""}<a class="knop knop-secundair" style="padding:8px 14px;font-size:0.88rem;" href="rekenmodule.html?pomp=${encodeURIComponent(w.id)}&gas=${s.gas}">Terugverdientijd →</a> <a class="knop knop-secundair" style="padding:8px 14px;font-size:0.88rem;" href="pomp/${encodeURIComponent(w.id)}.html">Alle details →</a></p>
+          <p style="margin:8px 0 0;">${beste && beste.winkel && beste.url ? `<a class="knop" style="padding:8px 14px;font-size:0.88rem;" href="${escapeHtml(beste.url)}" target="_blank" rel="noopener">Bekijk aanbieding ${Iconen.svg("pijl-rechts")}</a> ` : ""}<a class="knop knop-secundair" style="padding:8px 14px;font-size:0.88rem;" href="rekenmodule.html?pomp=${encodeURIComponent(w.id)}&gas=${s.gas}">Terugverdientijd ${Iconen.svg("pijl-rechts")}</a> <a class="knop knop-secundair" style="padding:8px 14px;font-size:0.88rem;" href="pomp/${encodeURIComponent(w.id)}.html">Alle details ${Iconen.svg("pijl-rechts")}</a></p>
         </div>`;
       }).join("")}
-      ${smartRegel ? `<p style="margin:12px 0 0;font-size:0.92rem;">🏠 ${smartRegel}</p>` : ""}
+      ${smartRegel ? `<p style="margin:12px 0 0;font-size:0.92rem;">${Iconen.svg("huis")} ${smartRegel}</p>` : ""}
 
       <div class="advies-kaart" style="margin-top:18px;">
-        <span class="plek">🔗 Maak het compleet</span>
-        <p style="margin:8px 0 0;font-size:0.95rem;">Een warmtepomp draait het voordeligst op eigen zonnestroom. Vergelijk zonnepanelen en omvormers op <a href="https://zonnestroommaatje.nl/" target="_blank" rel="noopener">Zonnestroommaatje</a>, en thuisbatterijen op <a href="https://batterijmaatje.nl/" target="_blank" rel="noopener">Batterijmaatje.nl</a>. Check daarna de <a href="subsidie.html">ISDE-subsidie</a>: die geldt per apparaat. Of bekijk alles in één keer met <a href="https://zonnestroommaatje.nl/energieplan.html" target="_blank" rel="noopener">het energieplan →</a></p>
+        <span class="plek">${Iconen.svg("koppeling")} Maak het compleet</span>
+        <p style="margin:8px 0 0;font-size:0.95rem;">Een warmtepomp draait het voordeligst op eigen zonnestroom. Vergelijk zonnepanelen en omvormers op <a href="https://zonnestroommaatje.nl/" target="_blank" rel="noopener">Zonnestroommaatje</a>, en thuisbatterijen op <a href="https://batterijmaatje.nl/" target="_blank" rel="noopener">Batterijmaatje.nl</a>. Check daarna de <a href="subsidie.html">ISDE-subsidie</a>: die geldt per apparaat. Of bekijk alles in één keer met <a href="https://zonnestroommaatje.nl/energieplan.html" target="_blank" rel="noopener">het energieplan ${Iconen.svg("pijl-rechts")}</a></p>
       </div>
-      <p class="hint" style="margin-top:12px;">Dit advies is een startpunt, geen offerte of warmteverliesberekening. Laat een installateur altijd het vermogen bepalen; een te grote pomp pendelt en een te kleine wordt duur. <a href="javascript:window.print()">🖨️ Advies afdrukken</a></p>
+      <p class="hint" style="margin-top:12px;">Dit advies is een startpunt, geen offerte of warmteverliesberekening. Laat een installateur altijd het vermogen bepalen; een te grote pomp pendelt en een te kleine wordt duur. <a href="javascript:window.print()">${Iconen.svg("printen")} Advies afdrukken</a></p>
     `;
   }
 

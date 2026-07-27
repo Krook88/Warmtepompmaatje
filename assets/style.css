@@ -1,12 +1,12 @@
 /* ==========================================================================
-   Zonnepaneelmaatje.nl - stijlen
+   Warmtepompmaatje.nl - stijlen
    ========================================================================== */
 
 :root {
   --kleur-primair: #c2410c;
   --kleur-primair-donker: #9a3412;
   --kleur-primair-licht: #ffedd5;
-  --kleur-inkt: #431407; /* diep nachtblauw voor hero en footer */
+  --kleur-inkt: #431407; /* diep gebrand oranje voor hero en footer */
   --kleur-accent: #f59e0b;
   --kleur-accent-donker: #b45309;
   --kleur-accent-licht: #fdf0d2;
@@ -24,6 +24,11 @@
   --schaduw: 0 1px 2px rgba(38, 33, 20, 0.06), 0 6px 18px rgba(38, 33, 20, 0.07);
   --schaduw-hover: 0 4px 10px rgba(38, 33, 20, 0.08), 0 16px 36px rgba(38, 33, 20, 0.14);
   --radius: 16px;
+  --radius-klein: 10px;
+  --font-basis: "Figtree", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  /* Tabelcijfers: bedragen onder elkaar houden dezelfde breedte, zodat een
+     kolom met prijzen niet gaat dansen bij het sorteren. */
+  --cijfers: "Figtree", ui-sans-serif, system-ui, sans-serif;
 }
 
 * { box-sizing: border-box; }
@@ -39,19 +44,41 @@
   border: 0;
 }
 
+/* --------------------------------------------------------------------------
+   Typografie
+
+   Eerder stond hier "Segoe UI" met systeemfonts als terugval. Dat betekende:
+   op Windows Segoe, op Mac en iPhone Helvetica, op Android Roboto. De site zag
+   er dus bij elke bezoeker anders uit en had geen eigen stem.
+
+   Nu één variabel font, meegeleverd vanaf het eigen domein (dus geen Google
+   Fonts, geen extra verbinding, geen privacyvraag). Eén bestand van 20 kB dekt
+   alle diktes van 300 tot 900. Zelfde font als op de zustersites.
+   -------------------------------------------------------------------------- */
+
+@font-face {
+  font-family: "Figtree";
+  src: url("fonts/figtree-variable.woff2") format("woff2-variations");
+  font-weight: 300 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 html { scroll-behavior: smooth; }
 
 body {
   margin: 0;
-  font-family: "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", sans-serif;
+  font-family: var(--font-basis);
   color: var(--kleur-tekst);
   background: var(--kleur-achtergrond);
   line-height: 1.6;
-  /* 1rem in plaats van 16px: zo groeit ook de lopende tekst mee met de
-     tekstgrootte-instelling van de browser (toegankelijkheid, WCAG 1.4.4) */
-  font-size: 1rem;
+  /* Relatieve eenheid in plaats van pixels: zo groeit ook de lopende tekst mee
+     met de tekstgrootte-instelling van de browser (toegankelijkheid, WCAG 1.4.4) */
+  font-size: 1.0625rem;
   /* Lange (samengestelde) woorden mogen afbreken bij grote tekstinstellingen */
   overflow-wrap: break-word;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 /* Bij grote tekst op een smal scherm mogen prijsbedragen in de
@@ -62,8 +89,41 @@ body {
   .advies-kaart table td { white-space: normal !important; }
 }
 
-h1, h2, h3 { letter-spacing: -0.015em; }
-h1 { font-weight: 800; }
+/* --------------------------------------------------------------------------
+   Iconen
+
+   Lijniconen uit Lucide, zie assets/iconen.js. Ze erven de tekstkleur en
+   schalen mee met de tekstgrootte, zodat ze overal in verhouding blijven.
+   -------------------------------------------------------------------------- */
+
+.icoon {
+  width: 1.15em;
+  height: 1.15em;
+  flex: none;
+  vertical-align: -0.19em;
+}
+
+.icoon-groot { width: 1.5em; height: 1.5em; vertical-align: -0.3em; }
+
+/* Iconen in badges en knoppen lijnen uit met de tekst ernaast */
+.badge { display: inline-flex; align-items: center; gap: 5px; }
+.badge .icoon { width: 0.95em; height: 0.95em; vertical-align: baseline; }
+.knop { display: inline-flex; align-items: center; justify-content: center; gap: 7px; }
+
+/* Het chevron in de filterknop wijst omhoog zodra het paneel openstaat */
+.icoon.gedraaid { transform: rotate(180deg); }
+
+/* Sterren voor koppelgemak: gevuld en leeg uit dezelfde set, zodat ze dezelfde
+   vorm hebben in plaats van twee losse tekens. */
+.sterren-rij { display: inline-flex; gap: 2px; color: var(--kleur-accent); }
+.sterren-rij .icoon { width: 1em; height: 1em; vertical-align: middle; }
+
+/* Koppen krijgen strakkere letterafstand naarmate ze groter zijn: bij grote
+   letters oogt standaardafstand al snel los. */
+h1, h2, h3 { line-height: 1.2; text-wrap: balance; }
+h1 { font-weight: 800; letter-spacing: -0.025em; }
+h2 { font-weight: 800; letter-spacing: -0.02em; }
+h3 { font-weight: 700; letter-spacing: -0.01em; }
 
 /* Sectiekoppen krijgen een klein amber accentstreepje voor herkenbaarheid */
 main h2 {
@@ -122,7 +182,7 @@ a { color: var(--kleur-primair); }
   text-decoration: none;
 }
 
-.logo .logo-icoon { font-size: 1.5rem; }
+.logo .logo-icoon { display: inline-flex; color: var(--kleur-accent); }
 .logo span b { color: var(--kleur-primair); }
 
 .hoofdnav {
@@ -236,7 +296,8 @@ a { color: var(--kleur-primair); }
   font-size: 0.95rem;
 }
 
-.regel-banner .icoon { font-size: 1.3rem; line-height: 1.3; }
+.regel-banner > .icoon { width: 1.35em; height: 1.35em; color: var(--kleur-accent-donker); }
+.regel-banner a .icoon { width: 1em; height: 1em; }
 .regel-banner p { min-width: 0; }
 /* hidden-attribuut wint van display:flex (voor de kruisverwijzing-banner) */
 .regel-banner[hidden] { display: none; }
@@ -399,16 +460,18 @@ a { color: var(--kleur-primair); }
 }
 
 .paneel-kaart::before {
-  /* Teal-naar-amber hairline bovenlangs geeft de kaarten een eigen gezicht */
+  /* Haarlijn in verloop bovenlangs geeft de kaarten een eigen gezicht. Het
+     middenpunt liep nog van de zonnepanelensite mee en was lichtblauw; op een
+     oranje kaart valt dat uit de toon. Nu een warme oranje-naar-amber loop. */
   content: "";
   position: absolute;
   inset: 0 0 auto 0;
   height: 4px;
-  background: linear-gradient(90deg, var(--kleur-primair), #38bdf8 55%, var(--kleur-accent));
+  background: linear-gradient(90deg, var(--kleur-primair), #ea580c 55%, var(--kleur-accent));
   opacity: 0.9;
 }
 
-.paneel-kaart:hover { box-shadow: var(--schaduw-hover); transform: translateY(-3px); border-color: #cfe2f0; }
+.paneel-kaart:hover { box-shadow: var(--schaduw-hover); transform: translateY(-3px); border-color: #f3d5bd; }
 
 .kaart-kop {
   padding: 18px 20px 0;
@@ -537,7 +600,24 @@ h1 .merk-logo { height: 28px; vertical-align: -4px; }
   font-size: 0.97rem;
   line-height: 1.55;
 }
-.icoon-kaart .icoon { font-size: 1.6rem; display: block; }
+.icoon-kaart .icoon { width: 1.7em; height: 1.7em; color: var(--kleur-primair); }
+
+/* Genummerde stappen: opgemaakte cijfers in plaats van keycap-emoji, die per
+   platform anders worden getekend en niet te kleuren zijn. */
+.stap-nummer {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 999px;
+  background: var(--kleur-primair);
+  color: var(--kleur-wit);
+  font-weight: 800;
+  font-size: 1rem;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
 .icoon-kaart b { display: block; margin: 6px 0 4px; color: var(--kleur-primair-donker); }
 
 /* Woordenlijst: klikbare chips om direct naar een begrip te springen */
@@ -608,7 +688,8 @@ details.lees-meer[open] summary::after { content: " ▴"; }
 
 /* Koppelgemak sterren */
 .koppelgemak { padding: 0 20px 12px; font-size: 0.9rem; }
-.koppelgemak .sterren { color: var(--kleur-accent); letter-spacing: 2px; font-size: 1rem; }
+.koppelgemak .sterren { color: var(--kleur-accent); display: inline-flex; gap: 2px; }
+.koppelgemak .sterren .icoon { width: 1em; height: 1em; }
 .koppelgemak .uitleg { color: var(--kleur-tekst-licht); font-size: 0.85rem; margin-top: 2px; }
 
 .kaart-prijs {
@@ -623,10 +704,23 @@ details.lees-meer[open] summary::after { content: " ▴"; }
 }
 
 .kaart-prijs { background: linear-gradient(180deg, rgba(246, 243, 236, 0.0), rgba(246, 243, 236, 0.65)); }
-.prijs-blok .van-prijs { font-size: 0.85rem; color: var(--kleur-tekst-licht); text-decoration: line-through; }
-.prijs-blok .prijs { font-size: 1.7rem; font-weight: 800; color: var(--kleur-primair-donker); letter-spacing: -0.02em; }
+.prijs-blok .van-prijs { font-size: 0.85rem; color: var(--kleur-tekst-licht); text-decoration: line-through; font-variant-numeric: tabular-nums; }
+.prijs-blok .prijs { font-size: 2rem; font-weight: 800; color: var(--kleur-primair-donker); letter-spacing: -0.03em; line-height: 1.1; font-variant-numeric: tabular-nums; }
 .prijs-blok .prijs-per-kwh { font-size: 0.82rem; color: var(--kleur-tekst-licht); }
 .prijs-blok .prijs-winkel { font-size: 0.82rem; color: var(--kleur-tekst-licht); }
+
+/* Uitleg wanneer het getoonde bedrag afwijkt van wat de winkel toont: een
+   prijs excl. btw, of een aanbieding die minder dekt dan de richtprijs. */
+.prijs-let-op {
+  margin-top: 8px;
+  padding: 8px 10px;
+  border-left: 3px solid var(--kleur-accent);
+  background: var(--kleur-accent-licht);
+  border-radius: 0 8px 8px 0;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: var(--kleur-tekst);
+}
 
 .knop {
   display: inline-flex;
@@ -720,7 +814,7 @@ table.vergelijk-tabel {
 
 .vergelijk-tabel th .sorteer-pijl { opacity: 0.5; }
 .vergelijk-tabel td { padding: 12px 14px; border-bottom: 1px solid var(--kleur-rand); vertical-align: top; }
-.vergelijk-tabel tr:hover td { background: #f0f8ff; }
+.vergelijk-tabel tr:hover td { background: #fff7ed; }
 .vergelijk-tabel .tabel-prijs { font-weight: 700; white-space: nowrap; }
 .vergelijk-tabel .check-ja { color: var(--kleur-groen); font-weight: 700; }
 .vergelijk-tabel .check-deels { color: #92400e; font-weight: 700; cursor: help; }
@@ -1006,3 +1100,73 @@ body.vergelijkbalk-actief { padding-bottom: 150px; }
   .kaart-details[hidden] { display: none !important; }
   a { color: #000; text-decoration: none; }
 }
+
+/* --------------------------------------------------------------------------
+   Contactformulier
+   -------------------------------------------------------------------------- */
+
+.contact-formulier {
+  background: var(--kleur-wit);
+  border: 1px solid var(--kleur-rand);
+  border-radius: var(--radius);
+  box-shadow: var(--schaduw);
+  padding: 24px;
+  max-width: 640px;
+}
+
+.contact-formulier .veld { margin-bottom: 18px; }
+
+.contact-formulier label {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.contact-formulier input,
+.contact-formulier select,
+.contact-formulier textarea {
+  width: 100%;
+  padding: 11px 13px;
+  border: 1px solid var(--kleur-rand);
+  border-radius: var(--radius-klein);
+  background: var(--kleur-wit);
+  font: inherit;
+  color: inherit;
+}
+
+.contact-formulier textarea { resize: vertical; min-height: 140px; }
+
+.contact-formulier input:focus-visible,
+.contact-formulier select:focus-visible,
+.contact-formulier textarea:focus-visible {
+  outline: 2px solid var(--kleur-primair);
+  outline-offset: 1px;
+  border-color: var(--kleur-primair);
+}
+
+.contact-formulier .veld small {
+  display: block;
+  margin-top: 5px;
+  color: var(--kleur-tekst-licht);
+  font-size: 0.85rem;
+}
+
+/* Het honingpotveld moet onzichtbaar zijn voor mensen maar wel invulbaar voor
+   bots, dus niet display:none - sommige bots slaan verborgen velden over. */
+.honingpot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.formulier-status {
+  margin: 14px 0 0;
+  min-height: 1.5em;
+  font-weight: 600;
+}
+.formulier-status.gelukt { color: #166534; }
+.formulier-status.mislukt { color: var(--kleur-rood); }
+
+.formulier-voetnoot { margin-top: 16px; }

@@ -8,12 +8,19 @@
  *   2. Meta-tags (og:price:amount, product:price:amount, itemprop="price")
  *   3. Een voorzichtige regex op zichtbare prijzen in de HTML
  *
+ * Alle bedragen in het databestand zijn inclusief btw. Veel van deze winkels
+ * zijn installateurs- en groothandelsshops die exclusief btw tonen; zo'n prijs
+ * wordt herkend, omgerekend naar inclusief btw en met "btw": "excl" gemarkeerd,
+ * zodat de kaart kan uitleggen waarom het bedrag afwijkt van wat de winkel toont.
+ *
  * Veiligheidsregels:
- *   - Een nieuwe prijs wordt alleen overgenomen als hij plausibel is
- *     (tussen 40% en 250% van de laatst bekende prijs).
- *   - Bij fouten of onduidelijke pagina's blijft de oude prijs staan;
- *     alleen de datum "prijs_gecontroleerd" wordt dan NIET bijgewerkt,
- *     zodat zichtbaar blijft hoe vers elke prijs is.
+ *   - Een nieuwe prijs moet altijd binnen de absolute grenzen voor deze
+ *     productgroep vallen, én binnen 40% tot 250% van de laatst bekende prijs.
+ *   - Een prijs die ver van de richtprijs af ligt, wordt niet stil overgenomen:
+ *     die dekt vrijwel altijd iets anders (alleen de buitenunit, of juist een
+ *     set met boiler). Zulke gevallen worden gemeld voor handmatige controle.
+ *   - Bij fouten of onduidelijke pagina's blijft de oude prijs staan en wordt
+ *     "datum" niet bijgewerkt, zodat zichtbaar blijft hoe vers elke prijs is.
  *   - Het script faalt nooit hard op één winkel: fouten worden gelogd
  *     en de rest gaat door.
  */
@@ -25,11 +32,20 @@ import { fileURLToPath } from "node:url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 // Per databestand: waar de productlijst staat en welke prijzen geloofwaardig
-// zijn (panelen zijn per stuk goedkoop; omvormers lopen op tot enkele duizenden
-// euro's en worden soms exclusief btw getoond).
+// zijn. Een hybride warmtepomp begint rond de € 1.500; een all-electric pomp
+// met hoge aanvoertemperatuur loopt op tot circa € 16.000 inclusief btw.
 const BESTANDEN = [
   { pad: resolve(__dirname, "../data/warmtepompen.json"), lijst: "warmtepompen", min: 1500, max: 16000 },
 ];
+
+// Btw-tarief op warmtepompen (levering van het losse toestel).
+const BTW = 1.21;
+
+// Hoe ver een winkelprijs van de richtprijs mag afliggen voordat we hem
+// verdacht vinden. Daaronder dekt de prijs meestal alleen de buitenunit,
+// daarboven zit er een boiler of afgifteset in de aanbieding.
+const RICHTPRIJS_ONDER = 0.7;
+const RICHTPRIJS_BOVEN = 1.4;
 
 const VANDAAG = new Date().toISOString().slice(0, 10);
 const TIMEOUT_MS = 20000;
@@ -65,24 +81,31 @@ async function haalBolToken() {
 
 // Defensief: vind de eerste plausibele price-waarde in de API-respons,
 // zodat kleine wijzigingen in het responsformaat ons niet breken.
-function zoekPrijsInRespons(obj) {
+//
+// De grenzen komen uit het databestand en niet uit een vaste marge: met een
+// ondergrens van een paar tientjes pakt deze zoektocht net zo goed de
+// verzendkosten of een los accessoire uit de respons als de productprijs.
+function zoekPrijsInRespons(obj, grenzen) {
   if (obj == null || typeof obj !== "object") return null;
   if (Array.isArray(obj)) {
-    for (const x of obj) { const p = zoekPrijsInRespons(x); if (p) return p; }
+    for (const x of obj) { const p = zoekPrijsInRespons(x, grenzen); if (p) return p; }
     return null;
   }
-  if (typeof obj.price === "number" && obj.price >= 20 && obj.price <= 2000) return obj.price;
+  if (typeof obj.price === "number" && obj.price >= grenzen.min && obj.price <= grenzen.max) return obj.price;
   for (const k of Object.keys(obj)) {
-    const p = zoekPrijsInRespons(obj[k]);
+    const p = zoekPrijsInRespons(obj[k], grenzen);
     if (p) return p;
   }
   return null;
 }
 
-async function bolApiPrijs(aanbieding) {
+async function bolApiPrijs(aanbieding, grenzen) {
   const token = await haalBolToken();
   if (!token) return null;
-  const m = (aanbieding.url || "").match(/\/(\d{8,})\/?$/);
+  // Query en fragment eerst weg: bol-links dragen vaak een ?bltgh=-parameter,
+  // en dan staat het product-id niet meer aan het eind van de URL.
+  const pad = (aanbieding.url || "").split(/[?#]/)[0];
+  const m = pad.match(/\/(\d{8,})\/?$/);
   if (!m) { console.log(`  ~ bol-API: geen product-id herkend in ${aanbieding.url}`); return null; }
   const res = await fetch(`https://api.bol.com/marketing/catalog/v1/products/${m[1]}/offers/best?country-code=NL`, {
     headers: { "Authorization": `Bearer ${token}`, "Accept": "application/json" },
@@ -91,8 +114,9 @@ async function bolApiPrijs(aanbieding) {
     console.log(`  ~ bol-API ${m[1]}: HTTP ${res.status} (respons kort: ${(await res.text()).slice(0, 120)})`);
     return null;
   }
-  const prijs = zoekPrijsInRespons(await res.json());
-  return prijs ? Math.round(prijs) : null;
+  const prijs = zoekPrijsInRespons(await res.json(), grenzen);
+  // Bol toont consumentenprijzen: altijd inclusief btw.
+  return prijs ? { bedrag: Math.round(prijs), btw: "incl" } : null;
 }
 
 /* ------------------------------------------------------------------ */
@@ -129,6 +153,22 @@ function parsePrijsWaarde(raw) {
   return Number.isFinite(n) ? Math.round(n) : null;
 }
 
+/**
+ * Toont deze pagina prijzen exclusief btw? Installateurs- en groothandelsshops
+ * (Wasco, Installmat, CV Dump) doen dat standaard. We kijken alleen in de buurt
+ * van de prijs zelf en niet in de hele pagina: onderaan staat bij bijna elke
+ * webshop wel ergens een algemene voorwaarde met het woord "btw" in.
+ */
+function toontExclBtw(html) {
+  const tekst = html.replace(/<[^>]+>/g, " ").replace(/&nbsp;?/gi, " ");
+  const excl = /\b(?:excl\.?|exclusief)\s*(?:\d+%\s*)?btw\b/i;
+  const incl = /\b(?:incl\.?|inclusief)\s*(?:\d+%\s*)?btw\b/i;
+  // Alleen als de pagina wél "excl. btw" zegt en nergens "incl. btw": winkels
+  // die beide bedragen tonen, tonen de prijs die wij oppikken vrijwel altijd
+  // inclusief btw.
+  return excl.test(tekst) && !incl.test(tekst);
+}
+
 function prijsUitJsonLd(html) {
   const blokken = html.match(/<script[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi) || [];
   for (const blok of blokken) {
@@ -142,8 +182,18 @@ function prijsUitJsonLd(html) {
         if (!k || typeof k !== "object") continue;
         const offers = k.offers ? (Array.isArray(k.offers) ? k.offers : [k.offers]) : [];
         for (const offer of offers) {
-          const p = parsePrijsWaarde(offer.price ?? offer.lowPrice);
-          if (p) return p;
+          if (!offer || typeof offer !== "object") continue;
+          // Een bedrag in dollars of ponden is niet de prijs die wij zoeken.
+          const munt = offer.priceCurrency || offer.priceSpecification?.priceCurrency;
+          if (munt && String(munt).toUpperCase() !== "EUR") continue;
+          // Een uitverkocht product houdt vaak een oude prijs in de markup.
+          const voorraad = String(offer.availability || "");
+          if (/OutOfStock|Discontinued|SoldOut/i.test(voorraad)) continue;
+          const p = parsePrijsWaarde(offer.price ?? offer.priceSpecification?.price ?? offer.lowPrice);
+          if (!p) continue;
+          // schema.org kan expliciet zeggen of de btw er al in zit.
+          const btwVeld = offer.priceSpecification?.valueAddedTaxIncluded;
+          return { bedrag: p, btw: btwVeld === false ? "excl" : btwVeld === true ? "incl" : null };
         }
       }
     }
@@ -161,7 +211,7 @@ function prijsUitMeta(html) {
     const m = html.match(p);
     if (m) {
       const prijs = parsePrijsWaarde(m[1]);
-      if (prijs) return prijs;
+      if (prijs) return { bedrag: prijs, btw: null };
     }
   }
   return null;
@@ -179,47 +229,78 @@ function prijsUitTekst(html, grenzen) {
   for (const [prijs, n] of telling) {
     if (n > max) { max = n; beste = prijs; }
   }
-  return max >= 2 ? beste : null; // alleen bij herhaald voorkomen
+  return max >= 2 ? { bedrag: beste, btw: null } : null; // alleen bij herhaald voorkomen
 }
 
+/**
+ * De absolute grenzen gelden altijd, ook als er al een oude prijs staat.
+ * Anders kan een prijs met stapjes van 40% per dag onder de ondergrens
+ * wegzakken zonder dat één losse controle onplausibel lijkt.
+ */
 function plausibel(nieuw, oud, grenzen) {
-  if (!oud) return nieuw >= grenzen.min && nieuw <= grenzen.max;
+  if (nieuw < grenzen.min || nieuw > grenzen.max) return false;
+  if (!oud) return true;
   return nieuw >= oud * 0.4 && nieuw <= oud * 2.5;
 }
 
 /* ------------------------------------------------------------------ */
 
-async function updateAanbieding(paneel, aanbieding, grenzen) {
+async function updateAanbieding(pomp, aanbieding, grenzen, verdacht) {
   if (!aanbieding.url) return false;
   try {
-    let nieuw;
+    let gevonden;
     if (/www\.bol\.com/.test(aanbieding.url) && BOL_CLIENT_ID && BOL_CLIENT_SECRET) {
-      nieuw = await bolApiPrijs(aanbieding);
+      gevonden = await bolApiPrijs(aanbieding, grenzen);
     } else {
       const html = await haalPagina(aanbieding.url);
-      nieuw = prijsUitJsonLd(html) ?? prijsUitMeta(html) ?? prijsUitTekst(html, grenzen);
+      gevonden = prijsUitJsonLd(html) ?? prijsUitMeta(html) ?? prijsUitTekst(html, grenzen);
+      // Zegt de markup niets over btw, dan bepaalt de pagina zelf het oordeel.
+      if (gevonden && gevonden.btw == null) gevonden.btw = toontExclBtw(html) ? "excl" : "incl";
     }
-    if (!nieuw) {
-      console.log(`  ~ ${paneel.id} @ ${aanbieding.winkel}: geen prijs gevonden, oude prijs blijft (€${aanbieding.prijs_eur})`);
+    if (!gevonden) {
+      console.log(`  ~ ${pomp.id} @ ${aanbieding.winkel}: geen prijs gevonden, oude prijs blijft (€${aanbieding.prijs_eur})`);
       return false;
     }
+
+    // Alles in het databestand staat inclusief btw; onthoud wel hoe de winkel
+    // het toont, want dan kan de kaart het verschil uitleggen.
+    const exclBtw = gevonden.btw === "excl";
+    const nieuw = exclBtw ? Math.round(gevonden.bedrag * BTW) : gevonden.bedrag;
+
     if (!plausibel(nieuw, aanbieding.prijs_eur, grenzen)) {
-      console.log(`  ! ${paneel.id} @ ${aanbieding.winkel}: gevonden prijs €${nieuw} niet plausibel t.o.v. €${aanbieding.prijs_eur}, overgeslagen`);
+      console.log(`  ! ${pomp.id} @ ${aanbieding.winkel}: gevonden prijs €${nieuw} niet plausibel t.o.v. €${aanbieding.prijs_eur}, overgeslagen`);
       return false;
     }
-    const veranderd = nieuw !== aanbieding.prijs_eur;
+
+    // Een prijs die ver van de richtprijs ligt, dekt bijna altijd iets anders
+    // dan het toestel waar de richtprijs over gaat. Zulke bedragen worden wel
+    // opgeslagen, maar ook gemeld zodat iemand ernaar kan kijken.
+    if (pomp.richtprijs_eur) {
+      const verhouding = nieuw / pomp.richtprijs_eur;
+      if (verhouding < RICHTPRIJS_ONDER || verhouding > RICHTPRIJS_BOVEN) {
+        verdacht.push(
+          `${pomp.id} @ ${aanbieding.winkel}: €${nieuw} is ${Math.round(verhouding * 100)}% van de richtprijs (€${pomp.richtprijs_eur})` +
+          ` - controleer of deze prijs hetzelfde dekt (${aanbieding.url})`
+        );
+      }
+    }
+
+    const veranderd = nieuw !== aanbieding.prijs_eur || (exclBtw ? "excl" : "incl") !== (aanbieding.btw || "incl");
     aanbieding.prijs_eur = nieuw;
+    aanbieding.btw = exclBtw ? "excl" : "incl";
     aanbieding.datum = VANDAAG;
-    console.log(`  ${veranderd ? "✓ NIEUW" : "= gelijk"} ${paneel.id} @ ${aanbieding.winkel}: €${nieuw}`);
+    const btwNoot = exclBtw ? ` (winkel toont €${gevonden.bedrag} excl. btw)` : "";
+    console.log(`  ${veranderd ? "✓ NIEUW" : "= gelijk"} ${pomp.id} @ ${aanbieding.winkel}: €${nieuw}${btwNoot}`);
     return veranderd;
   } catch (err) {
-    console.log(`  x ${paneel.id} @ ${aanbieding.winkel}: ${err.message} (oude prijs blijft staan)`);
+    console.log(`  x ${pomp.id} @ ${aanbieding.winkel}: ${err.message} (oude prijs blijft staan)`);
     return false;
   }
 }
 
 async function main() {
   let wijzigingen = 0;
+  const verdacht = [];
 
   for (const bestand of BESTANDEN) {
     console.log(`\n=== ${bestand.lijst} (${bestand.pad}) ===`);
@@ -227,7 +308,7 @@ async function main() {
 
     for (const product of data[bestand.lijst] || []) {
       for (const aanbieding of product.aanbiedingen || []) {
-        if (await updateAanbieding(product, aanbieding, bestand)) wijzigingen++;
+        if (await updateAanbieding(product, aanbieding, bestand, verdacht)) wijzigingen++;
         await new Promise((r) => setTimeout(r, 1500)); // beleefde pauze tussen requests
       }
       // prijs_datum van het product = meest recente controle-datum van zijn aanbiedingen
@@ -238,8 +319,13 @@ async function main() {
     data.laatst_bijgewerkt = VANDAAG;
     writeFileSync(bestand.pad, JSON.stringify(data, null, 2) + "\n", "utf8");
   }
-  // De paneelpagina's en sitemap worden hierna herbouwd door
-  // scripts/genereer-paneelpaginas.mjs (zie de workflow).
+  // De warmtepomppagina's en sitemap worden hierna herbouwd door
+  // scripts/genereer-warmtepomppaginas.mjs (zie de workflow).
+
+  if (verdacht.length) {
+    console.log(`\n!! ${verdacht.length} prijs(en) om na te lopen:`);
+    for (const r of verdacht) console.log(`   - ${r}`);
+  }
 
   console.log(`\nKlaar. ${wijzigingen} prijswijziging(en). laatst_bijgewerkt = ${VANDAAG}`);
 }

@@ -14,9 +14,10 @@
   <meta property="og:site_name" content="Warmtepompmaatje.nl">
   <meta property="og:image" content="https://warmtepompmaatje.nl/assets/og-image.png">
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="stylesheet" href="assets/style.css?v=20260723c">
-  <script src="assets/app.js?v=20260723c" defer></script>
-  <script src="assets/nav.js?v=20260722a" defer></script>
+  <link rel="stylesheet" href="assets/style.css?v=20260727c">
+  <script src="assets/iconen.js?v=20260727c" defer></script>
+  <script src="assets/app.js?v=20260727c" defer></script>
+  <script src="assets/nav.js?v=20260727c" defer></script>
   <link rel="icon" href="assets/favicon.svg?v=1" type="image/svg+xml">
   <script type="application/ld+json">
   {
@@ -45,7 +46,7 @@
 <header class="site-header">
   <div class="container">
     <a class="logo" href="index.html">
-      <span class="logo-icoon">🔥</span>
+      <span class="logo-icoon"><svg class="icoon icoon-groot" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3q1 4 4 6.5t3 5.5a1 1 0 0 1-14 0 5 5 0 0 1 1-3 1 1 0 0 0 5 0c0-2-1.5-3-1.5-5q0-2 2.5-4" /></svg></span>
       <span>Warmtepomp<b>maatje</b></span>
     </a>
     <nav class="hoofdnav">
@@ -55,7 +56,7 @@
       <a href="uitleg.html">Uitleg</a>
       <a href="subsidie.html">Subsidie</a>
       <details class="nav-meer">
-        <summary>Meer ▾</summary>
+        <summary>Meer <svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg></summary>
         <div class="nav-meer-paneel">
           <a href="over-ons.html">Over ons</a>
           <a href="contact.html">Contact</a>
@@ -71,14 +72,14 @@
     <h1>Warmtepompen vergelijken op wat écht telt</h1>
     <p>De meeste vergelijkers sturen je meteen naar een offerteformulier. Wij vergelijken de <b>warmtepompen zelf</b>: prijs en ISDE-subsidie, geluid van de buitenunit, rendement, en of hij slim te koppelen is met Home Assistant of Homey (de <b>Koppel-score</b>). Onafhankelijk en in gewone taal, voor hybride én all-electric.</p>
     <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap;">
-      <span class="update-info">🔥 <b id="tellerPompen">19</b> warmtepompen</span>
-      <span class="update-info">🔄 Bijgewerkt: <b id="updateDatum">…</b></span>
-      <span class="update-info">⚖️ 100% onafhankelijk</span>
+      <span class="update-info"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3q1 4 4 6.5t3 5.5a1 1 0 0 1-14 0 5 5 0 0 1 1-3 1 1 0 0 0 5 0c0-2-1.5-3-1.5-5q0-2 2.5-4" /></svg> <b id="tellerPompen">19</b> warmtepompen</span>
+      <span class="update-info"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" /> <path d="M21 3v5h-5" /> <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" /> <path d="M8 16H3v5" /></svg> Bijgewerkt: <b id="updateDatum">…</b></span>
+      <span class="update-info"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18" /> <path d="m19 8 3 8a5 5 0 0 1-6 0zV7" /> <path d="M3 7h1a17 17 0 0 0 8-2 17 17 0 0 0 8 2h1" /> <path d="m5 8 3 8a5 5 0 0 1-6 0zV7" /> <path d="M7 21h10" /></svg> 100% onafhankelijk</span>
     </div>
     <div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap;">
-      <a class="knop" href="advies.html" style="background:var(--kleur-accent);color:#422006;">🧭 Begin met de keuzehulp (2 minuten)</a>
-      <a class="knop" href="#resultaten" style="background:rgba(255,255,255,0.12);border:1.5px solid rgba(255,255,255,0.55);">⬇️ Direct warmtepompen vergelijken</a>
-      <a class="knop" href="uitleg.html" style="background:rgba(255,255,255,0.12);border:1.5px solid rgba(255,255,255,0.55);">📖 Nieuw? Zo werkt een warmtepomp</a>
+      <a class="knop" href="advies.html" style="background:var(--kleur-accent);color:#422006;"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z" /></svg> Begin met de keuzehulp (2 minuten)</a>
+      <a class="knop" href="#resultaten" style="background:rgba(255,255,255,0.12);border:1.5px solid rgba(255,255,255,0.55);"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14" /> <path d="m19 12-7 7-7-7" /></svg> Direct warmtepompen vergelijken</a>
+      <a class="knop" href="uitleg.html" style="background:rgba(255,255,255,0.12);border:1.5px solid rgba(255,255,255,0.55);"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v16" /> <path d="M20.001 19A2 2 0 0022 17V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2z" /></svg> Nieuw? Zo werkt een warmtepomp</a>
     </div>
   </div>
 </section>
@@ -88,22 +89,22 @@
   <section aria-label="Zo gebruik je deze site" style="margin:22px 0 6px;">
     <div class="icoon-kaarten" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;">
       <a class="icoon-kaart" href="advies.html" style="text-decoration:none;color:inherit;">
-        <span class="icoon">1️⃣</span>
+        <span class="stap-nummer">1</span>
         <b>Begin met de keuzehulp</b>
         <span style="font-size:0.9rem;color:var(--kleur-tekst-licht);">Twee minuten invullen en je weet of hybride of all-electric bij je huis past, welke pompen het best passen en wat de subsidie oplevert.</span>
       </a>
       <a class="icoon-kaart" href="#resultaten" style="text-decoration:none;color:inherit;">
-        <span class="icoon">2️⃣</span>
+        <span class="stap-nummer">2</span>
         <b>Vergelijk of check je offerte</b>
         <span style="font-size:0.9rem;color:var(--kleur-tekst-licht);">Hieronder op deze pagina: zoek de warmtepomp uit je offerte op en zie of prijs, geluid en subsidie kloppen.</span>
       </a>
       <a class="icoon-kaart" href="rekenmodule.html" style="text-decoration:none;color:inherit;">
-        <span class="icoon">3️⃣</span>
+        <span class="stap-nummer">3</span>
         <b>Bereken je terugverdientijd</b>
         <span style="font-size:0.9rem;color:var(--kleur-tekst-licht);">Zie per jaar wat je bespaart op gas, wat de extra stroom kost en wanneer de investering is terugverdiend.</span>
       </a>
       <a class="icoon-kaart" href="subsidie.html" style="text-decoration:none;color:inherit;">
-        <span class="icoon">4️⃣</span>
+        <span class="stap-nummer">4</span>
         <b>Check de subsidie</b>
         <span style="font-size:0.9rem;color:var(--kleur-tekst-licht);">De ISDE-subsidie loopt van circa € 2.000 tot € 3.600 per warmtepomp; zo vraag je hem aan.</span>
       </a>
@@ -111,11 +112,11 @@
   </section>
 
   <div class="regel-banner">
-    <span class="icoon">💡</span>
-    <p><b>Heb je zonnepanelen of een thuisbatterij (of plannen)?</b> Een warmtepomp draait het voordeligst op eigen zonnestroom. Vergelijk panelen op onze zustersite <a href="https://zonnestroommaatje.nl/" target="_blank" rel="noopener">Zonnestroommaatje</a> en batterijen op <a href="https://batterijmaatje.nl/" target="_blank" rel="noopener">Batterijmaatje.nl</a>. Alles in één keer bekijken? <a href="https://zonnestroommaatje.nl/energieplan.html" target="_blank" rel="noopener">Maak je energieplan →</a></p>
+    <svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5" /> <path d="M9 18h6" /> <path d="M10 22h4" /></svg>
+    <p><b>Heb je zonnepanelen of een thuisbatterij (of plannen)?</b> Een warmtepomp draait het voordeligst op eigen zonnestroom. Vergelijk panelen op onze zustersite <a href="https://zonnestroommaatje.nl/" target="_blank" rel="noopener">Zonnestroommaatje</a> en batterijen op <a href="https://batterijmaatje.nl/" target="_blank" rel="noopener">Batterijmaatje.nl</a>. Alles in één keer bekijken? <a href="https://zonnestroommaatje.nl/energieplan.html" target="_blank" rel="noopener">Maak je energieplan <svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /></svg></a></p>
   </div>
 
-  <button class="filter-toggle" id="filterToggle">🔍 Filteren en sorteren ▾</button>
+  <button class="filter-toggle" id="filterToggle"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8" /> <path d="m21 21-4.3-4.3" /></svg> Filteren en sorteren <svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg></button>
 
   <div class="filterbalk ingeklapt" id="filterbalk">
     <div class="filter-rij">
@@ -149,30 +150,30 @@
     <div class="filter-rij">
       <span class="filter-label">Toon alleen</span>
       <div class="checkbox-groep">
-        <label><input type="checkbox" id="checkR290"> 🌿 Natuurlijk koudemiddel (R290)</label>
-        <label><input type="checkbox" id="checkStil"> 🤫 Stil (55 dB(A) of minder)</label>
-        <label><input type="checkbox" id="checkHa"> 🏠 Officiële slimme koppeling</label>
+        <label><input type="checkbox" id="checkR290"> <svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z" /> <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12" /></svg> Natuurlijk koudemiddel (R290)</label>
+        <label><input type="checkbox" id="checkStil"> <svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z" /> <path d="m22 9-6 6" /> <path d="m16 9 6 6" /></svg> Stil (55 dB(A) of minder)</label>
+        <label><input type="checkbox" id="checkHa"> <svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" /> <path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /></svg> Officiële slimme koppeling</label>
       </div>
       <button class="knop knop-secundair" id="resetFilters" style="margin-left:auto;padding:8px 14px;font-size:0.88rem;">Alle filters wissen</button>
     </div>
   </div>
 
   <details class="legenda">
-    <summary>ℹ️ Wat betekenen de symbolen?</summary>
+    <summary><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M12 16v-4" /> <path d="M12 8h.01" /></svg> Wat betekenen de symbolen?</summary>
     <div class="legenda-lijst">
-      <div class="legenda-rij"><span>🔗 Koppel-score</span><span>Punten (0 tot 6) voor slimme aansturing, Home Assistant en Homey. Uitleg staat onderaan deze pagina.</span></div>
-      <div class="legenda-rij"><span>✓</span><span>Direct of officieel ondersteund</span></div>
-      <div class="legenda-rij"><span>~</span><span>Werkt via een omweg: community-integratie, extra module of de thermostaat. Tik op de badge voor de uitleg.</span></div>
-      <div class="legenda-rij"><span>✕</span><span>Niet ondersteund</span></div>
-      <div class="legenda-rij"><span>▦/☰</span><span>Wissel tussen kaarten en tabel; vink "vergelijk" aan op maximaal 3 kaarten om ze zij aan zij te zien.</span></div>
+      <div class="legenda-rij"><span><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" /> <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" /></svg> Koppel-score</span><span>Punten (0 tot 6) voor slimme aansturing, Home Assistant en Homey. Uitleg staat onderaan deze pagina.</span></div>
+      <div class="legenda-rij"><span><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" /></svg></span><span>Direct of officieel ondersteund</span></div>
+      <div class="legenda-rij"><span><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M12 18a6 6 0 0 0 0-12v12z" /></svg></span><span>Werkt via een omweg: community-integratie, extra module of de thermostaat. Tik op de badge voor de uitleg.</span></div>
+      <div class="legenda-rij"><span><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18" /> <path d="m6 6 12 12" /></svg></span><span>Niet ondersteund</span></div>
+      <div class="legenda-rij"><span><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1" /> <rect width="7" height="7" x="14" y="3" rx="1" /> <rect width="7" height="7" x="14" y="14" rx="1" /> <rect width="7" height="7" x="3" y="14" rx="1" /></svg>/<svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h.01" /> <path d="M3 12h.01" /> <path d="M3 19h.01" /> <path d="M8 5h13" /> <path d="M8 12h13" /> <path d="M8 19h13" /></svg></span><span>Wissel tussen kaarten en tabel; vink "vergelijk" aan op maximaal 3 kaarten om ze zij aan zij te zien.</span></div>
     </div>
   </details>
 
   <div class="resultaten-balk" id="resultaten-anker">
     <span class="resultaten-telling" id="resultatenTelling">Laden…</span>
     <div class="weergave-knoppen">
-      <button id="knopKaarten" class="actief">▦ Kaarten</button>
-      <button id="knopTabel">☰ Tabel</button>
+      <button id="knopKaarten" class="actief"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1" /> <rect width="7" height="7" x="14" y="3" rx="1" /> <rect width="7" height="7" x="14" y="14" rx="1" /> <rect width="7" height="7" x="3" y="14" rx="1" /></svg> Kaarten</button>
+      <button id="knopTabel"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h.01" /> <path d="M3 12h.01" /> <path d="M3 19h.01" /> <path d="M8 5h13" /> <path d="M8 12h13" /> <path d="M8 19h13" /></svg> Tabel</button>
     </div>
   </div>
 
@@ -217,7 +218,7 @@
 
 <footer class="site-footer">
   <div class="container">
-    <b>🔥 Warmtepompmaatje</b>
+    <b><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3q1 4 4 6.5t3 5.5a1 1 0 0 1-14 0 5 5 0 0 1 1-3 1 1 0 0 0 5 0c0-2-1.5-3-1.5-5q0-2 2.5-4" /></svg> Warmtepompmaatje</b>
     <p>Onafhankelijke vergelijking van warmtepompen voor Nederlandse huishoudens. Zustersite van <a href="https://zonnestroommaatje.nl/" target="_blank" rel="noopener">Zonnestroommaatje</a> (zonnepanelen en omvormers) en <a href="https://batterijmaatje.nl/" target="_blank" rel="noopener">Batterijmaatje.nl</a> (thuisbatterijen).</p>
     <p><a href="index.html">Warmtepompen</a> · <a href="advies.html">Keuzehulp</a> · <a href="rekenmodule.html">Terugverdientijd</a> · <a href="uitleg.html">Uitleg</a> · <a href="subsidie.html">Subsidie</a> · <a href="over-ons.html">Over ons</a> · <a href="contact.html">Contact</a> · <a href="privacy.html">Privacy &amp; disclaimer</a></p>
     <p class="disclaimer">Disclaimer: prijzen, subsidies en specificaties veranderen regelmatig; er kunnen geen rechten aan worden ontleend. Controleer voor aankoop de actuele datasheet, de RVO-apparatenlijst en de voorwaarden bij de aanbieder.</p>

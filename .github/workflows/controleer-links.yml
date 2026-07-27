@@ -1,0 +1,34 @@
+name: Wekelijkse linkcontrole
+
+# Winkels halen productpagina's weg of hernoemen ze zonder iets te zeggen.
+# De bezoeker klikt dan op "Bekijk aanbieding" en landt op een foutpagina,
+# terwijl wij nog een prijs tonen. Deze controle vindt dat voordat een lezer het
+# vindt. Wekelijks is genoeg: vaker is onnodig belastend voor de winkels.
+
+on:
+  schedule:
+    - cron: "0 6 * * 1" # maandagochtend
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  controleren:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Code ophalen
+        uses: actions/checkout@v4
+
+      - name: Node instellen
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Links controleren
+        run: node scripts/controleer-links.mjs
+
+# De uitkomst staat in de samenvatting van de run: welke links kapot zijn en bij
+# welke warmtepomp of winkel ze horen. Kapotte externe links laten de run niet
+# mislukken, want een winkel die tijdelijk plat ligt is geen fout van ons.
+# Interne links wel: die zijn altijd onze eigen verantwoordelijkheid.
