@@ -899,6 +899,135 @@
           "url": "https://www.aircozonderstek.nl/product/itho-daalderop-vincent-v45-hybride-lucht-water-propaan-r290-warmtepomp-4-5-kw/"
         }
       ]
+    },
+    {
+      "id": "toshiba-estia-r290",
+      "merk": "Toshiba",
+      "model": "Estia Bi-Bloc R290",
+      "type": "all-electric",
+      "voorbeeld_variant": "Estia Bi-Bloc R290 6 kW (HWP-601HW-E)",
+      "vermogen_kw": 6,
+      "scop": 4.8,
+      "scop_toelichting": "SCOP tot 4,8 bij lage aanvoertemperatuur, energielabel A+++; leverbaar van 4 tot 16 kW",
+      "geluid_toelichting": "geluidsvermogen nog niet vastgesteld; Toshiba publiceert 30 dB(A) in stille modus op 5 meter, en dat is geluidsdruk op afstand - niet vergelijkbaar met de labelwaarde in deze kolom",
+      "koudemiddel": "R290 (natuurlijk)",
+      "tapwater": "via de binnenunit met boiler",
+      "isde_indicatie_eur": 2350,
+      "isde_meldcode": "KA30469",
+      "sturing": {
+        "status": "onbekend",
+        "tekst": "Niet vastgesteld welke open aansturing deze unit biedt."
+      },
+      "home_assistant": {
+        "status": "onbekend",
+        "tekst": "Geen betrouwbare bron gevonden over een integratie voor deze warmtepomp."
+      },
+      "homey": {
+        "status": "onbekend",
+        "tekst": "Geen betrouwbare bron gevonden over een integratie voor deze warmtepomp."
+      },
+      "opmerkingen": "Bi-bloc op propaan: het koudemiddel blijft in de buitenunit, binnen loopt alleen water. Toshiba afficheert deze reeks als een van de stilste; die claim gaat over geluidsdruk op afstand en niet over de labelwaarde waarop wij vergelijken.",
+      "product_url": "https://www.toshiba-aircondition.com/en/heat-pumps/estia/bi-bloc-r290"
+    },
+    {
+      "id": "hitachi-yutaki-m",
+      "merk": "Hitachi",
+      "model": "Yutaki M",
+      "type": "all-electric",
+      "voorbeeld_variant": "Yutaki M RASM2VRE (monoblock)",
+      "vermogen_kw": 4,
+      "scop_toelichting": "SCOP 3,9 tot 4,6 bij 35 graden aanvoer (vloerverwarming) en 3,2 tot 3,4 bij 55 graden (radiatoren)",
+      "geluid_toelichting": "geluidsvermogen nog niet vastgesteld",
+      "koudemiddel": "R32",
+      "tapwater": "via een aparte boiler",
+      "isde_indicatie_eur": 2125,
+      "isde_meldcode": "KA15892",
+      "garantie_jaar": 5,
+      "sturing": {
+        "status": "onbekend",
+        "tekst": "Niet vastgesteld welke open aansturing deze unit biedt."
+      },
+      "home_assistant": {
+        "status": "onbekend",
+        "tekst": "Geen betrouwbare bron gevonden over een integratie voor deze warmtepomp."
+      },
+      "homey": {
+        "status": "onbekend",
+        "tekst": "Geen betrouwbare bron gevonden over een integratie voor deze warmtepomp."
+      },
+      "opmerkingen": "Wordt in de Benelux alleen via de importeur aan installateurs geleverd, niet in consumentenwebshops. Je komt hem dus tegen in een offerte in plaats van in een winkelmandje; de garantie van vijf jaar geldt alleen bij aantoonbaar jaarlijks onderhoud.",
+      "product_url": "https://hitachi-warmtepompen.nl/"
+    },
+    {
+      "id": "atlantic-alfea-extensa",
+      "merk": "Atlantic",
+      "model": "Alfea Extensa",
+      "type": "all-electric",
+      "voorbeeld_variant": "Alfea Extensa A.I./S 6 R32",
+      "vermogen_kw": 6,
+      "scop": 4.65,
+      "scop_toelichting": "SCOP 4,65 bij 35 graden aanvoer en 4,46 bij hogere temperatuur, energielabel A+++",
+      "geluid_toelichting": "geluidsvermogen nog niet vastgesteld; Atlantic noemt 33 dB(A), maar dat is geluidsdruk op afstand",
+      "koudemiddel": "R32",
+      "tapwater": "via de DUO-uitvoering met ingebouwde boiler",
+      "isde_indicatie_eur": 2350,
+      "isde_meldcode": "KA18006",
+      "sturing": {
+        "status": "onbekend",
+        "tekst": "Niet vastgesteld welke open aansturing deze unit biedt."
+      },
+      "home_assistant": {
+        "status": "onbekend",
+        "tekst": "Geen betrouwbare bron gevonden over een integratie voor deze warmtepomp."
+      },
+      "homey": {
+        "status": "onbekend",
+        "tekst": "Geen betrouwbare bron gevonden over een integratie voor deze warmtepomp."
+      },
+      "opmerkingen": "Franse fabrikant, in Nederland ruim verkrijgbaar. De DUO-uitvoering heeft de boiler ingebouwd; de gewone uitvoering vraagt een aparte boiler voor warm water.",
+      "product_url": "https://atlanticclimate.nl/product/alfea-warmtepompen-r32/",
+      "aanbiedingen": [
+        {
+          "winkel": "Stookcentrale",
+          "url": "https://stookcentrale.nl/atlantic-alfea-extensa-8kw/",
+          "dekt": "Deze winkel voert de 8 kW-uitvoering; de gegevens hiernaast gaan over de 6 kW."
+        }
+      ]
+    },
+    {
+      "id": "dewarmte-pomp-ao",
+      "merk": "DeWarmte",
+      "model": "Pomp AO",
+      "type": "all-electric",
+      "voorbeeld_variant": "Pomp AO (2 tot 8 kW)",
+      "vermogen_kw": 6,
+      "scop": 4.9,
+      "scop_toelichting": "SCOP 4,9; ontworpen voor het bestaande cv-net van Nederlandse woningen",
+      "geluid_toelichting": "geluidsvermogen nog niet vastgesteld; DeWarmte noemt 45 dB zonder de grootheid erbij, en hun grotere Pomp MP staat op 53 dB geluidsvermogen - die 45 is dus niet zonder meer vergelijkbaar",
+      "koudemiddel": "R32",
+      "tapwater": "via de cv-ketel of een aparte boiler",
+      "isde_indicatie_eur": 2375,
+      "isde_meldcode": "KA22291",
+      "sturing": {
+        "status": "onbekend",
+        "tekst": "Niet vastgesteld welke open aansturing deze unit biedt."
+      },
+      "home_assistant": {
+        "status": "onbekend",
+        "tekst": "Geen betrouwbare bron gevonden over een integratie voor deze warmtepomp."
+      },
+      "homey": {
+        "status": "onbekend",
+        "tekst": "Geen betrouwbare bron gevonden over een integratie voor deze warmtepomp."
+      },
+      "opmerkingen": "Nederlands merk dat de laatste jaren snel groeit. Het toestel is ontworpen om flexibel rond de woning te plaatsen en op het bestaande cv-net aan te sluiten, zonder dat de afgifte eerst om moet.",
+      "product_url": "https://www.dewarmte.nl/",
+      "aanbiedingen": [
+        {
+          "winkel": "Woonwijzerwinkel",
+          "url": "https://www.woonwijzerwinkel.nl/product/pomp-ao-van-dewarmte/"
+        }
+      ]
     }
   ]
 }
