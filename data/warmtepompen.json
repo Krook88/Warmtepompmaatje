@@ -32,7 +32,7 @@
       },
       "app": "eTwist / Remeha Home",
       "garantie_jaar": 5,
-      "opmerkingen": "De best verkochte hybride van Nederland: betrouwbaar, stil in de praktijk en bij vrijwel elke installateur verkrijgbaar. Combineert met de meeste cv-ketels via OpenTherm.",
+      "opmerkingen": "De meest verkochte hybride van Nederland, en dat merk je vooral aan het gemak: vrijwel elke installateur kent hem en heeft er onderdelen voor liggen. Hij praat via OpenTherm met je bestaande cv-ketel, dus je hoeft die niet te vervangen. Met 58 dB(A) hoort hij wel bij de luidruchtiger toestellen hier.",
       "product_url": "https://www.remeha.nl/product/elga-ace",
       "aanbiedingen": [
         {
@@ -76,7 +76,7 @@
       },
       "app": "Daikin Onecta",
       "garantie_jaar": 5,
-      "opmerkingen": "Wereldmarktleider in warmtepompen, met een sterk dealernetwerk. De H Hybride is de monoblock-uitvoering die naast de bestaande cv-ketel hangt; Daikin levert daarnaast de Altherma R Hybride, een split met aparte binnen- en buitenunit.",
+      "opmerkingen": "Een monoblock die naast je cv-ketel komt te hangen: al het koudemiddel zit in de buitenunit, binnen loopt alleen water. Van alle pompen hier is dit met 59 dB(A) de luidste, dus met de buren dichtbij is dit niet je eerste keus. Let op de naam: Daikin heeft ook een R Hybride, en dat is een split met een aparte binnenunit.",
       "product_url": "https://www.daikin.nl/nl_nl/producten/altherma.html",
       "aanbiedingen": [
         {
@@ -120,7 +120,7 @@
       },
       "app": "Quatt-app",
       "garantie_jaar": 7,
-      "opmerkingen": "Nederlandse uitdager met alles-in-één aanpak: vaste prijs inclusief installatie, monitoring en app. Duo-uitvoering (twee buitenunits) voor grotere woningen.",
+      "opmerkingen": "De Nederlandse uitdager die het anders aanpakt: je koopt geen toestel maar een pakket, met vaste prijs, installatie, monitoring en app. Dat maakt vergelijken lastig - de prijs hiernaast dekt meer dan bij de anderen. Als enige hybride hier heeft hij een eigen Homey-app. Voor grotere woningen bestaat een Duo met twee buitenunits.",
       "product_url": "https://www.quatt.io/",
       "isde_meldcode": "KA21789",
       "aanbiedingen": [
@@ -165,7 +165,7 @@
       },
       "app": "Comfort Touch / thermostaat-app",
       "garantie_jaar": 5,
-      "opmerkingen": "Scherp geprijsde hybride van Nederlandse bodem met goede prijs-kwaliteitverhouding, vooral logisch als er al een Intergas-ketel hangt.",
+      "opmerkingen": "Scherp geprijsd, en het meest logisch als er al een Intergas-ketel hangt: dan werken pomp en ketel uit dezelfde koker samen. Nederlandse makelij, ruim verkrijgbaar. Aanvoertemperatuur tot 55 graden, dus je cv-ketel blijft het zware werk doen op de koudste dagen.",
       "product_url": "https://www.intergas-verwarming.nl/consument/producten/xtend/",
       "aanbiedingen": [
         {
@@ -206,7 +206,7 @@
       },
       "app": "myVAILLANT",
       "garantie_jaar": 10,
-      "opmerkingen": "Populairste premium all-electric: hoge aanvoertemperatuur (75 °C) maakt hem ook geschikt voor bestaande radiatoren, natuurlijk koudemiddel R290 en stille werking. 10 jaar garantie via actie/registratie.",
+      "opmerkingen": "Kan tot 75 graden aanvoeren, en dat is precies waarom hij zo populair is bij renovatie: je bestaande radiatoren kunnen vaak gewoon blijven hangen. Draait op propaan en is met 54 dB(A) aan de stille kant. De koppeling is minder open dan het merk doet vermoeden - Home Assistant lukt alleen via een omweg en een Homey-app is er niet.",
       "product_url": "https://www.vaillant.nl/consument/producten/arotherm-plus/",
       "aanbiedingen": [
         {
@@ -252,7 +252,7 @@
       },
       "app": "ViCare",
       "garantie_jaar": 5,
-      "opmerkingen": "Duitse premiumbouwer met zeer hoog rendement en hoge aanvoertemperatuur (70 °C) voor bestaande bouw. Garantie uit te breiden via de installateur.",
+      "opmerkingen": "Hoog rendement, propaan als koudemiddel en 70 graden aanvoer: geschikt voor bestaande bouw zonder dat de radiatoren eruit moeten. Sterk punt is de koppeling: officiële Home Assistant-integratie én open aansturing, iets wat lang niet elk merk biedt. Garantie is via de installateur uit te breiden.",
       "product_url": "https://www.viessmann.nl/nl/producten/warmtepomp/vitocal-250-a.html",
       "aanbiedingen": [
         {
@@ -302,7 +302,7 @@
       },
       "app": "myUplink",
       "garantie_jaar": 5,
-      "opmerkingen": "Zweedse specialist, gebouwd op koude winters; zeer stil en met hoge aanvoertemperatuur. Vaak iets duurder, maar degelijk en goed koppelbaar.",
+      "opmerkingen": "Gebouwd voor Zweedse winters, en dat zie je terug: 75 graden aanvoer en 53 dB(A) maken hem stil én geschikt voor bestaande radiatoren. Op koppelbaarheid scoort hij het maximum - officiële integratie met zowel Home Assistant als Homey, plus open aansturing. Je betaalt er wel voor.",
       "product_url": "https://www.nibenl.eu/nl-nl/producten/warmtepompen/lucht-water-warmtepompen/nibe-s2125",
       "aanbiedingen": [
         {
@@ -345,7 +345,7 @@
       },
       "app": "MELCloud",
       "garantie_jaar": 5,
-      "opmerkingen": "Japanse degelijkheid, bekend om stille werking en betrouwbaarheid. Breed netwerk van installateurs in Nederland.",
+      "opmerkingen": "Ook 6 van de 6 op koppelbaarheid: officieel ondersteund in Home Assistant én Homey, met open aansturing erbij. Draait op propaan, kan 70 graden aanvoeren en heeft een van de breedste installateursnetwerken van Nederland - handig als er over tien jaar iets stukgaat.",
       "product_url": "https://www.mitsubishi-electric.nl/warmtepompen/producten/ecodan",
       "aanbiedingen": [
         {
@@ -391,7 +391,7 @@
       },
       "app": "Daikin Onecta",
       "garantie_jaar": 5,
-      "opmerkingen": "Het meest geïnstalleerde all-electric platform van Nederland: overal onderdelen en monteurs. Nieuwere Altherma 4-generatie (R290) komt beschikbaar.",
+      "opmerkingen": "Het meest geïnstalleerde all-electric platform van Nederland, dus overal monteurs en onderdelen. Daar staat tegenover dat hij op R32 draait en tot 65 graden komt, waar nieuwere concurrenten propaan gebruiken en verder komen. De opvolger op R290 is inmiddels onderweg.",
       "product_url": "https://www.daikin.nl/nl_nl/producten/altherma.html",
       "isde_meldcode": "KA22094",
       "aanbiedingen": [
@@ -436,7 +436,7 @@
       },
       "app": "Bosch HomeCom Easy",
       "garantie_jaar": 5,
-      "opmerkingen": "Nieuwste Bosch-generatie, in tests geroemd als (bijna) de stilste van de markt; interessant bij dicht op elkaar staande woningen. In Nederland ook via Nefit-kanalen.",
+      "opmerkingen": "Met 51 dB(A) de stilste pomp in deze vergelijking op de Inventum na, en die laatste is een heel ander type. Als je buren dichtbij wonen of de unit onder een slaapkamerraam komt, is dat het argument. Propaan, 75 graden aanvoer, en in Nederland ook via de Nefit-kanalen te krijgen.",
       "product_url": "https://www.nefit-bosch.nl/producten/warmtepompen/compress-5800i-aw/",
       "aanbiedingen": [
         {
@@ -486,7 +486,7 @@
       },
       "app": "Aquarea Smart Cloud",
       "garantie_jaar": 5,
-      "opmerkingen": "Favoriet bij zelfbouwers en Home Assistant-gebruikers dankzij HeishaMon (lokaal, gratis, open source). Degelijke Japanse techniek met R290.",
+      "opmerkingen": "De favoriet van zelfbouwers, en dat komt door HeishaMon: een gratis, open source module waarmee je de pomp volledig lokaal uitleest en aanstuurt, zonder cloud. Officieel is de Home Assistant-koppeling er niet, via die route wel. Propaan en 75 graden aanvoer.",
       "product_url": "https://www.aircon.panasonic.eu/NL_nl/ranges/aquarea/",
       "isde_meldcode": "KA26158",
       "aanbiedingen": [
@@ -527,7 +527,7 @@
       },
       "app": "LG ThinQ",
       "garantie_jaar": 5,
-      "opmerkingen": "Veel waar voor je geld: R290, hoge aanvoertemperatuur en A+++ voor een relatief lage prijs. Servicenetwerk in Nederland is kleiner dan bij Daikin of Remeha.",
+      "opmerkingen": "Veel techniek voor je geld: propaan, 75 graden aanvoer en A+++ voor een prijs waar de premiummerken niet bij in de buurt komen. De keerzijde zit in de service - het installateursnetwerk is kleiner dan bij Daikin of Remeha, en de koppeling loopt overal via een omweg.",
       "product_url": "https://www.lg.com/nl/business/therma-v/",
       "aanbiedingen": [
         {
@@ -572,7 +572,7 @@
       },
       "app": "SmartThings",
       "garantie_jaar": 5,
-      "opmerkingen": "Sterke prijs-prestatieverhouding en hoge aanvoertemperatuur; de Quiet-uitvoering mikt op rijtjeshuizen met buren dichtbij.",
+      "opmerkingen": "Levert tapwater tot 70 graden, dus bestaande radiatoren kunnen meestal blijven zitten. De Quiet-uitvoering mikt op rijtjeshuizen: 54 dB(A) is netjes voor dit vermogen. Slim aansturen kan, maar Home Assistant vraagt een omweg en een Homey-app is er niet.",
       "product_url": "https://www.samsung.com/nl/climate/",
       "isde_meldcode": "KA23536",
       "aanbiedingen": [
@@ -617,7 +617,7 @@
       },
       "app": "Weheat-app",
       "garantie_jaar": 7,
-      "opmerkingen": "Nederlandse fabrikant (Delft) met focus op design, rendement en openheid richting slimme huizen; officiële Home Assistant-ondersteuning is zeldzaam in deze markt.",
+      "opmerkingen": "Uit Delft, en gebouwd met een plat dak in gedachten: het liggende model valt nauwelijks op boven een dakkapel of carport. Officiële Home Assistant-ondersteuning is zeldzaam in deze markt en Weheat heeft het wel. Homey ontbreekt vooralsnog.",
       "product_url": "https://www.weheat.nl/",
       "isde_meldcode": "KA28196",
       "aanbiedingen": [
@@ -674,7 +674,8 @@
         }
       ],
       "prijs_datum": "2026-07-28",
-      "isde_meldcode": "KA19406"
+      "isde_meldcode": "KA19406",
+      "opmerkingen": "Propaan, 75 graden aanvoer en officiële Home Assistant-integratie: een combinatie die je niet vaak samen ziet. Met 54 dB(A) hoort hij bij de stillere helft. Een degelijke keus als je van het gas af wilt zonder je afgiftesysteem te verbouwen."
     },
     {
       "id": "wolf-cha-07",
@@ -727,7 +728,8 @@
         }
       ],
       "prijs_datum": "2026-07-27",
-      "isde_meldcode": "KA15251"
+      "isde_meldcode": "KA15251",
+      "opmerkingen": "Propaan en 70 graden aanvoer voor een nette prijs. De koppeling is het zwakke punt: geen officiële integratie met Home Assistant of Homey, en aansturen loopt via de thermostaat. Prima pomp als slimme sturing voor jou geen eis is."
     },
     {
       "id": "itho-amber-95",
@@ -781,7 +783,8 @@
         }
       ],
       "prijs_datum": "2026-07-28",
-      "isde_meldcode": "KA24521"
+      "isde_meldcode": "KA24521",
+      "opmerkingen": "Met 9,5 kW een van de krachtigste hier, bedoeld voor grotere of slechter geïsoleerde woningen. Op 52 dB(A) blijft hij ondanks dat vermogen opvallend stil - alleen de Bosch en de Inventum doen het beter. Nederlands merk met een breed servicenetwerk; koppelen kan, maar overal via een omweg."
     },
     {
       "id": "inventum-ecolution-combi",
@@ -822,7 +825,8 @@
         }
       ],
       "prijs_datum": "2026-07-28",
-      "isde_meldcode": "KA01709"
+      "isde_meldcode": "KA01709",
+      "opmerkingen": "Een buitenbeentje: dit is een ventilatiewarmtepomp die warmte uit je afgezogen binnenlucht haalt in plaats van uit de buitenlucht. Daarom geen buitenunit, geen geluid in de tuin, en met 48 dB(A) de stilste hier. Het vermogen van 1,6 kW is klein - hij ondersteunt je cv-ketel, hij vervangt hem niet."
     },
     {
       "id": "gree-versati-iv-10",
@@ -870,7 +874,8 @@
         }
       ],
       "prijs_datum": "2026-07-28",
-      "isde_meldcode": "KA22405"
+      "isde_meldcode": "KA22405",
+      "opmerkingen": "Tien kilowatt voor een prijs waar de meeste merken de helft voor leveren. Daar hoort een kanttekening bij: de aanvoertemperatuur blijft op 60 graden steken, wat hem minder geschikt maakt voor oude radiatoren, en slim aansturen kan alleen via een omweg."
     },
     {
       "id": "atag-energion-m-hybrid",
@@ -899,7 +904,7 @@
         "tekst": "Geen eigen app voor de warmtepomp; de ATAG One 2.0-app in de Homey Community Store stuurt de thermostaat aan."
       },
       "app": "ATAG One",
-      "opmerkingen": "Dedicated hybride die naast de bestaande cv-ketel komt en apart op de ISDE-lijst staat. De Zone- en All-uitvoeringen verschillen in hoe de verwarmingszones worden aangestuurd; het subsidiebedrag is voor beide gelijk.",
+      "opmerkingen": "Een echte hybride die apart op de ISDE-lijst staat, bedoeld om naast je bestaande cv-ketel te hangen. De Zone- en All-uitvoeringen verschillen in hoe ze verwarmingszones aansturen; voor de subsidie maakt dat niets uit, het bedrag is gelijk. Aansturen loopt via de ATAG One-thermostaat.",
       "aanbiedingen": [
         {
           "winkel": "CV Totaal",
@@ -937,7 +942,7 @@
         "status": "onbekend",
         "tekst": "Geen betrouwbare bron gevonden over een app voor deze warmtepomp."
       },
-      "opmerkingen": "Opvallend: de warmtepomp staat binnen in plaats van in de tuin, wat schelen kan als er weinig ruimte is of de buren dichtbij wonen. Op natuurlijk koudemiddel R290.",
+      "opmerkingen": "Het bijzondere aan deze: de warmtepomp staat binnen, niet in de tuin. Geen buitenunit dus - schelen kan dat als je weinig ruimte hebt, in een monument woont of de buren dicht op je zitten. Draait op propaan. Over de koppelbaarheid hebben we nog geen betrouwbare informatie gevonden.",
       "product_url": "https://www.ithodaalderop.nl/nl-NL/consument/product/03-00660",
       "aanbiedingen": [
         {
@@ -972,7 +977,7 @@
         "status": "onbekend",
         "tekst": "Geen betrouwbare bron gevonden over een integratie voor deze warmtepomp."
       },
-      "opmerkingen": "Bi-bloc op propaan: het koudemiddel blijft in de buitenunit, binnen loopt alleen water. Toshiba afficheert deze reeks als een van de stilste; die claim gaat over geluidsdruk op afstand en niet over de labelwaarde waarop wij vergelijken.",
+      "opmerkingen": "Bi-bloc op propaan: het koudemiddel blijft buiten, binnen loopt alleen water. Dat scheelt in de installatie-eisen. Toshiba noemt deze reeks een van de stilste van de markt, maar die claim gaat over geluidsdruk op een paar meter afstand en niet over de labelwaarde waarop wij vergelijken - vandaar dat het geluidsveld hier leeg staat.",
       "product_url": "https://www.toshiba-aircondition.com/en/heat-pumps/estia/bi-bloc-r290",
       "aanbiedingen": [
         {
@@ -1008,7 +1013,7 @@
         "status": "onbekend",
         "tekst": "Geen betrouwbare bron gevonden over een integratie voor deze warmtepomp."
       },
-      "opmerkingen": "Wordt in de Benelux alleen via de importeur aan installateurs geleverd, niet in consumentenwebshops. Je komt hem dus tegen in een offerte in plaats van in een winkelmandje; de garantie van vijf jaar geldt alleen bij aantoonbaar jaarlijks onderhoud.",
+      "opmerkingen": "Deze kom je tegen in een offerte, niet in een winkelmandje: in de Benelux levert de importeur alleen aan installateurs. Handig dus vooral om een offerte mee te controleren. De vijf jaar garantie geldt alleen als je het jaarlijks onderhoud kunt aantonen.",
       "product_url": "https://hitachi-warmtepompen.nl/"
     },
     {
@@ -1037,7 +1042,7 @@
         "status": "onbekend",
         "tekst": "Geen betrouwbare bron gevonden over een integratie voor deze warmtepomp."
       },
-      "opmerkingen": "Franse fabrikant, in Nederland ruim verkrijgbaar. De DUO-uitvoering heeft de boiler ingebouwd; de gewone uitvoering vraagt een aparte boiler voor warm water.",
+      "opmerkingen": "Franse fabrikant die in Nederland ruim verkrijgbaar is. Let op de uitvoering die je koopt: de DUO heeft de boiler ingebouwd, de gewone versie vraagt er een aparte bij - dat scheelt zowel in prijs als in de ruimte die je nodig hebt.",
       "product_url": "https://atlanticclimate.nl/product/alfea-warmtepompen-r32/",
       "aanbiedingen": [
         {
@@ -1073,7 +1078,7 @@
         "status": "onbekend",
         "tekst": "Geen betrouwbare bron gevonden over een integratie voor deze warmtepomp."
       },
-      "opmerkingen": "Nederlands merk dat de laatste jaren snel groeit. Het toestel is ontworpen om flexibel rond de woning te plaatsen en op het bestaande cv-net aan te sluiten, zonder dat de afgifte eerst om moet.",
+      "opmerkingen": "Nederlands merk uit Delft dat snel groeit. Het toestel is gemaakt om aan te sluiten op je bestaande cv-net, dus je hoeft je radiatoren niet eerst te vervangen, en je kunt hem flexibel rond de woning plaatsen.",
       "product_url": "https://www.dewarmte.nl/",
       "aanbiedingen": [
         {

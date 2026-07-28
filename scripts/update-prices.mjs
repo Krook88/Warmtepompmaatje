@@ -258,7 +258,12 @@ async function updateAanbieding(pomp, aanbieding, grenzen, verdacht) {
       if (gevonden && gevonden.btw == null) gevonden.btw = toontExclBtw(html) ? "excl" : "incl";
     }
     if (!gevonden) {
-      console.log(`  ~ ${pomp.id} @ ${aanbieding.winkel}: geen prijs gevonden, oude prijs blijft (€${aanbieding.prijs_eur})`);
+      // Een winkel-URL kan alvast vastliggen voordat er ooit een bedrag bij
+      // gevonden is; dan is er geen oude prijs om te behouden.
+      const staat = typeof aanbieding.prijs_eur === "number"
+        ? `oude prijs blijft (€${aanbieding.prijs_eur})`
+        : "er staat nog geen prijs bij deze winkel";
+      console.log(`  ~ ${pomp.id} @ ${aanbieding.winkel}: geen prijs gevonden, ${staat}`);
       return false;
     }
 
