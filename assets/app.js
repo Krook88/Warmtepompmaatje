@@ -95,10 +95,64 @@
     return punt(w.sturing) + punt(w.home_assistant) + punt(w.homey);
   }
 
-  function koppelScoreBadge(w) {
+  /**
+   * De Koppel-score is het enige cijfer dat alleen wij geven, dus die verdient
+   * beeld in plaats van een badge tussen de badges. Zes segmenten, want de
+   * score is opgebouwd uit drie onderdelen van elk twee punten; dat maakt de
+   * vorm zelf al informatief.
+   *
+   * Eén kleurtoon, gevuld donker en leeg licht uit dezelfde reeks: dit is een
+   * hoeveelheid, geen status. De vorige versie kleurde hoog blauw en laag
+   * grijs, wat een oordeel suggereert dat de score niet velt - en blauw hoort
+   * bovendien niet bij deze site.
+   *
+   * Het getal staat er altijd naast: kleur mag nooit de enige drager zijn.
+   */
+  function koppelMeter(w, opties) {
     const score = koppelScore(w);
-    const klasse = score >= 5 ? "zeker-hoog" : score >= 3 ? "zeker-midden" : "zeker-laag";
-    return `<span class="badge zeker-score ${klasse}" title="Koppel-score ${score} van 6: punten voor slimme aansturing (SG-ready/Modbus), Home Assistant en Homey (2 punten per onderdeel). Tik voor de details.">${Iconen.svg("koppeling")} Koppel-score ${score}/6</span>`;
+    const groot = opties && opties.groot;
+    const segmenten = Array.from({ length: 6 }, (_, i) =>
+      `<span class="meter-vak${i < score ? " vol" : ""}"></span>`).join("");
+    return `<div class="koppel-meter${groot ? " koppel-meter-groot" : ""}" data-uitleg="Koppel-score">
+      <div class="koppel-meter-kop">
+        <span class="koppel-meter-label">${Iconen.svg("koppeling")} Koppel-score</span>
+        <span class="koppel-meter-cijfer"><b>${score}</b><span class="van">/6</span></span>
+      </div>
+      <div class="meter-spoor" role="img" aria-label="Koppel-score ${score} van 6"
+           title="Punten voor slimme aansturing, Home Assistant en Homey: 2 per volledige ondersteuning, 1 per gedeeltelijke. Tik voor de details.">${segmenten}</div>
+    </div>`;
+  }
+
+  /**
+   * Geluid als los getal zegt een bezoeker niets: is 55 dB(A) stil of luid?
+   * Dat blijkt pas uit vergelijking, en vergelijken is nu net waar deze site
+   * voor is. Deze strook zet de pomp op zijn plaats binnen het bereik van alle
+   * pompen hier, met het aantal stillere modellen erbij - dat laatste is de
+   * uitspraak waar iemand echt iets aan heeft, en die staat er in woorden,
+   * zodat kleur en positie nooit de enige drager zijn.
+   */
+  function geluidStrook(w) {
+    const alle = state.pompen.map((p) => p.geluid_db).filter((n) => typeof n === "number");
+    if (!w.geluid_db || alle.length < 3) {
+      return `<div class="geluid-strook leeg"><span class="spec-label">Geluid buitenunit</span><span class="geluid-onbekend">nog niet vastgesteld</span></div>`;
+    }
+    const laag = Math.min(...alle), hoog = Math.max(...alle);
+    const deel = hoog === laag ? 0 : (w.geluid_db - laag) / (hoog - laag);
+    const stiller = alle.filter((n) => n < w.geluid_db).length;
+    const zin = stiller === 0
+      ? "de stilste van deze vergelijking"
+      : `stiller dan ${alle.length - stiller - 1} van de ${alle.length - 1} andere`;
+    return `<div class="geluid-strook">
+      <div class="geluid-kop">
+        <span class="spec-label">Geluid buitenunit</span>
+        <span class="geluid-waarde">${w.geluid_db} dB(A)</span>
+      </div>
+      <div class="geluid-spoor" role="img" aria-label="${w.geluid_db} decibel, ${zin}"
+           title="Geluidsvermogen volgens het energielabel. De strook loopt van ${laag} dB(A) (stilst hier) tot ${hoog} dB(A) (luidst hier).">
+        <span class="geluid-punt" style="left:${(deel * 100).toFixed(1)}%"></span>
+      </div>
+      <span class="geluid-duiding">${zin}</span>
+    </div>`;
   }
 
   function badgeHtml(label, waarde) {
@@ -188,17 +242,18 @@
         <div>
           <div class="merk">${escapeHtml(w.merk)}</div>
           <h3>${escapeHtml(w.model)}</h3>
-          <span class="type-badge">${escapeHtml(TYPE_KORT[w.type] || w.type)}</span>
+          <span class="type-badge type-${escapeHtml(w.type)}">${escapeHtml(TYPE_KORT[w.type] || w.type)}</span>
         </div>
       </div>
+      ${koppelMeter(w)}
       <div class="kaart-specs">
         <div class="spec"><span class="spec-label">Vermogen</span><span class="spec-waarde">${String(w.vermogen_kw).replace(".", ",")} kW</span></div>
-        <div class="spec"><span class="spec-label">Geluid buitenunit</span><span class="spec-waarde">${w.geluid_db ? w.geluid_db + " dB(A)" : "?"}</span></div>
         <div class="spec"><span class="spec-label">Koudemiddel</span><span class="spec-waarde">${escapeHtml(w.koudemiddel || "?")}</span></div>
         <div class="spec"><span class="spec-label">Subsidie (ISDE)</span><span class="spec-waarde">circa ${w.isde_indicatie_eur ? eurFmt.format(w.isde_indicatie_eur) : "?"}</span></div>
+        <div class="spec"><span class="spec-label">Max. aanvoer</span><span class="spec-waarde">${w.max_aanvoer_c ? w.max_aanvoer_c + " &deg;C" : "?"}</span></div>
       </div>
+      ${geluidStrook(w)}
       <div class="kaart-badges">
-        ${koppelScoreBadge(w)}
         ${badgeHtml("Slimme aansturing", w.sturing)}
         ${badgeHtml("Home Assistant", w.home_assistant)}
         ${badgeHtml("Homey", w.homey)}
@@ -228,9 +283,8 @@
       <div class="kaart-acties">
         ${beste && beste.url ? `<a class="knop" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener" aria-label="Bekijk de ${escapeHtml(w.merk)} ${escapeHtml(w.model)}">${uitWinkel ? `Bekijk aanbieding ${Iconen.svg("pijl-rechts")}` : `Naar fabrikant ${Iconen.svg("pijl-rechts")}`}</a>` : ""}
         <a class="knop knop-secundair" href="pomp/${encodeURIComponent(w.id)}.html" title="Alle specificaties, prijzen en koppelingsdetails van de ${escapeHtml(w.merk)} ${escapeHtml(w.model)}">Alle details</a>
-        <a class="knop knop-secundair" href="rekenmodule.html?pomp=${encodeURIComponent(w.id)}" title="Bereken de besparing en terugverdientijd van de ${escapeHtml(w.merk)} ${escapeHtml(w.model)}">Terugverdientijd</a>
-        <a class="knop knop-secundair" href="advies.html" title="Welke warmtepomp past bij jouw huis? Doe de keuzehulp">Keuzehulp</a>
       </div>
+      <a class="kaart-naar-reken" href="rekenmodule.html?pomp=${encodeURIComponent(w.id)}" title="Bereken de besparing en terugverdientijd van de ${escapeHtml(w.merk)} ${escapeHtml(w.model)}">Bereken de terugverdientijd van deze pomp ${Iconen.svg("pijl-rechts")}</a>
     </article>`;
   }
 
