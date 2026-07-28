@@ -122,7 +122,14 @@
       "garantie_jaar": 7,
       "opmerkingen": "Nederlandse uitdager met alles-in-één aanpak: vaste prijs inclusief installatie, monitoring en app. Duo-uitvoering (twee buitenunits) voor grotere woningen.",
       "product_url": "https://www.quatt.io/",
-      "isde_meldcode": "KA21789"
+      "isde_meldcode": "KA21789",
+      "aanbiedingen": [
+        {
+          "winkel": "Quatt",
+          "url": "https://www.quatt.io/hybride-warmtepomp",
+          "dekt": "Quatt verkoopt rechtstreeks en altijd inclusief basisinstallatie; de richtprijs hiernaast geldt voor het losse toestel."
+        }
+      ]
     },
     {
       "id": "intergas-xtend",
@@ -382,7 +389,13 @@
       "garantie_jaar": 5,
       "opmerkingen": "Het meest geïnstalleerde all-electric platform van Nederland: overal onderdelen en monteurs. Nieuwere Altherma 4-generatie (R290) komt beschikbaar.",
       "product_url": "https://www.daikin.nl/nl_nl/producten/altherma.html",
-      "isde_meldcode": "KA22094"
+      "isde_meldcode": "KA22094",
+      "aanbiedingen": [
+        {
+          "winkel": "KliMate",
+          "url": "https://www.klimate.nl/daikin-altherma-3-r-w-lucht-water-warmtepomp-split-unit-6-kw.html"
+        }
+      ]
     },
     {
       "id": "bosch-compress-5800i",
@@ -467,7 +480,13 @@
       "garantie_jaar": 5,
       "opmerkingen": "Favoriet bij zelfbouwers en Home Assistant-gebruikers dankzij HeishaMon (lokaal, gratis, open source). Degelijke Japanse techniek met R290.",
       "product_url": "https://www.aircon.panasonic.eu/NL_nl/ranges/aquarea/",
-      "isde_meldcode": "KA26158"
+      "isde_meldcode": "KA26158",
+      "aanbiedingen": [
+        {
+          "winkel": "123Klimaatshop",
+          "url": "https://www.123klimaatshop.nl/product/panasonic-aquarea-kit-adc05l3e5-lucht-water-monoblock-warmtepomp-50-kw/"
+        }
+      ]
     },
     {
       "id": "lg-therma-v",
@@ -546,7 +565,13 @@
       "garantie_jaar": 5,
       "opmerkingen": "Sterke prijs-prestatieverhouding en hoge aanvoertemperatuur; de Quiet-uitvoering mikt op rijtjeshuizen met buren dichtbij.",
       "product_url": "https://www.samsung.com/nl/climate/",
-      "isde_meldcode": "KA23536"
+      "isde_meldcode": "KA23536",
+      "aanbiedingen": [
+        {
+          "winkel": "CV Totaal",
+          "url": "https://www.cvtotaal.nl/samsung-ehs-mono-hoog-temperatuur-warmtepomp-8kw.html"
+        }
+      ]
     },
     {
       "id": "weheat-blackbird",
@@ -581,7 +606,14 @@
       "garantie_jaar": 7,
       "opmerkingen": "Nederlandse fabrikant (Delft) met focus op design, rendement en openheid richting slimme huizen; officiële Home Assistant-ondersteuning is zeldzaam in deze markt.",
       "product_url": "https://www.weheat.nl/",
-      "isde_meldcode": "KA28196"
+      "isde_meldcode": "KA28196",
+      "aanbiedingen": [
+        {
+          "winkel": "Weheat",
+          "url": "https://www.weheat.nl/producten/blackbird",
+          "dekt": "Weheat verkoopt rechtstreeks aan de klant; er is geen tussenhandel."
+        }
+      ]
     },
     {
       "id": "stiebel-wpl-a07",
@@ -927,7 +959,14 @@
         "tekst": "Geen betrouwbare bron gevonden over een integratie voor deze warmtepomp."
       },
       "opmerkingen": "Bi-bloc op propaan: het koudemiddel blijft in de buitenunit, binnen loopt alleen water. Toshiba afficheert deze reeks als een van de stilste; die claim gaat over geluidsdruk op afstand en niet over de labelwaarde waarop wij vergelijken.",
-      "product_url": "https://www.toshiba-aircondition.com/en/heat-pumps/estia/bi-bloc-r290"
+      "product_url": "https://www.toshiba-aircondition.com/en/heat-pumps/estia/bi-bloc-r290",
+      "aanbiedingen": [
+        {
+          "winkel": "Intercool",
+          "url": "https://www.intercool.nl/assortiment/warmtepompen/bi-bloc-r290/toshiba-bi-bloc-r290/",
+          "dekt": "Intercool is de Nederlandse distributeur; prijzen lopen doorgaans via de installateur."
+        }
+      ]
     },
     {
       "id": "hitachi-yutaki-m",
