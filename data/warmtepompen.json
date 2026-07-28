@@ -127,9 +127,13 @@
         {
           "winkel": "Quatt",
           "url": "https://www.quatt.io/hybride-warmtepomp",
-          "dekt": "Quatt verkoopt rechtstreeks en altijd inclusief basisinstallatie; de richtprijs hiernaast geldt voor het losse toestel."
+          "dekt": "Quatt verkoopt rechtstreeks en altijd inclusief basisinstallatie; de richtprijs hiernaast geldt voor het losse toestel.",
+          "prijs_eur": 4249,
+          "btw": "incl",
+          "datum": "2026-07-28"
         }
-      ]
+      ],
+      "prijs_datum": "2026-07-28"
     },
     {
       "id": "intergas-xtend",
@@ -393,9 +397,13 @@
       "aanbiedingen": [
         {
           "winkel": "KliMate",
-          "url": "https://www.klimate.nl/daikin-altherma-3-r-w-lucht-water-warmtepomp-split-unit-6-kw.html"
+          "url": "https://www.klimate.nl/daikin-altherma-3-r-w-lucht-water-warmtepomp-split-unit-6-kw.html",
+          "prijs_eur": 5414,
+          "btw": "incl",
+          "datum": "2026-07-28"
         }
-      ]
+      ],
+      "prijs_datum": "2026-07-28"
     },
     {
       "id": "bosch-compress-5800i",
@@ -526,10 +534,11 @@
           "winkel": "Aircoshop Nederland",
           "prijs_eur": 6549,
           "url": "https://aircoshopnl.nl/warmtepomp/monoblock-warmtepomp/lg-therma-v-monobloc-warmtepomp-r290-1-fase-70-kw/",
-          "datum": "2026-07-27"
+          "datum": "2026-07-28",
+          "btw": "incl"
         }
       ],
-      "prijs_datum": "2026-07-27",
+      "prijs_datum": "2026-07-28",
       "isde_meldcode": "KA29289"
     },
     {
@@ -569,9 +578,13 @@
       "aanbiedingen": [
         {
           "winkel": "CV Totaal",
-          "url": "https://www.cvtotaal.nl/samsung-ehs-mono-hoog-temperatuur-warmtepomp-8kw.html"
+          "url": "https://www.cvtotaal.nl/samsung-ehs-mono-hoog-temperatuur-warmtepomp-8kw.html",
+          "prijs_eur": 8299,
+          "btw": "incl",
+          "datum": "2026-07-28"
         }
-      ]
+      ],
+      "prijs_datum": "2026-07-28"
     },
     {
       "id": "weheat-blackbird",
@@ -846,7 +859,8 @@
           "winkel": "Aircoshop",
           "prijs_eur": 4139,
           "url": "https://aircoshopnl.nl/warmtepomp/tosot-by-gree-versati-iv-10-kw-400v-r32-monoblock-lucht-water-warmtepomp-meldcode-ka22519/",
-          "datum": "2026-07-27"
+          "datum": "2026-07-28",
+          "btw": "incl"
         },
         {
           "winkel": "MaxiCool",
@@ -855,7 +869,7 @@
           "datum": null
         }
       ],
-      "prijs_datum": "2026-07-27",
+      "prijs_datum": "2026-07-28",
       "isde_meldcode": "KA22405"
     },
     {
