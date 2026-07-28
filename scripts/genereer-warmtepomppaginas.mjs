@@ -20,7 +20,7 @@ const ICOON_LOGO = Iconen.svg("warmte", { klasse: "icoon-groot" });
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const SITE = "https://warmtepompmaatje.nl";
-const ASSET_VERSIE = "20260727c";
+const ASSET_VERSIE = "20260728a";
 const VANDAAG = new Date().toISOString().slice(0, 10);
 
 const data = JSON.parse(readFileSync(join(ROOT, "data", "warmtepompen.json"), "utf8"));
@@ -174,7 +174,15 @@ ${kop("index", true)}
   <p class="breadcrumb"><a href="../index.html">Warmtepompen</a> › ${esc(naam)}</p>
   <h1 style="margin:8px 0 4px;">${esc(naam)}</h1>
   <p style="margin:0 0 6px;color:var(--kleur-tekst-licht);">${w.type === "hybride" ? "Hybride warmtepomp (werkt samen met je cv-ketel)" : "All-electric warmtepomp (vervangt de cv-ketel volledig)"}${w.voorbeeld_variant ? ` · prijzen voor: ${esc(w.voorbeeld_variant)}` : ""}</p>
-  <p style="margin:0 0 10px;"><span class="badge zeker-score ${score >= 5 ? "zeker-hoog" : score >= 3 ? "zeker-midden" : "zeker-laag"}">${Iconen.svg("koppeling")} Koppel-score ${score}/6</span></p>
+  <div class="koppel-meter koppel-meter-groot" style="padding:0 0 14px;">
+    <div class="koppel-meter-kop">
+      <span class="koppel-meter-label">${Iconen.svg("koppeling")} Koppel-score</span>
+      <span class="koppel-meter-cijfer"><b>${score}</b><span class="van">/6</span></span>
+    </div>
+    <div class="meter-spoor" role="img" aria-label="Koppel-score ${score} van 6">${
+      Array.from({ length: 6 }, (_, i) => `<span class="meter-vak${i < score ? " vol" : ""}"></span>`).join("")
+    }</div>
+  </div>
 
   <div class="product-indeling">
     <div class="product-paneel">

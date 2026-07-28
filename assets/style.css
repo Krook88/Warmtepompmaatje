@@ -505,6 +505,13 @@ a { color: var(--kleur-primair); }
   margin-top: 8px;
 }
 
+/* De typeklassen ontbraken, waardoor deze badge als kale vetgedrukte tekst
+   werd getekend. Twee tinten uit de eigen reeksen: amber voor hybride (nog
+   deels op gas), oranje voor all-electric. Het woord staat er altijd bij, dus
+   kleur is hier ondersteunend en niet de drager. */
+.type-hybride { background: var(--kleur-accent-licht); color: var(--kleur-accent-donker); }
+.type-all-electric { background: var(--kleur-primair-licht); color: var(--kleur-primair-donker); }
+
 a.term-link { color: inherit; text-decoration: underline dotted; text-underline-offset: 3px; }
 a.term-link:hover { color: var(--kleur-primair); }
 
@@ -555,6 +562,11 @@ a.term-link:hover { color: var(--kleur-primair); }
 
 .badge.ja { background: var(--kleur-groen-licht); border-color: #bbf7d0; color: #166534; }
 .badge.deels { background: var(--kleur-accent-licht); border-color: #fde68a; color: #92400e; }
+
+/* Onbekend is iets anders dan "niet ondersteund": we hebben het simpelweg niet
+   kunnen vaststellen. Gestippelde rand zodat het ook zonder kleur te zien is. */
+.badge.onbekend { background: var(--kleur-achtergrond); border-style: dashed; color: var(--kleur-tekst-licht); }
+.vergelijk-tabel .check-onbekend { color: var(--kleur-tekst-licht); cursor: help; opacity: 0.8; }
 
 /* Oplichten van de uitleg waar een aangetikte badge bij hoort */
 .kaart-details .uitgelicht,
@@ -679,10 +691,92 @@ details.lees-meer[open] summary::after { content: " ▴"; }
 .legenda .legenda-rij > span:last-child { color: var(--kleur-tekst-licht); min-width: 0; }
 
 /* Zeker-score: eigen Zonnepaneelmaatje-score voor degelijkheid (0-6 punten) */
-.badge.zeker-score { font-weight: 700; }
-.badge.zeker-hoog { background: #e0f2fe; border-color: #bae6fd; color: #0369a1; }
-.badge.zeker-midden { background: var(--kleur-accent-licht); border-color: #fde68a; color: #92400e; }
-.badge.zeker-laag { background: #f1f5f9; border-color: #e2e8f0; color: #64748b; }
+/* --------------------------------------------------------------------------
+   Koppel-score als meter
+
+   De score is een hoeveelheid (0 tot 6), geen status. Daarom een sequentiele
+   opzet: gevulde segmenten in de merkkleur, lege in de warme randkleur - twee
+   stappen uit dezelfde reeks. De vorige versie kleurde hoog blauw en laag
+   grijs; dat suggereert een oordeel dat de score niet velt, en koud blauw
+   hoort niet op deze warme achtergrond.
+
+   Zes segmenten omdat de score is opgebouwd uit drie onderdelen van elk twee
+   punten: de vorm draagt zo zelf al betekenis.
+   -------------------------------------------------------------------------- */
+
+.koppel-meter { padding: 4px 20px 0; }
+
+.koppel-meter-kop {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.koppel-meter-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--kleur-tekst-licht);
+}
+.koppel-meter-label .icoon { color: var(--kleur-primair); }
+
+/* Het cijfer staat er altijd bij: kleur mag nooit de enige drager zijn. */
+.koppel-meter-cijfer { font-size: 1.15rem; font-weight: 800; color: var(--kleur-primair-donker); letter-spacing: -0.02em; }
+.koppel-meter-cijfer .van { font-size: 0.8rem; font-weight: 600; color: var(--kleur-tekst-licht); }
+
+.meter-spoor { display: flex; gap: 2px; }
+
+.meter-vak {
+  flex: 1;
+  height: 8px;
+  border-radius: 4px;
+  background: var(--kleur-rand);
+}
+.meter-vak.vol { background: var(--kleur-primair); }
+
+.koppel-meter-groot .meter-vak { height: 11px; border-radius: 5px; }
+.koppel-meter-groot .koppel-meter-cijfer { font-size: 1.5rem; }
+
+/* --------------------------------------------------------------------------
+   Geluid als positie binnen het bereik
+
+   Een los getal zegt niets: is 55 dB(A) stil of luid? Deze strook zet de pomp
+   op zijn plaats tussen de stilste en de luidste van de vergelijking, met de
+   uitspraak er in woorden onder.
+   -------------------------------------------------------------------------- */
+
+.geluid-strook { padding: 12px 20px 4px; }
+.geluid-kop { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 6px; }
+.geluid-waarde { font-size: 1.02rem; font-weight: 700; }
+
+.geluid-spoor {
+  position: relative;
+  height: 6px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--kleur-primair-licht), var(--kleur-rand));
+}
+
+.geluid-punt {
+  position: absolute;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--kleur-primair);
+  /* 2px ring in de kaartkleur, zodat de stip loskomt van het spoor eronder */
+  box-shadow: 0 0 0 2px var(--kleur-wit);
+  transform: translate(-50%, -50%);
+}
+
+.geluid-duiding { display: block; margin-top: 6px; font-size: 0.82rem; color: var(--kleur-tekst-licht); }
+.geluid-strook.leeg { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+.geluid-onbekend { font-size: 0.9rem; color: var(--kleur-tekst-licht); font-style: italic; }
 .badge.nee { background: var(--kleur-achtergrond); color: var(--kleur-tekst-licht); text-decoration: line-through; opacity: 0.7; }
 .badge.onbekend { background: var(--kleur-achtergrond); border-style: dashed; color: var(--kleur-tekst-licht); }
 
@@ -705,7 +799,10 @@ details.lees-meer[open] summary::after { content: " ▴"; }
 
 .kaart-prijs { background: linear-gradient(180deg, rgba(246, 243, 236, 0.0), rgba(246, 243, 236, 0.65)); }
 .prijs-blok .van-prijs { font-size: 0.85rem; color: var(--kleur-tekst-licht); text-decoration: line-through; font-variant-numeric: tabular-nums; }
-.prijs-blok .prijs { font-size: 2rem; font-weight: 800; color: var(--kleur-primair-donker); letter-spacing: -0.03em; line-height: 1.1; font-variant-numeric: tabular-nums; }
+/* Grote losstaande bedragen: proportionele cijfers. Tabelcijfers geven elke
+   digit de breedte van een 0, waardoor een bedrag op deze grootte los oogt;
+   die horen in kolommen die moeten uitlijnen, zie .vergelijk-tabel. */
+.prijs-blok .prijs { font-size: 2rem; font-weight: 800; color: var(--kleur-primair-donker); letter-spacing: -0.03em; line-height: 1.1; }
 .prijs-blok .prijs-per-kwh { font-size: 0.82rem; color: var(--kleur-tekst-licht); }
 .prijs-blok .prijs-winkel { font-size: 0.82rem; color: var(--kleur-tekst-licht); }
 
@@ -749,8 +846,37 @@ details.lees-meer[open] summary::after { content: " ▴"; }
 
 .knop-secundair:hover { background: var(--kleur-primair-licht); }
 
+/* Knoppen op de donkere hero. Stonden eerder als inline stijl in index.html,
+   inclusief een hardgecodeerde kleur die nergens anders voorkwam; daardoor was
+   een merkkleur wijzigen op één plek nooit genoeg. */
+.knop-accent { background: var(--kleur-accent); color: var(--kleur-inkt); }
+.knop-accent:hover { background: var(--kleur-accent-donker); color: var(--kleur-wit); }
+
+.knop-op-hero {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1.5px solid rgba(255, 255, 255, 0.55);
+  color: var(--kleur-wit);
+}
+.knop-op-hero:hover { background: rgba(255, 255, 255, 0.2); }
+
+/* Hero-onderdelen. Deze rijen stonden als inline stijl in de pagina; als klasse
+   zijn ze op één plek aan te passen en blijven de drie hero's van de
+   maatje-sites gelijk. */
+.hero-meta { margin-top: 16px; display: flex; gap: 8px; flex-wrap: wrap; }
+.hero-acties { margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap; }
+.icoon-kaart .kaart-tekst { font-size: 0.9rem; color: var(--kleur-tekst-licht); }
+.icoon-kaart[href] { text-decoration: none; color: inherit; }
+
 .kaart-acties { padding: 0 20px 18px; display: flex; gap: 10px; flex-wrap: wrap; }
-.kaart-acties .knop { flex: 1; }
+/* De hoofdactie krijgt meer ruimte dan de tweede, en minder binnenmarge dan
+   een knop buiten een kaart: anders brak "Bekijk aanbieding" over twee regels. */
+.kaart-acties .knop { flex: 1.5; padding: 12px 14px; }
+.kaart-acties .knop-secundair { flex: 1; }
+
+/* De drie badges zijn de onderdelen waar de Koppel-score uit is opgebouwd.
+   Iets kleiner, zodat de meter erboven de samenvatting blijft en deze de
+   toelichting. */
+.kaart-badges .badge { font-size: 0.8rem; padding: 4px 9px; }
 
 .details-toggle {
   background: none;
@@ -815,7 +941,8 @@ table.vergelijk-tabel {
 .vergelijk-tabel th .sorteer-pijl { opacity: 0.5; }
 .vergelijk-tabel td { padding: 12px 14px; border-bottom: 1px solid var(--kleur-rand); vertical-align: top; }
 .vergelijk-tabel tr:hover td { background: #fff7ed; }
-.vergelijk-tabel .tabel-prijs { font-weight: 700; white-space: nowrap; }
+/* In een kolom moeten bedragen wel uitlijnen, dus hier juist wel tabelcijfers. */
+.vergelijk-tabel .tabel-prijs { font-weight: 700; white-space: nowrap; font-variant-numeric: tabular-nums; }
 .vergelijk-tabel .check-ja { color: var(--kleur-groen); font-weight: 700; }
 .vergelijk-tabel .check-deels { color: #92400e; font-weight: 700; cursor: help; }
 .vergelijk-tabel .check-nee { color: var(--kleur-tekst-licht); }
@@ -1170,3 +1297,20 @@ body.vergelijkbalk-actief { padding-bottom: 150px; }
 .formulier-status.mislukt { color: var(--kleur-rood); }
 
 .formulier-voetnoot { margin-top: 16px; }
+
+/* De rekenlink is een vervolgstap, geen gelijkwaardige actie: als tekstlink
+   onder de knoppen in plaats van een vierde knop die om aandacht vecht.
+   "Keuzehulp" stond hier ook nog als knop, terwijl die niets met deze pomp te
+   maken heeft en al drie keer elders op de pagina staat. */
+.kaart-naar-reken {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 20px 18px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--kleur-primair);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.kaart-naar-reken:hover { color: var(--kleur-primair-donker); }
