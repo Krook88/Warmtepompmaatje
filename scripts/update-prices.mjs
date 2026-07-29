@@ -9,10 +9,14 @@
  *   3. De productgegevens die de webshop als JSON in de pagina zet
  *   4. Een voorzichtige regex op de zichtbare tekst
  *
- * Alle bedragen in het databestand zijn inclusief btw. Veel van deze winkels
- * zijn installateurs- en groothandelsshops die exclusief btw tonen; zo'n prijs
- * wordt herkend, omgerekend naar inclusief btw en met "btw": "excl" gemarkeerd,
- * zodat de kaart kan uitleggen waarom het bedrag afwijkt van wat de winkel toont.
+ * In het databestand staat het bedrag zoals de winkel het toont. Veel van deze
+ * winkels zijn installateurs- en groothandelsshops die exclusief btw prijzen;
+ * dat wordt herkend en vastgelegd met "btw_inbegrepen": false. Het omrekenen
+ * naar inclusief btw gebeurt pas bij het tonen, in assets/prijs.js, zodat één
+ * plek bepaalt welk bedrag de bezoeker ziet en waarom het afwijkt van de winkel.
+ * De plausibiliteitscontrole hieronder vergelijkt wél altijd inclusief btw;
+ * anders zou een winkel die overstapt op prijzen zonder btw een "daling" van
+ * 21% lijken te tonen.
  *
  * Veiligheidsregels:
  *   - Een nieuwe prijs moet altijd binnen de absolute grenzen voor deze
@@ -317,13 +321,21 @@ async function updateAanbieding(pomp, aanbieding, grenzen, verdacht) {
       return false;
     }
 
-    // Alles in het databestand staat inclusief btw; onthoud wel hoe de winkel
-    // het toont, want dan kan de kaart het verschil uitleggen.
+    // Het databestand bewaart het bedrag zoals de winkel het toont, met
+    // btw_inbegrepen erbij. Omrekenen gebeurt bij het tonen, in assets/prijs.js.
+    // Zo blijft zichtbaar wat er werkelijk op de productpagina stond, en is er
+    // maar één plek waar de btw-regel staat.
     const exclBtw = gevonden.btw === "excl";
-    const nieuw = exclBtw ? Math.round(gevonden.bedrag * BTW) : gevonden.bedrag;
+    const winkelbedrag = gevonden.bedrag;
+    // Vergelijken en controleren gebeurt wel op de prijs inclusief btw, anders
+    // wordt een bedrag zonder btw ten onrechte als koopje gezien.
+    const nieuw = exclBtw ? Math.round(winkelbedrag * BTW) : winkelbedrag;
 
-    if (!plausibel(nieuw, aanbieding.prijs_eur, grenzen)) {
-      console.log(`  ! ${pomp.id} @ ${aanbieding.winkel}: gevonden prijs €${nieuw} niet plausibel t.o.v. €${aanbieding.prijs_eur}, overgeslagen`);
+    const oudVergelijk = typeof aanbieding.prijs_eur === "number"
+      ? (aanbieding.btw_inbegrepen === false ? Math.round(aanbieding.prijs_eur * BTW) : aanbieding.prijs_eur)
+      : null;
+    if (!plausibel(nieuw, oudVergelijk, grenzen)) {
+      console.log(`  ! ${pomp.id} @ ${aanbieding.winkel}: gevonden prijs €${nieuw} niet plausibel t.o.v. €${oudVergelijk}, overgeslagen`);
       return false;
     }
 
@@ -340,12 +352,14 @@ async function updateAanbieding(pomp, aanbieding, grenzen, verdacht) {
       }
     }
 
-    const veranderd = nieuw !== aanbieding.prijs_eur || (exclBtw ? "excl" : "incl") !== (aanbieding.btw || "incl");
-    aanbieding.prijs_eur = nieuw;
-    aanbieding.btw = exclBtw ? "excl" : "incl";
+    const wasExcl = aanbieding.btw_inbegrepen === false;
+    const veranderd = winkelbedrag !== aanbieding.prijs_eur || exclBtw !== wasExcl;
+    aanbieding.prijs_eur = winkelbedrag;
+    if (exclBtw) aanbieding.btw_inbegrepen = false;
+    else delete aanbieding.btw_inbegrepen;
     aanbieding.datum = VANDAAG;
-    const btwNoot = exclBtw ? ` (winkel toont €${gevonden.bedrag} excl. btw)` : "";
-    console.log(`  ${veranderd ? "✓ NIEUW" : "= gelijk"} ${pomp.id} @ ${aanbieding.winkel}: €${nieuw}${btwNoot}`);
+    const btwNoot = exclBtw ? ` excl. btw (€${nieuw} inclusief)` : "";
+    console.log(`  ${veranderd ? "✓ NIEUW" : "= gelijk"} ${pomp.id} @ ${aanbieding.winkel}: €${winkelbedrag}${btwNoot}`);
     return veranderd;
   } catch (err) {
     console.log(`  x ${pomp.id} @ ${aanbieding.winkel}: ${err.message} (oude prijs blijft staan)`);

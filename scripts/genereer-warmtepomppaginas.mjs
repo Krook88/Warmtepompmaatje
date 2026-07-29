@@ -14,13 +14,16 @@ import { createRequire } from "node:module";
 // ander icoon toont dan de vergelijker.
 const vereis = createRequire(import.meta.url);
 const Iconen = vereis("../assets/iconen.js");
+// En dezelfde prijslogica, zodat een pomppagina nooit een ander bedrag
+// noemt dan de kaart in de vergelijker.
+const Prijs = vereis("../assets/prijs.js");
 
 // Het merkicoon staat in de kop en de voet van elke pagina.
 const ICOON_LOGO = Iconen.svg("warmte", { klasse: "icoon-groot" });
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const SITE = "https://warmtepompmaatje.nl";
-const ASSET_VERSIE = "20260729a";
+const ASSET_VERSIE = "20260729b";
 const VANDAAG = new Date().toISOString().slice(0, 10);
 
 const data = JSON.parse(readFileSync(join(ROOT, "data", "warmtepompen.json"), "utf8"));
@@ -41,14 +44,8 @@ const punt = (v) => { const s = driewaardig(v).status; return s === "ja" ? 2 : s
 const koppelScore = (w) => punt(w.sturing) + punt(w.home_assistant) + punt(w.homey);
 const d3html = (v) => { const d = driewaardig(v); const icoon = Iconen.svg(d.status === "ja" ? "ja" : d.status === "deels" ? "deels" : "nee"); return `<b>${icoon}</b> ${esc(d.tekst)}`; };
 
-function bestePrijs(w) {
-  const aanbiedingen = (w.aanbiedingen || []).filter((a) => a && a.prijs_eur);
-  if (aanbiedingen.length) {
-    return aanbiedingen.reduce((min, a) => (a.prijs_eur < min.prijs_eur || (a.prijs_eur === min.prijs_eur && a.datum && !min.datum) ? a : min));
-  }
-  if (w.richtprijs_eur) return { winkel: null, prijs_eur: w.richtprijs_eur, url: w.product_url };
-  return null;
-}
+const bestePrijs = (w) => Prijs.beste(w);
+const vergelijkPrijs = (a) => Prijs.vergelijkPrijs(a);
 
 // JSON-LD: Product (met prijs/aanbieding) + BreadcrumbList, gelijk aan de zustersites
 /**
@@ -74,7 +71,11 @@ function variantenBlok(w) {
 function productLd(w) {
   const naam = `${w.merk} ${w.model}`;
   const beste = bestePrijs(w);
-  const aanbiedingen = (w.aanbiedingen || []).filter((a) => a && a.prijs_eur);
+  // Alleen aanbiedingen die het complete toestel dekken: een losse buitenunit
+  // als "price" van dit product opvoeren zou in de zoekresultaten een bedrag
+  // tonen waarvoor je de pomp niet kunt kopen. En altijd de vergelijkprijs,
+  // want schema.org gaat bij consumentenverkoop uit van een bedrag incl. btw.
+  const aanbiedingen = Prijs.geldigeAanbiedingen(w).filter(Prijs.zelfdeSamenstelling);
   const ld = {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -85,12 +86,12 @@ function productLd(w) {
     "url": `${SITE}/pomp/${w.id}.html`,
   };
   if (aanbiedingen.length === 1) {
-    ld.offers = { "@type": "Offer", "price": aanbiedingen[0].prijs_eur, "priceCurrency": "EUR", "url": aanbiedingen[0].affiliate_url || aanbiedingen[0].url, "availability": "https://schema.org/InStock" };
+    ld.offers = { "@type": "Offer", "price": vergelijkPrijs(aanbiedingen[0]), "priceCurrency": "EUR", "url": aanbiedingen[0].affiliate_url || aanbiedingen[0].url, "availability": "https://schema.org/InStock" };
   } else if (aanbiedingen.length > 1) {
-    const prijzen = aanbiedingen.map((a) => a.prijs_eur);
+    const prijzen = aanbiedingen.map(vergelijkPrijs);
     ld.offers = { "@type": "AggregateOffer", "lowPrice": Math.min(...prijzen), "highPrice": Math.max(...prijzen), "priceCurrency": "EUR", "offerCount": aanbiedingen.length };
-  } else if (beste) {
-    ld.offers = { "@type": "Offer", "price": beste.prijs_eur, "priceCurrency": "EUR", "url": beste.url, "availability": "https://schema.org/InStock" };
+  } else if (beste && Prijs.zelfdeSamenstelling(beste)) {
+    ld.offers = { "@type": "Offer", "price": vergelijkPrijs(beste), "priceCurrency": "EUR", "url": beste.url, "availability": "https://schema.org/InStock" };
   }
   const kruimel = {
     "@context": "https://schema.org",
@@ -145,9 +146,9 @@ function voet(diepte) {
 function pompPagina(w) {
   const naam = `${w.merk} ${w.model}`;
   const beste = bestePrijs(w);
-  const uitWinkel = !!(beste && beste.winkel);
+  const uitWinkel = !!(beste && !beste.is_richtprijs);
   const score = koppelScore(w);
-  const aanbiedingen = (w.aanbiedingen || []).filter((a) => a && a.prijs_eur);
+  const aanbiedingen = Prijs.geldigeAanbiedingen(w);
   const specRij = (label, waarde) => waarde == null || waarde === "" ? "" : `<tr><th>${label}</th><td>${waarde}</td></tr>`;
 
   return `<!DOCTYPE html>
@@ -241,9 +242,9 @@ ${kop("index", true)}
 
     <div class="product-paneel">
       <h2 style="margin-top:0;">Prijs</h2>
-      <div class="prijs-groot">${beste ? eur(beste.prijs_eur) : "Prijs op aanvraag"}</div>
-      <p class="hint" style="margin:2px 0 10px;">${uitWinkel ? `laagste prijs, bij ${esc(beste.winkel)}` : "richtprijs (indicatie), exclusief installatie"}${w.prijs_toelichting ? `<br>${esc(w.prijs_toelichting)}` : ""}</p>
-      ${aanbiedingen.length ? `<ul class="winkel-lijst" style="list-style:none;padding:0;margin:0 0 10px;">${aanbiedingen.map((a) => `<li style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;padding:6px 0;border-bottom:1px dotted var(--kleur-rand);min-width:0;"><span style="min-width:0;overflow-wrap:anywhere;">${esc(a.winkel)}</span><span style="white-space:nowrap;"><b>${eur(a.prijs_eur)}</b> <a href="${esc(a.affiliate_url || a.url)}" target="_blank" rel="noopener${a.affiliate_url ? " sponsored" : ""}">bekijk</a></span></li>`).join("")}</ul>` : ""}
+      <div class="prijs-groot">${beste ? eur(vergelijkPrijs(beste)) : "Prijs op aanvraag"}</div>
+      <p class="hint" style="margin:2px 0 10px;">${uitWinkel ? `laagste prijs, bij ${esc(beste.winkel)}` : "richtprijs (indicatie), exclusief installatie"}${w.prijs_toelichting ? `<br>${esc(w.prijs_toelichting)}` : ""}${Prijs.prijsToelichting(beste) ? `<br>${esc(Prijs.prijsToelichting(beste))}` : ""}</p>
+      ${aanbiedingen.length ? `<ul class="winkel-lijst" style="list-style:none;padding:0;margin:0 0 10px;">${aanbiedingen.map((a) => `<li style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;padding:6px 0;border-bottom:1px dotted var(--kleur-rand);min-width:0;"><span style="min-width:0;overflow-wrap:anywhere;">${esc(a.winkel)}${Prijs.prijsToelichting(a) ? `<br><small class="hint">${esc(Prijs.prijsToelichting(a))}</small>` : ""}</span><span style="white-space:nowrap;"><b>${eur(vergelijkPrijs(a))}</b> <a href="${esc(a.affiliate_url || a.url)}" target="_blank" rel="noopener${a.affiliate_url ? " sponsored" : ""}">bekijk</a></span></li>`).join("")}</ul>` : ""}
       ${w.prijs_datum ? `<p class="datum-stempel" style="margin:0 0 12px;">Prijzen gecontroleerd: ${esc(datumNL(w.prijs_datum))}. Zonder controledatum is de prijs een indicatie.</p>` : ""}
       <p style="margin:0;display:flex;flex-direction:column;gap:8px;">
         ${beste && (beste.url || beste.affiliate_url) ? `<a class="knop" href="${esc(beste.affiliate_url || beste.url)}" target="_blank" rel="noopener">${uitWinkel ? `Bekijk aanbieding ${Iconen.svg("pijl-rechts")}` : `Naar fabrikant ${Iconen.svg("pijl-rechts")}`}</a>` : ""}

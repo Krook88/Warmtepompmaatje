@@ -49,20 +49,24 @@
   }
 
   /**
-   * Alle bedragen op de site staan inclusief btw en gaan over het losse
-   * toestel. Wijkt een aanbieding daarvan af, dan legt dit blokje uit waarom
-   * het getoonde bedrag niet gelijk is aan wat je bij de winkel ziet staan.
-   *   btw: "excl"  -> de winkel toont een bedrag zonder btw (installateursshop)
-   *   dekt: tekst  -> de prijs dekt iets anders dan het complete toestel
+   * De prijslogica staat in assets/prijs.js, gedeeld met de keuzehulp, de
+   * rekenmodule en de generator van de pomppagina's. Hieronder alleen de
+   * korte namen waarmee de rest van dit bestand die logica aanroept.
+   *
+   *   bestePrijs(w)  de aanbieding die de kaart als kopprijs toont
+   *   toon(a)        het bedrag dat je mag laten zien: altijd incl. btw, ook
+   *                  als de winkel zelf een bedrag zonder btw toont
+   */
+  const bestePrijs = (w) => Prijs.beste(w);
+  const vergelijkPrijs = (a) => Prijs.vergelijkPrijs(a);
+
+  /**
+   * Toelichting onder de prijs: waarom wijkt dit bedrag af van wat de winkel
+   * toont (btw eruit gerekend) en dekt deze aanbieding wel het hele toestel?
    */
   function prijsLetOp(a) {
-    const regels = [];
-    if (a.btw === "excl") {
-      regels.push(`De winkel toont ${eurFmt.format(Math.round(a.prijs_eur / 1.21))} exclusief btw; hierboven staat het bedrag inclusief 21% btw.`);
-    }
-    if (a.dekt) regels.push(escapeHtml(a.dekt));
-    if (!regels.length) return "";
-    return `<div class="prijs-let-op">${regels.join(" ")}</div>`;
+    const tekst = Prijs.prijsToelichting(a);
+    return tekst ? `<div class="prijs-let-op">${escapeHtml(tekst)}</div>` : "";
   }
 
   /**
@@ -70,18 +74,9 @@
    * prijscontrole er een bedrag bij heeft gevonden. Zonder deze functie zou
    * daar "€ NaN" komen te staan.
    */
-  function bedragOfWacht(bedrag) {
+  function bedragOfWacht(aanbieding) {
+    const bedrag = vergelijkPrijs(aanbieding);
     return typeof bedrag === "number" ? eurFmt.format(bedrag) : "prijs volgt";
-  }
-
-  function bestePrijs(w) {
-    const aanbiedingen = (w.aanbiedingen || []).filter((a) => a && a.prijs_eur);
-    if (aanbiedingen.length) {
-      // Bij gelijke prijs wint de aanbieding met controledatum (geverifieerd)
-      return aanbiedingen.reduce((min, a) => (a.prijs_eur < min.prijs_eur || (a.prijs_eur === min.prijs_eur && a.datum && !min.datum) ? a : min));
-    }
-    if (w.richtprijs_eur) return { winkel: "richtprijs (indicatie)", prijs_eur: w.richtprijs_eur, url: w.product_url };
-    return null;
   }
 
   // Koppel-score: dezelfde transparante 0-6 rekensom als op de zustersites.
@@ -230,7 +225,7 @@
 
   function gesorteerd(lijst) {
     const kopie = [...lijst];
-    const prijsVan = (w) => { const b = bestePrijs(w); return b ? b.prijs_eur : Infinity; };
+    const prijsVan = (w) => { const b = vergelijkPrijs(bestePrijs(w)); return b == null ? Infinity : b; };
     switch (state.sortering) {
       case "prijs-oplopend": kopie.sort((a, b) => prijsVan(a) - prijsVan(b)); break;
       case "subsidie": kopie.sort((a, b) => (b.isde_indicatie_eur || 0) - (a.isde_indicatie_eur || 0)); break;
@@ -251,7 +246,7 @@
     const homey = driewaardig(w.homey);
     const geselecteerd = state.vergelijkSelectie.includes(w.id);
     const beste = bestePrijs(w);
-    const uitWinkel = !!(beste && beste.winkel && !beste.winkel.startsWith("richtprijs"));
+    const uitWinkel = !!(beste && beste.winkel && !beste.is_richtprijs);
     return `
     <article class="paneel-kaart" data-id="${escapeHtml(w.id)}">
       <div class="vergelijk-checkbox-wrap">
@@ -290,12 +285,12 @@
         <dt>Warm tapwater</dt><dd>${escapeHtml(w.tapwater || "?")}</dd>
         <dt>Maximale aanvoertemperatuur</dt><dd>${w.max_aanvoer_c ? w.max_aanvoer_c + " °C" : "?"} (hoe hoger, hoe geschikter voor bestaande radiatoren)</dd>
         ${w.opmerkingen ? `<dt>Goed om te weten</dt><dd>${escapeHtml(w.opmerkingen)}</dd>` : ""}
-        ${(w.aanbiedingen || []).length ? `<dt>Verkrijgbaar bij</dt><dd><ul class="winkel-lijst">${w.aanbiedingen.map((a) => `<li><span>${escapeHtml(a.winkel)}</span><span><b>${bedragOfWacht(a.prijs_eur)}</b> &nbsp;<a href="${escapeHtml(koopUrl(a))}" target="_blank" rel="noopener${a.affiliate_url ? " sponsored" : ""}">bekijk</a></span></li>`).join("")}</ul>${w.prijs_datum ? `<span class="datum-stempel" style="display:block;margin-top:8px;">Prijzen gecontroleerd: ${escapeHtml(datumNL(w.prijs_datum))}. Zonder controledatum is de prijs een indicatie.</span>` : ""}</dd>` : ""}
+        ${(w.aanbiedingen || []).length ? `<dt>Verkrijgbaar bij</dt><dd><ul class="winkel-lijst">${w.aanbiedingen.map((a) => `<li><span>${escapeHtml(a.winkel)}${Prijs.prijsToelichting(a) ? `<br><small>${escapeHtml(Prijs.prijsToelichting(a))}</small>` : ""}</span><span><b>${bedragOfWacht(a)}</b> &nbsp;<a href="${escapeHtml(koopUrl(a))}" target="_blank" rel="noopener${a.affiliate_url ? " sponsored" : ""}">bekijk</a></span></li>`).join("")}</ul>${w.prijs_datum ? `<span class="datum-stempel" style="display:block;margin-top:8px;">Prijzen gecontroleerd: ${escapeHtml(datumNL(w.prijs_datum))}. Zonder controledatum is de prijs een indicatie.</span>` : ""}</dd>` : ""}
         ${w.product_url ? `<dt>Fabrikant</dt><dd><a href="${escapeHtml(w.product_url)}" target="_blank" rel="noopener">officiële website van ${escapeHtml(w.merk)}</a></dd>` : ""}
       </div>
       <div class="kaart-prijs">
         <div class="prijs-blok">
-          <div class="prijs">${beste ? eurFmt.format(beste.prijs_eur) : "Prijs op aanvraag"}</div>
+          <div class="prijs">${beste ? eurFmt.format(vergelijkPrijs(beste)) : "Prijs op aanvraag"}</div>
           ${beste ? `<div class="prijs-winkel">${uitWinkel ? "bij " + escapeHtml(beste.winkel) : beste.winkel}</div>` : ""}
           ${w.voorbeeld_variant ? `<div class="prijs-per-kwh">prijs voor: ${escapeHtml(w.voorbeeld_variant)}</div>` : ""}
           ${w.prijs_toelichting ? `<div class="prijs-winkel">${escapeHtml(w.prijs_toelichting)}</div>` : ""}
@@ -318,7 +313,7 @@
     { key: "model", label: "Model", get: (w) => `${w.merk} ${w.model}` },
     { key: "type", label: "Type", get: (w) => w.type },
     { key: "vermogen", label: "kW", get: (w) => w.vermogen_kw || 0 },
-    { key: "prijs", label: "Prijs", get: (w) => { const b = bestePrijs(w); return b ? b.prijs_eur : Infinity; } },
+    { key: "prijs", label: "Prijs", get: (w) => { const b = vergelijkPrijs(bestePrijs(w)); return b == null ? Infinity : b; } },
     { key: "subsidie", label: "ISDE", get: (w) => w.isde_indicatie_eur || 0 },
     { key: "geluid", label: "Geluid", get: (w) => w.geluid_db || 99 },
     { key: "koppel", label: "Koppel-score", get: (w) => koppelScore(w) },
@@ -354,7 +349,7 @@
             <td><b>${escapeHtml(w.merk)}</b><br>${escapeHtml(w.model)}</td>
             <td>${escapeHtml(TYPE_KORT[w.type] || w.type)}</td>
             <td>${String(w.vermogen_kw).replace(".", ",")}</td>
-            <td class="tabel-prijs" title="${escapeHtml(w.prijs_toelichting || "")}">${beste ? eurFmt.format(beste.prijs_eur) : "n.b."}</td>
+            <td class="tabel-prijs" title="${escapeHtml([w.prijs_toelichting, Prijs.prijsToelichting(beste)].filter(Boolean).join(" · "))}">${beste ? eurFmt.format(vergelijkPrijs(beste)) : "n.b."}</td>
             <td title="Indicatie ISDE-subsidie; het bedrag per meldcode bij RVO is leidend">${w.isde_indicatie_eur ? "± " + eurFmt.format(w.isde_indicatie_eur) : "?"}</td>
             <td>${w.geluid_db ? w.geluid_db + " dB" : "?"}</td>
             <td title="Punten voor slimme aansturing, Home Assistant en Homey"><b>${koppelScore(w)}/6</b></td>
@@ -381,7 +376,7 @@
         ${rij("Model", (w) => `<b>${escapeHtml(w.merk)} ${escapeHtml(w.model)}</b>`)}
         ${rij("Type", (w) => escapeHtml(TYPE_LABEL[w.type] || w.type))}
         ${rij("Vermogen", (w) => `${String(w.vermogen_kw).replace(".", ",")} kW`)}
-        ${rij("Prijs", (w) => { const b = bestePrijs(w); return `${b ? `<b>${eurFmt.format(b.prijs_eur)}</b>` : "n.b."}<br><small>${escapeHtml(w.prijs_toelichting || "")}</small>`; })}
+        ${rij("Prijs", (w) => { const b = bestePrijs(w); return `${b ? `<b>${eurFmt.format(vergelijkPrijs(b))}</b>` : "n.b."}<br><small>${escapeHtml([w.prijs_toelichting, Prijs.prijsToelichting(b)].filter(Boolean).join(" · "))}</small>`; })}
         ${rij("Subsidie (ISDE, indicatie)", (w) => (w.isde_indicatie_eur ? `circa ${eurFmt.format(w.isde_indicatie_eur)}` : "?"))}
         ${rij("Geluid buitenunit", (w) => (w.geluid_db ? `${w.geluid_db} dB(A)` : "?"))}
         ${rij("Koudemiddel", (w) => escapeHtml(w.koudemiddel || "?"))}

@@ -34,14 +34,11 @@
       .replaceAll('"', "&quot;").replaceAll("'", "&#39;");
   }
 
-  function bestePrijs(w) {
-    const aanbiedingen = (w.aanbiedingen || []).filter((a) => a && a.prijs_eur);
-    if (aanbiedingen.length) {
-      return aanbiedingen.reduce((min, a) => (a.prijs_eur < min.prijs_eur || (a.prijs_eur === min.prijs_eur && a.datum && !min.datum) ? a : min));
-    }
-    if (w.richtprijs_eur) return { winkel: null, prijs_eur: w.richtprijs_eur, url: w.product_url };
-    return null;
-  }
+  // Prijslogica: zie assets/prijs.js. De terugverdientijd rekent met de
+  // vergelijkprijs (altijd incl. btw): een bedrag zonder btw invullen zou de
+  // terugverdientijd ruim een jaar te gunstig maken.
+  const bestePrijs = (w) => Prijs.beste(w);
+  const vergelijkPrijs = (a) => Prijs.vergelijkPrijs(a);
 
   function gekozenPomp() {
     const id = el("keuzePomp").value;
@@ -65,7 +62,7 @@
       // terugverdientijd uitrekenen. Met 0 zou het toestel als gratis worden
       // meegerekend en kwam er een veel te rooskleurig antwoord uit - juist bij
       // pompen waarvan wij de prijs nog niet hebben.
-      toestelPrijs: beste ? beste.prijs_eur : null,
+      toestelPrijs: vergelijkPrijs(beste),
       installatie: eigenInstallatie > 0 ? eigenInstallatie : (type === "hybride" ? INSTALLATIE_HYBRIDE : INSTALLATIE_ALLEL),
       installatieGeschat: eigenInstallatie <= 0,
       isde: w ? (w.isde_indicatie_eur || 0) : 0,
@@ -147,7 +144,8 @@
         ? `van deze warmtepomp hebben wij nog geen winkelprijs, dus de investering is onbekend. De besparing per jaar hieronder klopt wel: die hangt alleen af van je verbruik en de tarieven.`
         : `geschatte terugverdientijd${s.installatieGeschat ? " (bij geschatte installatiekosten)" : ""}`}</p>
       <div class="resultaat-rij"><span>Warmtepomp</span><b>${escapeHtml(s.w.merk)} ${escapeHtml(s.w.model)} (${s.type === "hybride" ? "hybride" : "all-electric"})</b></div>
-      <div class="resultaat-rij"><span>Toestel ${prijsOnbekend ? "" : (s.beste && s.beste.winkel ? `<small>(laagste prijs, bij ${escapeHtml(s.beste.winkel)})</small>` : "<small>(richtprijs)</small>")}</span><b>${prijsOnbekend ? "prijs onbekend" : eurFmt.format(s.toestelPrijs)}</b></div>
+      <div class="resultaat-rij"><span>Toestel ${prijsOnbekend ? "" : (s.beste && !s.beste.is_richtprijs ? `<small>(laagste prijs, bij ${escapeHtml(s.beste.winkel)})</small>` : "<small>(richtprijs)</small>")}</span><b>${prijsOnbekend ? "prijs onbekend" : eurFmt.format(s.toestelPrijs)}</b></div>
+      ${Prijs.prijsToelichting(s.beste) ? `<p class="hint" style="margin:0 0 6px;">${escapeHtml(Prijs.prijsToelichting(s.beste))}</p>` : ""}
       <div class="resultaat-rij"><span>Installatie ${s.installatieGeschat ? "<small>(schatting)</small>" : ""}${s.gasAf && s.afsluitkosten ? ` <small>+ gas afsluiten ${eurFmt.format(s.afsluitkosten)}</small>` : ""}</span><b>${eurFmt.format(s.installatie + (s.gasAf ? s.afsluitkosten : 0))}</b></div>
       <div class="resultaat-rij"><span>ISDE-subsidie <small>(indicatie)</small></span><b>− ${eurFmt.format(s.isde)}</b></div>
       <div class="resultaat-rij"><span>Netto investering</span><b>${prijsOnbekend ? "onbekend" : eurFmt.format(netto)}</b></div>
@@ -186,7 +184,7 @@
       const select = el("keuzePomp");
       select.innerHTML = pompen.map((w) => {
         const b = bestePrijs(w);
-        return `<option value="${escapeHtml(w.id)}">${escapeHtml(w.merk)} ${escapeHtml(w.model)} — ${w.type === "hybride" ? "hybride" : "all-electric"}, ${b ? eurFmt.format(b.prijs_eur) : "prijs onbekend"}</option>`;
+        return `<option value="${escapeHtml(w.id)}">${escapeHtml(w.merk)} ${escapeHtml(w.model)} — ${w.type === "hybride" ? "hybride" : "all-electric"}, ${b ? eurFmt.format(vergelijkPrijs(b)) : "prijs onbekend"}</option>`;
       }).join("");
 
       // Voorselectie via ?pomp=<id> (vanuit de vergelijker en de keuzehulp)
