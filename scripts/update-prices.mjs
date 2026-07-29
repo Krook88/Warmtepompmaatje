@@ -33,8 +33,13 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import { createRequire } from "node:module";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
+
+// Dezelfde prijslogica als de site, zodat de controle hieronder appels met
+// appels vergelijkt: altijd inclusief btw, aan beide kanten.
+const Prijs = createRequire(import.meta.url)("../assets/prijs.js");
 
 // Per databestand: waar de productlijst staat en welke prijzen geloofwaardig
 // zijn. Een hybride warmtepomp begint rond de € 1.500; een all-electric pomp
@@ -342,12 +347,24 @@ async function updateAanbieding(pomp, aanbieding, grenzen, verdacht) {
     // Een prijs die ver van de richtprijs ligt, dekt bijna altijd iets anders
     // dan het toestel waar de richtprijs over gaat. Zulke bedragen worden wel
     // opgeslagen, maar ook gemeld zodat iemand ernaar kan kijken.
-    if (pomp.richtprijs_eur) {
-      const verhouding = nieuw / pomp.richtprijs_eur;
+    //
+    // Twee dingen zijn hier belangrijk, want anders is de melding niets waard:
+    //
+    //   1. Beide kanten via de vergelijkprijs. Deed de winkel het bedrag zonder
+    //      btw, dan week het 21% af van de richtprijs zonder dat er iets aan de
+    //      hand was - de Mitsubishi werd zo elke dag als "51% van de richtprijs"
+    //      gemeld terwijl het in werkelijkheid 72% was.
+    //   2. Aanbiedingen met "omvat" overslaan. Daar hebben we zelf al
+    //      opgeschreven dat ze iets anders dekken; die elke dag opnieuw melden
+    //      maakt van de waarschuwing ruis, en dan valt een échte afwijking niet
+    //      meer op tussen de bekende gevallen.
+    const richtprijs = Prijs.vergelijkPrijs(Prijs.richtprijsAlsAanbieding(pomp));
+    if (richtprijs && !aanbieding.omvat) {
+      const verhouding = nieuw / richtprijs;
       if (verhouding < RICHTPRIJS_ONDER || verhouding > RICHTPRIJS_BOVEN) {
         verdacht.push(
-          `${pomp.id} @ ${aanbieding.winkel}: €${nieuw} is ${Math.round(verhouding * 100)}% van de richtprijs (€${pomp.richtprijs_eur})` +
-          ` - controleer of deze prijs hetzelfde dekt (${aanbieding.url})`
+          `${pomp.id} @ ${aanbieding.winkel}: €${nieuw} is ${Math.round(verhouding * 100)}% van de richtprijs (€${richtprijs})` +
+          ` - controleer of deze prijs hetzelfde dekt; klopt het verschil, zet dan "omvat" op deze aanbieding (${aanbieding.url})`
         );
       }
     }
