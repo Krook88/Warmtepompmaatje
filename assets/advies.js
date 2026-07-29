@@ -111,19 +111,39 @@
      Pompen scoren binnen het geadviseerde type
      ------------------------------------------------------------------ */
 
+  /**
+   * Een ontbrekend gegeven mocht eerder als slechtste waarde meetellen: geen
+   * bekende prijs gold als de duurste, geen geluidswaarde als 60 dB. Daardoor
+   * zakten pompen waarvan wíj iets niet weten steevast naar de onderkant en
+   * haalden ze de top drie nooit - een oordeel over onze administratie, niet
+   * over de pomp.
+   *
+   * Nu telt zo'n criterium mee met het gemiddelde van de andere pompen: we
+   * weten het niet, dus gaan we uit van doorsnee. De redenen onder het advies
+   * benoemen wat er ontbreekt, zodat de bezoeker het zelf kan wegen.
+   */
   function scorePompen(s, type) {
     const kandidaten = pompen.filter((w) => w.type === type);
-    const prijzen = kandidaten.map((w) => { const b = bestePrijs(w); return b ? b.prijs_eur - (w.isde_indicatie_eur || 0) : null; }).filter((n) => n != null);
+    const nettoVan = (w) => { const b = bestePrijs(w); return b ? b.prijs_eur - (w.isde_indicatie_eur || 0) : null; };
+    const prijzen = kandidaten.map(nettoVan).filter((n) => n != null);
     const minP = Math.min(...prijzen), maxP = Math.max(...prijzen);
+
+    const gemiddelde = (fn) => {
+      const w = kandidaten.map(fn).filter((n) => n != null);
+      return w.length ? w.reduce((a, b) => a + b, 0) / w.length : 0;
+    };
+    const gemPrijsDeel = gemiddelde((w) => { const n = nettoVan(w); return n == null ? null : (maxP - n) / (maxP - minP || 1); });
+    const gemStil = gemiddelde((w) => (w.geluid_db ? Math.max(0, 60 - w.geluid_db) / 10 : null));
+    const gemAanvoer = gemiddelde((w) => (w.max_aanvoer_c ? (w.max_aanvoer_c >= 70 ? 1 : 0) : null));
+    const gemScop = gemiddelde((w) => (w.scop ? (w.scop - 4) * 1.2 : null));
 
     return kandidaten.map((w) => {
       let score = 0;
       // Nettoprijs (prijs minus subsidie-indicatie): goedkoper = beter
-      const b = bestePrijs(w);
-      const netto = b ? b.prijs_eur - (w.isde_indicatie_eur || 0) : maxP;
-      score += 2.5 * (maxP - netto) / (maxP - minP || 1);
+      const netto = nettoVan(w);
+      score += 2.5 * (netto == null ? gemPrijsDeel : (maxP - netto) / (maxP - minP || 1));
       // Geluid weegt zwaar bij buren dichtbij
-      const stil = Math.max(0, 60 - (w.geluid_db || 60)) / 10; // 0 (60 dB) tot ~1 (50 dB)
+      const stil = w.geluid_db ? Math.max(0, 60 - w.geluid_db) / 10 : gemStil; // 0 (60 dB) tot ~1 (50 dB)
       score += stil * (s.buren === "dichtbij" ? 3 : 1);
       // Smart home-platform
       if (s.smartHome === "home_assistant") score += punt(w.home_assistant) * 1.5;
@@ -134,9 +154,9 @@
       // Thuisbatterij: slimme aansturing laat de pomp op goedkope of eigen stroom draaien
       if (s.batterij) score += punt(w.sturing) * 1.2;
       // Bestaande radiatoren: hoge aanvoertemperatuur is dan waardevol
-      if (s.afgifte === "radiatoren" && type === "all-electric") score += (w.max_aanvoer_c || 55) >= 70 ? 1.5 : 0;
+      if (s.afgifte === "radiatoren" && type === "all-electric") score += 1.5 * (w.max_aanvoer_c ? (w.max_aanvoer_c >= 70 ? 1 : 0) : gemAanvoer);
       // Rendement
-      if (w.scop) score += (w.scop - 4) * 1.2;
+      score += w.scop ? (w.scop - 4) * 1.2 : gemScop;
       return { w, score, netto };
     }).sort((a, b) => b.score - a.score).slice(0, 3);
   }
@@ -151,6 +171,14 @@
     if (/R290/i.test(w.koudemiddel || "")) redenen.push("natuurlijk koudemiddel (R290)");
     if ((w.max_aanvoer_c || 0) >= 70 && s.afgifte === "radiatoren") redenen.push(`hoge aanvoertemperatuur (${w.max_aanvoer_c} °C) voor bestaande radiatoren`);
     redenen.push(`Koppel-score ${koppelScore(w)}/6`);
+    // Eerlijk zijn over wat we niet weten: die punten zijn met een gemiddelde
+    // ingevuld, dus de bezoeker moet kunnen zien waar dat is gebeurd.
+    const onbekend = [
+      !bestePrijs(w) && "prijs",
+      !w.geluid_db && "geluid",
+      !w.max_aanvoer_c && "aanvoertemperatuur",
+    ].filter(Boolean);
+    if (onbekend.length) redenen.push(`let op: ${onbekend.join(" en ")} nog niet vastgesteld`);
     return redenen.slice(0, 4).join(" · ");
   }
 

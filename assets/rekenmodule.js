@@ -61,7 +61,11 @@
       vastrecht: Number(el("vastrecht").value) || 0,
       afsluitkosten: Number(el("afsluitkosten").value) || 0,
       gasAf: type === "all-electric" && el("checkGasAf").checked,
-      toestelPrijs: beste ? beste.prijs_eur : 0,
+      // null en niet 0: van een pomp zonder bekende prijs mag je geen
+      // terugverdientijd uitrekenen. Met 0 zou het toestel als gratis worden
+      // meegerekend en kwam er een veel te rooskleurig antwoord uit - juist bij
+      // pompen waarvan wij de prijs nog niet hebben.
+      toestelPrijs: beste ? beste.prijs_eur : null,
       installatie: eigenInstallatie > 0 ? eigenInstallatie : (type === "hybride" ? INSTALLATIE_HYBRIDE : INSTALLATIE_ALLEL),
       installatieGeschat: eigenInstallatie <= 0,
       isde: w ? (w.isde_indicatie_eur || 0) : 0,
@@ -91,11 +95,17 @@
     const vastrechtBesparing = s.gasAf ? s.vastrecht : 0;
     const besparingJaar = gasBespaard * s.gasprijs + vastrechtBesparing - stroomKwh * s.stroomprijs;
 
-    const investering = s.toestelPrijs + s.installatie + (s.gasAf ? s.afsluitkosten : 0);
+    const investering = (s.toestelPrijs || 0) + s.installatie + (s.gasAf ? s.afsluitkosten : 0);
     const netto = Math.max(0, investering - s.isde);
 
-    const tvt = besparingJaar > 0 ? netto / besparingJaar : null;
-    const tvtTekst = tvt === null || tvt > 40 ? "meer dan 40 jaar" : `${tvt.toFixed(1).replace(".", ",")} jaar`;
+    // Zonder toestelprijs is de investering onbekend, en dan is elke
+    // terugverdientijd verzonnen. De besparing per jaar hangt daar niet van af
+    // en blijft dus wel staan; alleen de terugverdientijd niet.
+    const prijsOnbekend = typeof s.toestelPrijs !== "number";
+    const tvt = !prijsOnbekend && besparingJaar > 0 ? netto / besparingJaar : null;
+    const tvtTekst = prijsOnbekend
+      ? "niet te berekenen"
+      : (tvt === null || tvt > 40 ? "meer dan 40 jaar" : `${tvt.toFixed(1).replace(".", ",")} jaar`);
 
     const besparingLevensduur = besparingJaar * LEVENSDUUR_JAAR;
     const co2 = Math.round(gasBespaard * CO2_PER_M3 - stroomKwh * CO2_PER_KWH);
@@ -133,12 +143,14 @@
 
     el("resultaatInhoud").innerHTML = `
       <div class="resultaat-groot">${tvtTekst}</div>
-      <p class="hint" style="margin:0 0 14px;">geschatte terugverdientijd${s.installatieGeschat ? " (bij geschatte installatiekosten)" : ""}</p>
+      <p class="hint" style="margin:0 0 14px;">${prijsOnbekend
+        ? `van deze warmtepomp hebben wij nog geen winkelprijs, dus de investering is onbekend. De besparing per jaar hieronder klopt wel: die hangt alleen af van je verbruik en de tarieven.`
+        : `geschatte terugverdientijd${s.installatieGeschat ? " (bij geschatte installatiekosten)" : ""}`}</p>
       <div class="resultaat-rij"><span>Warmtepomp</span><b>${escapeHtml(s.w.merk)} ${escapeHtml(s.w.model)} (${s.type === "hybride" ? "hybride" : "all-electric"})</b></div>
-      <div class="resultaat-rij"><span>Toestel ${s.beste && s.beste.winkel ? `<small>(laagste prijs, bij ${escapeHtml(s.beste.winkel)})</small>` : "<small>(richtprijs)</small>"}</span><b>${eurFmt.format(s.toestelPrijs)}</b></div>
+      <div class="resultaat-rij"><span>Toestel ${prijsOnbekend ? "" : (s.beste && s.beste.winkel ? `<small>(laagste prijs, bij ${escapeHtml(s.beste.winkel)})</small>` : "<small>(richtprijs)</small>")}</span><b>${prijsOnbekend ? "prijs onbekend" : eurFmt.format(s.toestelPrijs)}</b></div>
       <div class="resultaat-rij"><span>Installatie ${s.installatieGeschat ? "<small>(schatting)</small>" : ""}${s.gasAf && s.afsluitkosten ? ` <small>+ gas afsluiten ${eurFmt.format(s.afsluitkosten)}</small>` : ""}</span><b>${eurFmt.format(s.installatie + (s.gasAf ? s.afsluitkosten : 0))}</b></div>
       <div class="resultaat-rij"><span>ISDE-subsidie <small>(indicatie)</small></span><b>− ${eurFmt.format(s.isde)}</b></div>
-      <div class="resultaat-rij"><span>Netto investering</span><b>${eurFmt.format(netto)}</b></div>
+      <div class="resultaat-rij"><span>Netto investering</span><b>${prijsOnbekend ? "onbekend" : eurFmt.format(netto)}</b></div>
       <div class="resultaat-rij"><span>Gasbesparing per jaar</span><b>${numFmt.format(gasBespaard)} m³${s.type === "hybride" ? ` <small style="font-weight:400;color:var(--kleur-tekst-licht);">(${numFmt.format(gasOver)} m³ blijft voor piekkou en warm water)</small>` : ""}</b></div>
       <div class="resultaat-rij"><span>Extra stroomverbruik per jaar</span><b>${numFmt.format(stroomKwh)} kWh</b></div>
       ${vastrechtBesparing ? `<div class="resultaat-rij"><span>Vaste gaskosten vervallen</span><b>${eurFmt.format(vastrechtBesparing)} per jaar</b></div>` : ""}
