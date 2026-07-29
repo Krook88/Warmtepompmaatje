@@ -6,7 +6,8 @@
  * productpagina te lezen, in deze volgorde:
  *   1. JSON-LD structured data (schema.org Product/Offer) - meest betrouwbaar
  *   2. Meta-tags (og:price:amount, product:price:amount, itemprop="price")
- *   3. Een voorzichtige regex op zichtbare prijzen in de HTML
+ *   3. De productgegevens die de webshop als JSON in de pagina zet
+ *   4. Een voorzichtige regex op de zichtbare tekst
  *
  * Alle bedragen in het databestand zijn inclusief btw. Veel van deze winkels
  * zijn installateurs- en groothandelsshops die exclusief btw tonen; zo'n prijs
@@ -217,19 +218,68 @@ function prijsUitMeta(html) {
   return null;
 }
 
+/**
+ * Uit de telling het vaakst voorkomende bedrag pakken; bij gelijkspel het
+ * laagste, want dat is bij een webwinkel doorgaans de kale productprijs en
+ * niet een set of een variant met toebehoren.
+ */
+function meestVoorkomend(telling, minimaalAantal) {
+  let beste = null, max = 0;
+  for (const [prijs, n] of telling) {
+    if (n > max || (n === max && beste !== null && prijs < beste)) { max = n; beste = prijs; }
+  }
+  return max >= minimaalAantal ? beste : null;
+}
+
+/**
+ * Winkels zetten hun productgegevens vaak als JSON in de pagina, ook wanneer
+ * de zichtbare prijs pas door JavaScript wordt ingevuld. Dat blok staat er dus
+ * wel in de opgehaalde HTML. Zonder deze route mislukten winkels waar de prijs
+ * niet in schema.org-vorm staat maar in de eigen state van de webshop.
+ *
+ * Bedragen in centen (419900) vallen vanzelf af op de grenzen.
+ */
+function prijsUitJsonBlob(html, grenzen) {
+  const patroon = /"(?:price|prijs|amount|priceAmount|unitPrice|salePrice|current_price)"\s*:\s*"?(\d[\d.,]*)"?/gi;
+  const telling = new Map();
+  let m;
+  while ((m = patroon.exec(html)) !== null) {
+    const p = parsePrijsWaarde(m[1]);
+    if (p && p >= grenzen.min && p <= grenzen.max) telling.set(p, (telling.get(p) || 0) + 1);
+  }
+  // Eén treffer volstaat: dit is een benoemd veld en geen los getal in de tekst.
+  const bedrag = meestVoorkomend(telling, 1);
+  return bedrag ? { bedrag, btw: null } : null;
+}
+
+/**
+ * Laatste redmiddel: de zichtbare tekst afzoeken op een euroteken met een
+ * bedrag erachter.
+ *
+ * De eerdere versie zocht in de rauwe HTML, en miste daardoor precies de twee
+ * schrijfwijzen die webwinkels het meest gebruiken: een euroteken in een eigen
+ * element ("<span>€</span><span>4.199</span>") en de entiteit &euro;. Daarom
+ * eerst tags en entiteiten opruimen. Scripts gaan eruit, anders telt de JSON
+ * die prijsUitJsonBlob al bekijkt hier nog een keer mee.
+ */
 function prijsUitTekst(html, grenzen) {
-  // Voorzichtige fallback: pak de meest voorkomende "€ x.xxx"-prijs op de pagina.
-  const matches = html.match(/€\s?([\d.]{3,7}(?:,\d{2})?)/g) || [];
+  const tekst = String(html)
+    .replace(/<(script|style)[^>]*>[\s\S]*?<\/\1>/gi, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&euro;|&#8364;|&#x20ac;/gi, "€")
+    .replace(/&nbsp;|&#160;/gi, " ");
+  // \s* en niet \s?: het opruimen van tags vervangt elke tag door een spatie,
+  // dus tussen "€" en het bedrag staan er dan meerdere.
+  const matches = tekst.match(/(?:€|EUR)\s*([\d.]{3,7}(?:,\d{2})?)/gi) || [];
   const telling = new Map();
   for (const m of matches) {
     const p = parsePrijsWaarde(m);
     if (p && p >= grenzen.min && p <= grenzen.max) telling.set(p, (telling.get(p) || 0) + 1);
   }
-  let beste = null, max = 0;
-  for (const [prijs, n] of telling) {
-    if (n > max) { max = n; beste = prijs; }
-  }
-  return max >= 2 ? { bedrag: beste, btw: null } : null; // alleen bij herhaald voorkomen
+  // Hier wel twee treffers eisen: een los getal in lopende tekst kan van alles
+  // zijn, en een winkel noemt de prijs vrijwel altijd meer dan eens.
+  const bedrag = meestVoorkomend(telling, 2);
+  return bedrag ? { bedrag, btw: null } : null;
 }
 
 /**
@@ -253,7 +303,7 @@ async function updateAanbieding(pomp, aanbieding, grenzen, verdacht) {
       gevonden = await bolApiPrijs(aanbieding, grenzen);
     } else {
       const html = await haalPagina(aanbieding.url);
-      gevonden = prijsUitJsonLd(html) ?? prijsUitMeta(html) ?? prijsUitTekst(html, grenzen);
+      gevonden = prijsUitJsonLd(html) ?? prijsUitMeta(html) ?? prijsUitJsonBlob(html, grenzen) ?? prijsUitTekst(html, grenzen);
       // Zegt de markup niets over btw, dan bepaalt de pagina zelf het oordeel.
       if (gevonden && gevonden.btw == null) gevonden.btw = toontExclBtw(html) ? "excl" : "incl";
     }
