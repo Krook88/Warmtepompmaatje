@@ -1,5 +1,5 @@
 {
-  "laatst_bijgewerkt": "2026-07-28",
+  "laatst_bijgewerkt": "2026-07-29",
   "toelichting": "Winkelprijzen betreffen het losse toestel (soms alleen de buitenunit) van de genoemde winkel en worden dagelijks automatisch gecontroleerd; de controledatum staat erbij, zonder datum is de prijs een indicatie. Richtprijzen zijn indicatief voor het losse toestel (incl. btw, excl. installatie) van de genoemde variant; complete installaties kosten fors meer. ISDE-bedragen zijn indicaties op basis van de subsidieregels 2026 (basisbedrag plus bedrag per kW plus eventuele labelbonus); het exacte bedrag staat per meldcode op de apparatenlijst van RVO en is altijd leidend. Geluidswaarden zijn het geluidsvermogen van de buitenunit volgens het energielabel of de datasheet; op de erfgrens geldt 's nachts een eis van 40 dB. Koppelingsinformatie (Home Assistant, Homey, aansturing) kan per firmware- en appversie veranderen; controleer vóór aankoop de actuele status.",
   "warmtepompen": [
     {
@@ -39,11 +39,11 @@
           "winkel": "123Klimaatshop",
           "prijs_eur": 1600,
           "url": "https://www.123klimaatshop.nl/product/remeha-elga-ace-hybride-warmtepomp-40-kw/",
-          "datum": "2026-07-28",
+          "datum": "2026-07-29",
           "btw": "incl"
         }
       ],
-      "prijs_datum": "2026-07-28",
+      "prijs_datum": "2026-07-29",
       "isde_meldcode": "KA17438"
     },
     {
@@ -83,11 +83,11 @@
           "winkel": "Coen+",
           "prijs_eur": 3343,
           "url": "https://www.coen-plus.nl/daikin-altherma-hybride-warmtepomp-4kw-monoblock.html",
-          "datum": "2026-07-28",
+          "datum": "2026-07-29",
           "btw": "incl"
         }
       ],
-      "prijs_datum": "2026-07-28",
+      "prijs_datum": "2026-07-29",
       "isde_meldcode": "KA14853"
     },
     {
@@ -130,10 +130,10 @@
           "dekt": "Quatt verkoopt rechtstreeks en altijd inclusief basisinstallatie; de richtprijs hiernaast geldt voor het losse toestel.",
           "prijs_eur": 4249,
           "btw": "incl",
-          "datum": "2026-07-28"
+          "datum": "2026-07-29"
         }
       ],
-      "prijs_datum": "2026-07-28"
+      "prijs_datum": "2026-07-29"
     },
     {
       "id": "intergas-xtend",
@@ -215,11 +215,11 @@
           "dekt": "Dit is de losse buitenunit; de richtprijs hiernaast geldt voor een compleet systeem met binnenunit.",
           "prijs_eur": 2775,
           "btw": "incl",
-          "datum": "2026-07-28"
+          "datum": "2026-07-29"
         }
       ],
       "isde_meldcode": "KA16912",
-      "prijs_datum": "2026-07-28"
+      "prijs_datum": "2026-07-29"
     },
     {
       "id": "viessmann-vitocal-250a",
@@ -354,11 +354,11 @@
           "dekt": "Dit is de kale monoblock zonder hydrobox; de richtprijs hiernaast geldt voor het complete systeem.",
           "prijs_eur": 4891,
           "btw": "excl",
-          "datum": "2026-07-28"
+          "datum": "2026-07-29"
         }
       ],
       "isde_meldcode": "KA27330",
-      "prijs_datum": "2026-07-28"
+      "prijs_datum": "2026-07-29"
     },
     {
       "id": "daikin-altherma-3",
@@ -400,10 +400,10 @@
           "url": "https://www.klimate.nl/daikin-altherma-3-r-w-lucht-water-warmtepomp-split-unit-6-kw.html",
           "prijs_eur": 5414,
           "btw": "incl",
-          "datum": "2026-07-28"
+          "datum": "2026-07-29"
         }
       ],
-      "prijs_datum": "2026-07-28"
+      "prijs_datum": "2026-07-29"
     },
     {
       "id": "bosch-compress-5800i",
@@ -534,11 +534,11 @@
           "winkel": "Aircoshop Nederland",
           "prijs_eur": 6549,
           "url": "https://aircoshopnl.nl/warmtepomp/monoblock-warmtepomp/lg-therma-v-monobloc-warmtepomp-r290-1-fase-70-kw/",
-          "datum": "2026-07-28",
+          "datum": "2026-07-29",
           "btw": "incl"
         }
       ],
-      "prijs_datum": "2026-07-28",
+      "prijs_datum": "2026-07-29",
       "isde_meldcode": "KA29289"
     },
     {
@@ -581,10 +581,10 @@
           "url": "https://www.cvtotaal.nl/samsung-ehs-mono-hoog-temperatuur-warmtepomp-8kw.html",
           "prijs_eur": 8299,
           "btw": "incl",
-          "datum": "2026-07-28"
+          "datum": "2026-07-29"
         }
       ],
-      "prijs_datum": "2026-07-28"
+      "prijs_datum": "2026-07-29"
     },
     {
       "id": "weheat-blackbird",
@@ -663,7 +663,7 @@
           "winkel": "Boilermarkt",
           "prijs_eur": 7950,
           "url": "https://www.boilermarkt.nl/Warmtepomp/Lucht-water-warmtepompen/Stiebel-Eltron-WPL-A-07-HK-230-Premium-lucht-water-warmtepomp-6-87-kW/",
-          "datum": "2026-07-28",
+          "datum": "2026-07-29",
           "btw": "incl"
         },
         {
@@ -673,7 +673,7 @@
           "datum": null
         }
       ],
-      "prijs_datum": "2026-07-28",
+      "prijs_datum": "2026-07-29",
       "isde_meldcode": "KA19406",
       "opmerkingen": "Propaan, 75 graden aanvoer en officiële Home Assistant-integratie: een combinatie die je niet vaak samen ziet. Met 54 dB(A) hoort hij bij de stillere helft. Een degelijke keus als je van het gas af wilt zonder je afgiftesysteem te verbouwen."
     },
@@ -772,7 +772,7 @@
           "winkel": "Hybridegigant",
           "prijs_eur": 4935,
           "url": "https://www.hybridegigant.nl/itho-daalderop-amber-95-monoblock-9-5kw-lucht-water-warmtepomp",
-          "datum": "2026-07-28",
+          "datum": "2026-07-29",
           "btw": "incl"
         },
         {
@@ -782,7 +782,7 @@
           "datum": null
         }
       ],
-      "prijs_datum": "2026-07-28",
+      "prijs_datum": "2026-07-29",
       "isde_meldcode": "KA24521",
       "opmerkingen": "Met 9,5 kW een van de krachtigste hier, bedoeld voor grotere of slechter geïsoleerde woningen. Op 52 dB(A) blijft hij ondanks dat vermogen opvallend stil - alleen de Bosch en de Inventum doen het beter. Nederlands merk met een breed servicenetwerk; koppelen kan, maar overal via een omweg."
     },
@@ -820,11 +820,11 @@
           "winkel": "JCB Ventilatie",
           "prijs_eur": 4843,
           "url": "https://www.jcbventilatiestore.nl/products/inventum-ecolution-combi-50-ventilatiewarmtepomp-50-liter",
-          "datum": "2026-07-28",
+          "datum": "2026-07-29",
           "btw": "incl"
         }
       ],
-      "prijs_datum": "2026-07-28",
+      "prijs_datum": "2026-07-29",
       "isde_meldcode": "KA01709",
       "opmerkingen": "Een buitenbeentje: dit is een ventilatiewarmtepomp die warmte uit je afgezogen binnenlucht haalt in plaats van uit de buitenlucht. Daarom geen buitenunit, geen geluid in de tuin, en met 48 dB(A) de stilste hier. Het vermogen van 1,6 kW is klein - hij ondersteunt je cv-ketel, hij vervangt hem niet."
     },
@@ -863,7 +863,7 @@
           "winkel": "Aircoshop",
           "prijs_eur": 4139,
           "url": "https://aircoshopnl.nl/warmtepomp/tosot-by-gree-versati-iv-10-kw-400v-r32-monoblock-lucht-water-warmtepomp-meldcode-ka22519/",
-          "datum": "2026-07-28",
+          "datum": "2026-07-29",
           "btw": "incl"
         },
         {
@@ -873,7 +873,7 @@
           "datum": null
         }
       ],
-      "prijs_datum": "2026-07-28",
+      "prijs_datum": "2026-07-29",
       "isde_meldcode": "KA22405",
       "opmerkingen": "Tien kilowatt voor een prijs waar de meeste merken de helft voor leveren. Daar hoort een kanttekening bij: de aanvoertemperatuur blijft op 60 graden steken, wat hem minder geschikt maakt voor oude radiatoren, en slim aansturen kan alleen via een omweg."
     },
@@ -911,10 +911,10 @@
           "url": "https://www.cvtotaal.nl/atag-energion-m-hybrid-zone-50-hybride-warmtepomp-5kw.html",
           "prijs_eur": 4191,
           "btw": "incl",
-          "datum": "2026-07-28"
+          "datum": "2026-07-29"
         }
       ],
-      "prijs_datum": "2026-07-28"
+      "prijs_datum": "2026-07-29"
     },
     {
       "id": "itho-vincent-v45-hybride",
