@@ -160,7 +160,10 @@
 
   function redenVoor(w, s) {
     const redenen = [];
-    if ((w.geluid_db || 99) <= 55) redenen.push(`stil (${w.geluid_db} dB(A))`);
+    // Expliciet op "bekend" toetsen en niet op (w.geluid_db || 99): dat idioom
+    // gaf hier het juiste antwoord, maar in de vergelijker leverde het een
+    // onbekende waarde af als 99 dB(A). Nergens meer, dus.
+    if (typeof w.geluid_db === "number" && w.geluid_db <= 55) redenen.push(`stil (${w.geluid_db} dB(A))`);
     if (s.smartHome === "home_assistant" && driewaardig(w.home_assistant).status === "ja") redenen.push("officiële Home Assistant-integratie");
     if (s.smartHome === "home_assistant" && driewaardig(w.home_assistant).status === "deels") redenen.push("Home Assistant via community-route");
     if (s.smartHome === "homey" && driewaardig(w.homey).status !== "nee") redenen.push(driewaardig(w.homey).status === "ja" ? "Homey-app beschikbaar" : "Homey via community-app");

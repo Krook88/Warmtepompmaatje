@@ -23,7 +23,7 @@ const ICOON_LOGO = Iconen.svg("warmte", { klasse: "icoon-groot" });
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const SITE = "https://warmtepompmaatje.nl";
-const ASSET_VERSIE = "20260729b";
+const ASSET_VERSIE = "20260729c";
 const VANDAAG = new Date().toISOString().slice(0, 10);
 
 const data = JSON.parse(readFileSync(join(ROOT, "data", "warmtepompen.json"), "utf8"));
