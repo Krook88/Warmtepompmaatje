@@ -20,7 +20,7 @@ const ICOON_LOGO = Iconen.svg("warmte", { klasse: "icoon-groot" });
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const SITE = "https://warmtepompmaatje.nl";
-const ASSET_VERSIE = "20260728a";
+const ASSET_VERSIE = "20260729a";
 const VANDAAG = new Date().toISOString().slice(0, 10);
 
 const data = JSON.parse(readFileSync(join(ROOT, "data", "warmtepompen.json"), "utf8"));
@@ -51,6 +51,26 @@ function bestePrijs(w) {
 }
 
 // JSON-LD: Product (met prijs/aanbieding) + BreadcrumbList, gelijk aan de zustersites
+/**
+ * De maten waarin deze reeks op de ISDE-lijst staat, met het bedrag per maat.
+ * Het vermogen is dat van RVO (EU 811/2013) en ligt vaak een stap lager dan de
+ * maat in de modelnaam; dat staat er expliciet bij, anders lijkt de tabel de
+ * kop van de pagina tegen te spreken.
+ */
+function variantenBlok(w) {
+  const v = w.varianten || [];
+  if (v.length < 2) return "";
+  return `
+  <h2>Ook in andere maten</h2>
+  <p>Deze reeks staat in ${v.length} uitvoeringen op de meldcodelijst van RVO. Het vermogen hieronder is het opgegeven vermogen volgens EU 811/2013, zoals RVO dat hanteert; dat ligt vaak een stap lager dan de maat in de modelnaam.</p>
+  <div class="tabel-wrap">
+    <table class="vergelijk-tabel" style="min-width:0;">
+      <thead><tr><th>Vermogen (ISDE-lijst)</th><th>ISDE-subsidie</th><th>Meldcode</th></tr></thead>
+      <tbody>${v.map((x) => `<tr><td>${x.vermogen_kw} kW</td><td class="tabel-prijs">${x.isde_eur ? eur(x.isde_eur) : "?"}</td><td>${esc(x.meldcode)}</td></tr>`).join("")}</tbody>
+    </table>
+  </div>`;
+}
+
 function productLd(w) {
   const naam = `${w.merk} ${w.model}`;
   const beste = bestePrijs(w);
@@ -195,7 +215,7 @@ ${kop("index", true)}
         ${specRij("Koudemiddel", w.koudemiddel ? esc(w.koudemiddel) : null)}
         ${specRij("Warm tapwater", typeof w.tapwater === "string" ? esc(w.tapwater) : d3html(w.tapwater))}
         ${specRij("Maximale aanvoertemperatuur", w.max_aanvoer_c ? `${w.max_aanvoer_c} °C` : null)}
-        ${specRij("ISDE-subsidie (indicatie)", w.isde_indicatie_eur ? `${eur(w.isde_indicatie_eur)} <small>(check de meldcode bij <a href="https://www.rvo.nl/subsidies-financiering/isde/woningeigenaren/warmtepomp" target="_blank" rel="noopener">RVO</a>)</small>` : null)}
+        ${specRij("ISDE-subsidie", w.isde_indicatie_eur ? `${eur(w.isde_indicatie_eur)} <small>${w.isde_meldcode ? `bij meldcode ${esc(w.isde_meldcode)} op de <a href="https://www.rvo.nl/subsidies-financiering/isde/meldcodelijsten/warmtepompen" target="_blank" rel="noopener">meldcodelijst van RVO</a>` : `(check de meldcode bij <a href="https://www.rvo.nl/subsidies-financiering/isde/woningeigenaren/warmtepomp" target="_blank" rel="noopener">RVO</a>)`}</small>` : null)}
       </table>
 
       <div class="info-kader" style="margin-top:14px;">
@@ -234,6 +254,7 @@ ${kop("index", true)}
   </div>
 
   <section class="content-pagina" style="padding-top:0;">
+    ${variantenBlok(w)}
     <h2>Over de ${esc(naam)}</h2>
     <p>${esc(w.omschrijving || `${naam} is een ${w.type === "hybride" ? "hybride warmtepomp die samenwerkt met je cv-ketel: de pomp doet het gros van de verwarming, de ketel vangt piekkou en warm water op" : "all-electric warmtepomp die de cv-ketel volledig vervangt, inclusief warm tapwater via een boilervat"}.`)}</p>
     <p>Twijfel je nog over het type of het merk? Doe de <a href="../advies.html">keuzehulp</a>, of zet deze pomp naast twee andere in de <a href="../index.html">vergelijker</a> (vink "vergelijk" aan op maximaal drie kaarten).</p>

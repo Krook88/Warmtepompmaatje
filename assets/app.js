@@ -155,6 +155,27 @@
     </div>`;
   }
 
+  /**
+   * De reeks waarin dit model leverbaar is, met het subsidiebedrag per maat.
+   *
+   * Het vermogen komt hier van de ISDE-lijst en die rekent met het opgegeven
+   * vermogen volgens EU 811/2013 - dat ligt vaak een stap lager dan de
+   * marketingnaam op de kaart hierboven. Daarom staat er expliciet bij waar
+   * het getal vandaan komt, en is het subsidiebedrag de hoofdzaak: dat is de
+   * vraag waar een bezoeker mee zit als hij een andere maat nodig heeft.
+   */
+  function variantenRegel(w) {
+    const v = w.varianten || [];
+    if (v.length < 2) return "";
+    const bedragen = v.map((x) => x.isde_eur).filter((n) => typeof n === "number");
+    const reeks = v.map((x) => x.vermogen_kw).join(", ");
+    const isde = bedragen.length
+      ? ` De ISDE loopt daarbij van ${eurFmt.format(Math.min(...bedragen))} tot ${eurFmt.format(Math.max(...bedragen))}.`
+      : "";
+    return `<div class="varianten-regel" title="Vermogens zoals ze op de ISDE-meldcodelijst van RVO staan (opgegeven vermogen volgens EU 811/2013). Dat getal ligt vaak een stap lager dan de maat in de modelnaam.">
+      <b>Ook in andere maten:</b> deze reeks staat op de ISDE-lijst in ${reeks} kW.${isde}</div>`;
+  }
+
   function badgeHtml(label, waarde) {
     const d = driewaardig(waarde);
     const icoon = Iconen.svg({ ja: "ja", deels: "deels", onbekend: "onbekend" }[d.status] || "nee");
@@ -253,6 +274,7 @@
         <div class="spec"><span class="spec-label">Max. aanvoer</span><span class="spec-waarde">${w.max_aanvoer_c ? w.max_aanvoer_c + " &deg;C" : "?"}</span></div>
       </div>
       ${geluidStrook(w)}
+      ${variantenRegel(w)}
       <div class="kaart-badges">
         ${badgeHtml("Slimme aansturing", w.sturing)}
         ${badgeHtml("Home Assistant", w.home_assistant)}
