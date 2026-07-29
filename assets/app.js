@@ -177,7 +177,20 @@
     return `<span class="badge ${d.status}" data-uitleg="${escapeHtml(label)}" title="${escapeHtml(d.tekst)}">${icoon} ${escapeHtml(label)}</span>`;
   }
 
-  const isStil = (w) => (w.geluid_db || 99) <= 55;
+  /**
+   * Van een deel van de pompen hebben wij het geluidsvermogen niet vastgesteld.
+   * "Niet vastgesteld" is iets anders dan "luid", en dat verschil is hier
+   * weggevallen: met (w.geluid_db || 99) gold een onbekende waarde als 99 dB(A),
+   * ruim boven de luidste pomp die we wél hebben gemeten. Sorteren op "stilste
+   * eerst" zette die pompen daardoor onderaan alsof was vastgesteld dat ze de
+   * luidste van de site zijn.
+   *
+   * De keuzehulp ging al wel van het gemiddelde uit. Dat twee pagina's van
+   * dezelfde site een tegengesteld oordeel gaven over dezelfde ontbrekende
+   * waarde was de eigenlijke fout; vandaar deze ene functie.
+   */
+  const geluidBekend = (w) => typeof w.geluid_db === "number";
+  const isStil = (w) => geluidBekend(w) && w.geluid_db <= 55;
   const isR290 = (w) => /R290/i.test(w.koudemiddel || "");
 
   /* ------------------------------------------------------------------
@@ -210,17 +223,29 @@
     vink("checkR290", state.filters.r290); vink("checkStil", state.filters.stil); vink("checkHa", state.filters.officieelHa);
   }
 
-  function gefilterd() {
+  function gefilterd(opties) {
     const f = state.filters;
+    const negeerStil = !!(opties && opties.negeerStil);
     return state.pompen.filter((w) => {
       if (f.zoek && !`${w.merk} ${w.model}`.toLowerCase().includes(f.zoek.trim().toLowerCase())) return false;
       if (f.type !== "alle" && w.type !== f.type) return false;
       if (f.merk !== "alle" && w.merk !== f.merk) return false;
       if (f.r290 && !isR290(w)) return false;
-      if (f.stil && !isStil(w)) return false;
+      if (f.stil && !negeerStil && !isStil(w)) return false;
       if (f.officieelHa && driewaardig(w.home_assistant).status !== "ja") return false;
       return true;
     });
+  }
+
+  /**
+   * Hoeveel pompen het "stil"-filter buiten beeld houdt puur omdat wij hun
+   * geluid niet hebben vastgesteld. Het filter mag ze niet meerekenen - stil
+   * beloven kunnen we niet - maar ze zonder een woord weglaten wekt de indruk
+   * dat de lijst compleet is. Bij dit filter verdwijnt een derde van de site.
+   */
+  function verborgenDoorOnbekendGeluid() {
+    if (!state.filters.stil) return 0;
+    return gefilterd({ negeerStil: true }).filter((w) => !geluidBekend(w)).length;
   }
 
   function gesorteerd(lijst) {
@@ -229,7 +254,8 @@
     switch (state.sortering) {
       case "prijs-oplopend": kopie.sort((a, b) => prijsVan(a) - prijsVan(b)); break;
       case "subsidie": kopie.sort((a, b) => (b.isde_indicatie_eur || 0) - (a.isde_indicatie_eur || 0)); break;
-      case "geluid": kopie.sort((a, b) => (a.geluid_db || 99) - (b.geluid_db || 99)); break;
+      // Onbekend onderaan, maar als onbekend en niet als "luid".
+      case "geluid": kopie.sort((a, b) => (geluidBekend(a) && geluidBekend(b) ? a.geluid_db - b.geluid_db : geluidBekend(a) ? -1 : geluidBekend(b) ? 1 : 0)); break;
       case "rendement": kopie.sort((a, b) => (b.scop || 0) - (a.scop || 0)); break;
       case "koppel-score": kopie.sort((a, b) => koppelScore(b) - koppelScore(a) || prijsVan(a) - prijsVan(b)); break;
     }
@@ -313,9 +339,11 @@
     { key: "model", label: "Model", get: (w) => `${w.merk} ${w.model}` },
     { key: "type", label: "Type", get: (w) => w.type },
     { key: "vermogen", label: "kW", get: (w) => w.vermogen_kw || 0 },
-    { key: "prijs", label: "Prijs", get: (w) => { const b = vergelijkPrijs(bestePrijs(w)); return b == null ? Infinity : b; } },
+    // null en niet een groot getal: een ontbrekende waarde hoort onderaan omdat
+    // hij ontbreekt, niet omdat hij hoog zou zijn. Zie de sorteervergelijking.
+    { key: "prijs", label: "Prijs", get: (w) => vergelijkPrijs(bestePrijs(w)) },
     { key: "subsidie", label: "ISDE", get: (w) => w.isde_indicatie_eur || 0 },
-    { key: "geluid", label: "Geluid", get: (w) => w.geluid_db || 99 },
+    { key: "geluid", label: "Geluid", get: (w) => (geluidBekend(w) ? w.geluid_db : null) },
     { key: "koppel", label: "Koppel-score", get: (w) => koppelScore(w) },
     { key: "ha", label: "Home Assistant", get: (w) => driewaardig(w.home_assistant).status },
     { key: "homey", label: "Homey", get: (w) => driewaardig(w.homey).status },
@@ -328,6 +356,10 @@
       const kol = tabelKolommen.find((k) => k.key === state.tabelSortKolom);
       rijen.sort((a, b) => {
         const va = kol.get(a), vb = kol.get(b);
+        // Wat wij niet weten, staat onderaan - ook als je de kolom omklapt.
+        // Anders komt "prijs onbekend" bij aflopend sorteren bovenaan te staan
+        // als duurste, en "geluid onbekend" als luidste.
+        if (va == null || vb == null) return va == null ? (vb == null ? 0 : 1) : -1;
         if (typeof va === "number" && typeof vb === "number") return (va - vb) * state.tabelSortRichting;
         return String(va).localeCompare(String(vb), "nl") * state.tabelSortRichting;
       });
@@ -400,7 +432,9 @@
   function render() {
     syncUrl();
     const lijst = gesorteerd(gefilterd());
-    el("resultatenTelling").textContent = `${lijst.length} van ${state.pompen.length} warmtepompen`;
+    const verborgen = verborgenDoorOnbekendGeluid();
+    el("resultatenTelling").innerHTML = `${lijst.length} van ${state.pompen.length} warmtepompen`
+      + (verborgen ? `<small class="telling-noot">${verborgen} niet getoond: geluid nog niet vastgesteld</small>` : "");
 
     const doel = el("resultaten");
     if (!lijst.length) {

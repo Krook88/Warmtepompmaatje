@@ -417,6 +417,11 @@ a { color: var(--kleur-primair); }
 
 .resultaten-telling { font-weight: 600; color: var(--kleur-tekst-licht); font-size: 0.95rem; }
 
+/* Het "stil"-filter kan pompen weglaten waarvan wij het geluid niet hebben
+   vastgesteld. Die telling staat eronder, niet erachter: op een telefoon zou
+   het anders één lange regel worden die de weergaveknoppen wegduwt. */
+.telling-noot { display: block; font-weight: 400; font-size: 0.85rem; margin-top: 2px; }
+
 .weergave-knoppen { display: flex; gap: 8px; align-items: center; }
 
 .weergave-knoppen button {
