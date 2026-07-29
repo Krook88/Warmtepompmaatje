@@ -28,14 +28,11 @@
   const punt = (v) => { const s = driewaardig(v).status; return s === "ja" ? 2 : s === "deels" ? 1 : 0; };
   const koppelScore = (w) => punt(w.sturing) + punt(w.home_assistant) + punt(w.homey);
 
-  function bestePrijs(w) {
-    const aanbiedingen = (w.aanbiedingen || []).filter((a) => a && a.prijs_eur);
-    if (aanbiedingen.length) {
-      return aanbiedingen.reduce((min, a) => (a.prijs_eur < min.prijs_eur || (a.prijs_eur === min.prijs_eur && a.datum && !min.datum) ? a : min));
-    }
-    if (w.richtprijs_eur) return { winkel: null, prijs_eur: w.richtprijs_eur, url: w.product_url };
-    return null;
-  }
+  // Prijslogica: zie assets/prijs.js. De keuzehulp rekent uitsluitend met de
+  // vergelijkprijs (altijd incl. btw), anders zou een pomp die bij een
+  // installateursshop staat 21% te goedkoop uit de scoring komen.
+  const bestePrijs = (w) => Prijs.beste(w);
+  const vergelijkPrijs = (a) => Prijs.vergelijkPrijs(a);
 
   function invoer() {
     return {
@@ -124,7 +121,7 @@
    */
   function scorePompen(s, type) {
     const kandidaten = pompen.filter((w) => w.type === type);
-    const nettoVan = (w) => { const b = bestePrijs(w); return b ? b.prijs_eur - (w.isde_indicatie_eur || 0) : null; };
+    const nettoVan = (w) => { const b = vergelijkPrijs(bestePrijs(w)); return b == null ? null : b - (w.isde_indicatie_eur || 0); };
     const prijzen = kandidaten.map(nettoVan).filter((n) => n != null);
     const minP = Math.min(...prijzen), maxP = Math.max(...prijzen);
 
@@ -225,8 +222,9 @@
           <span class="plek">${plekken[i]}</span>
           <h3>${escapeHtml(w.merk)} ${escapeHtml(w.model)}</h3>
           <div class="reden">${redenVoor(w, s)}</div>
-          <p style="margin:8px 0 0;font-size:0.95rem;">${beste && beste.winkel ? `laagste prijs <b>${eurFmt.format(beste.prijs_eur)}</b>, goedkoopst bij <a href="${escapeHtml(beste.url || "")}" target="_blank" rel="noopener">${escapeHtml(beste.winkel)}</a>` : `richtprijs <b>${beste ? eurFmt.format(beste.prijs_eur) : "?"}</b>`} · ISDE-subsidie circa <b>${w.isde_indicatie_eur ? eurFmt.format(w.isde_indicatie_eur) : "?"}</b> · netto circa <b>${eurFmt.format(netto)}</b> voor het toestel (excl. installatie)</p>
-          <p style="margin:8px 0 0;">${beste && beste.winkel && beste.url ? `<a class="knop" style="padding:8px 14px;font-size:0.88rem;" href="${escapeHtml(beste.url)}" target="_blank" rel="noopener">Bekijk aanbieding ${Iconen.svg("pijl-rechts")}</a> ` : ""}<a class="knop knop-secundair" style="padding:8px 14px;font-size:0.88rem;" href="rekenmodule.html?pomp=${encodeURIComponent(w.id)}&gas=${s.gas}">Terugverdientijd ${Iconen.svg("pijl-rechts")}</a> <a class="knop knop-secundair" style="padding:8px 14px;font-size:0.88rem;" href="pomp/${encodeURIComponent(w.id)}.html">Alle details ${Iconen.svg("pijl-rechts")}</a></p>
+          <p style="margin:8px 0 0;font-size:0.95rem;">${beste && !beste.is_richtprijs ? `laagste prijs <b>${eurFmt.format(vergelijkPrijs(beste))}</b>, goedkoopst bij <a href="${escapeHtml(beste.url || "")}" target="_blank" rel="noopener">${escapeHtml(beste.winkel)}</a>` : `richtprijs <b>${beste ? eurFmt.format(vergelijkPrijs(beste)) : "?"}</b>`} · ISDE-subsidie circa <b>${w.isde_indicatie_eur ? eurFmt.format(w.isde_indicatie_eur) : "?"}</b> · netto circa <b>${eurFmt.format(netto)}</b> voor het toestel (excl. installatie)</p>
+          ${Prijs.prijsToelichting(beste) ? `<p class="hint" style="margin:4px 0 0;font-size:0.88rem;">${escapeHtml(Prijs.prijsToelichting(beste))}</p>` : ""}
+          <p style="margin:8px 0 0;">${beste && !beste.is_richtprijs && beste.url ? `<a class="knop" style="padding:8px 14px;font-size:0.88rem;" href="${escapeHtml(beste.url)}" target="_blank" rel="noopener">Bekijk aanbieding ${Iconen.svg("pijl-rechts")}</a> ` : ""}<a class="knop knop-secundair" style="padding:8px 14px;font-size:0.88rem;" href="rekenmodule.html?pomp=${encodeURIComponent(w.id)}&gas=${s.gas}">Terugverdientijd ${Iconen.svg("pijl-rechts")}</a> <a class="knop knop-secundair" style="padding:8px 14px;font-size:0.88rem;" href="pomp/${encodeURIComponent(w.id)}.html">Alle details ${Iconen.svg("pijl-rechts")}</a></p>
         </div>`;
       }).join("")}
       ${smartRegel ? `<p style="margin:12px 0 0;font-size:0.92rem;">${Iconen.svg("huis")} ${smartRegel}</p>` : ""}
