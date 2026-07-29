@@ -572,7 +572,10 @@
         {
           "winkel": "Aircozonderstek",
           "url": "https://www.aircozonderstek.nl/product/nefit-bosch-compress-5800i-aw-5-or-s-buitenunit/",
-          "dekt": "Dit is de losse buitenunit van de 5 kW-uitvoering; de richtprijs hiernaast geldt voor het complete toestel."
+          "dekt": "Dit is de losse buitenunit van de 5 kW-uitvoering; de richtprijs hiernaast geldt voor het complete toestel.",
+          "prijs_eur": 5695,
+          "btw": "incl",
+          "datum": "2026-07-29"
         },
         {
           "winkel": "Woonwijzerwinkel",
@@ -1401,7 +1404,10 @@
         {
           "winkel": "Stookcentrale",
           "url": "https://stookcentrale.nl/atlantic-alfea-extensa-8kw/",
-          "dekt": "Deze winkel voert de 8 kW-uitvoering; de gegevens hiernaast gaan over de 6 kW."
+          "dekt": "Deze winkel voert de 8 kW-uitvoering; de gegevens hiernaast gaan over de 6 kW.",
+          "prijs_eur": 5300,
+          "btw": "incl",
+          "datum": "2026-07-29"
         }
       ],
       "varianten": [
@@ -1425,7 +1431,8 @@
           "isde_eur": 3025,
           "meldcode": "KA20245"
         }
-      ]
+      ],
+      "prijs_datum": "2026-07-29"
     },
     {
       "id": "dewarmte-pomp-ao",
@@ -1570,9 +1577,13 @@
         {
           "winkel": "Multi-Import",
           "url": "https://www.multi-import.nl/wh-wxg12me8",
-          "dekt": "Dit is de losse buitenunit; voor een compleet systeem hoort er een hydromodule of boiler bij."
+          "dekt": "Dit is de losse buitenunit; voor een compleet systeem hoort er een hydromodule of boiler bij.",
+          "prijs_eur": 6899,
+          "btw": "incl",
+          "datum": "2026-07-29"
         }
-      ]
+      ],
+      "prijs_datum": "2026-07-29"
     },
     {
       "id": "stiebel-wpl-a13",
@@ -1673,9 +1684,13 @@
       "aanbiedingen": [
         {
           "winkel": "Aircozonderstek",
-          "url": "https://www.aircozonderstek.nl/product/nefit-bosch-compress-5800i-aw-12-or-t-11-5-kw/"
+          "url": "https://www.aircozonderstek.nl/product/nefit-bosch-compress-5800i-aw-12-or-t-11-5-kw/",
+          "prijs_eur": 9695,
+          "btw": "incl",
+          "datum": "2026-07-29"
         }
-      ]
+      ],
+      "prijs_datum": "2026-07-29"
     },
     {
       "id": "mitsubishi-ecodan-120",
