@@ -44,7 +44,19 @@
         }
       ],
       "prijs_datum": "2026-07-28",
-      "isde_meldcode": "KA17438"
+      "isde_meldcode": "KA17438",
+      "varianten": [
+        {
+          "vermogen_kw": 3,
+          "isde_eur": 1700,
+          "meldcode": "KA17438"
+        },
+        {
+          "vermogen_kw": 5,
+          "isde_eur": 2150,
+          "meldcode": "KA17439"
+        }
+      ]
     },
     {
       "id": "daikin-altherma-hybrid",
@@ -219,7 +231,44 @@
         }
       ],
       "isde_meldcode": "KA16912",
-      "prijs_datum": "2026-07-28"
+      "prijs_datum": "2026-07-28",
+      "varianten": [
+        {
+          "vermogen_kw": 4,
+          "isde_eur": 2125,
+          "meldcode": "KA17542"
+        },
+        {
+          "vermogen_kw": 5,
+          "isde_eur": 2350,
+          "meldcode": "KA32102"
+        },
+        {
+          "vermogen_kw": 6,
+          "isde_eur": 2575,
+          "meldcode": "KA32104"
+        },
+        {
+          "vermogen_kw": 7,
+          "isde_eur": 2800,
+          "meldcode": "KA32105"
+        },
+        {
+          "vermogen_kw": 9,
+          "isde_eur": 3250,
+          "meldcode": "KA17541"
+        },
+        {
+          "vermogen_kw": 11,
+          "isde_eur": 3700,
+          "meldcode": "KA32099"
+        },
+        {
+          "vermogen_kw": 12,
+          "isde_eur": 3925,
+          "meldcode": "KA32101"
+        }
+      ]
     },
     {
       "id": "viessmann-vitocal-250a",
@@ -269,7 +318,24 @@
         }
       ],
       "prijs_datum": "2026-07-27",
-      "isde_meldcode": "KA28388"
+      "isde_meldcode": "KA28388",
+      "varianten": [
+        {
+          "vermogen_kw": 4,
+          "isde_eur": 2125,
+          "meldcode": "KA28431"
+        },
+        {
+          "vermogen_kw": 5,
+          "isde_eur": 2350,
+          "meldcode": "KA28432"
+        },
+        {
+          "vermogen_kw": 6,
+          "isde_eur": 2575,
+          "meldcode": "KA28388"
+        }
+      ]
     },
     {
       "id": "nibe-s2125",
@@ -312,7 +378,29 @@
           "datum": null
         }
       ],
-      "isde_meldcode": "KA20867"
+      "isde_meldcode": "KA20867",
+      "varianten": [
+        {
+          "vermogen_kw": 5,
+          "isde_eur": 2350,
+          "meldcode": "KA20867"
+        },
+        {
+          "vermogen_kw": 7,
+          "isde_eur": 2800,
+          "meldcode": "KA20866"
+        },
+        {
+          "vermogen_kw": 10,
+          "isde_eur": 3475,
+          "meldcode": "KA30934"
+        },
+        {
+          "vermogen_kw": 11,
+          "isde_eur": 3700,
+          "meldcode": "KA30935"
+        }
+      ]
     },
     {
       "id": "mitsubishi-ecodan",
@@ -358,7 +446,24 @@
         }
       ],
       "isde_meldcode": "KA27330",
-      "prijs_datum": "2026-07-28"
+      "prijs_datum": "2026-07-28",
+      "varianten": [
+        {
+          "vermogen_kw": 4,
+          "isde_eur": 2125,
+          "meldcode": "KA27326"
+        },
+        {
+          "vermogen_kw": 5,
+          "isde_eur": 2350,
+          "meldcode": "KA27330"
+        },
+        {
+          "vermogen_kw": 7,
+          "isde_eur": 2800,
+          "meldcode": "KA27334"
+        }
+      ]
     },
     {
       "id": "daikin-altherma-3",
@@ -403,7 +508,24 @@
           "datum": "2026-07-28"
         }
       ],
-      "prijs_datum": "2026-07-28"
+      "prijs_datum": "2026-07-28",
+      "varianten": [
+        {
+          "vermogen_kw": 5,
+          "isde_eur": 2350,
+          "meldcode": "KA22093"
+        },
+        {
+          "vermogen_kw": 6,
+          "isde_eur": 2575,
+          "meldcode": "KA22094"
+        },
+        {
+          "vermogen_kw": 7,
+          "isde_eur": 2800,
+          "meldcode": "KA22095"
+        }
+      ]
     },
     {
       "id": "bosch-compress-5800i",
@@ -453,7 +575,24 @@
         }
       ],
       "prijs_datum": "2026-07-27",
-      "isde_meldcode": "KA28185"
+      "isde_meldcode": "KA28185",
+      "varianten": [
+        {
+          "vermogen_kw": 4,
+          "isde_eur": 2125,
+          "meldcode": "KA28184"
+        },
+        {
+          "vermogen_kw": 6,
+          "isde_eur": 2375,
+          "meldcode": "KA28185"
+        },
+        {
+          "vermogen_kw": 9,
+          "isde_eur": 3050,
+          "meldcode": "KA30141"
+        }
+      ]
     },
     {
       "id": "panasonic-aquarea-l",
@@ -493,6 +632,23 @@
         {
           "winkel": "123Klimaatshop",
           "url": "https://www.123klimaatshop.nl/product/panasonic-aquarea-kit-adc05l3e5-lucht-water-monoblock-warmtepomp-50-kw/"
+        }
+      ],
+      "varianten": [
+        {
+          "vermogen_kw": 5,
+          "isde_eur": 2350,
+          "meldcode": "KA26158"
+        },
+        {
+          "vermogen_kw": 7,
+          "isde_eur": 2800,
+          "meldcode": "KA26159"
+        },
+        {
+          "vermogen_kw": 8,
+          "isde_eur": 3025,
+          "meldcode": "KA26160"
         }
       ]
     },
@@ -584,7 +740,24 @@
           "datum": "2026-07-28"
         }
       ],
-      "prijs_datum": "2026-07-28"
+      "prijs_datum": "2026-07-28",
+      "varianten": [
+        {
+          "vermogen_kw": 8,
+          "isde_eur": 3025,
+          "meldcode": "KA23536"
+        },
+        {
+          "vermogen_kw": 11,
+          "isde_eur": 3700,
+          "meldcode": "KA23546"
+        },
+        {
+          "vermogen_kw": 12,
+          "isde_eur": 3925,
+          "meldcode": "KA23553"
+        }
+      ]
     },
     {
       "id": "weheat-blackbird",
@@ -625,6 +798,18 @@
           "winkel": "Weheat",
           "url": "https://www.weheat.nl/producten/blackbird",
           "dekt": "Weheat verkoopt rechtstreeks aan de klant; er is geen tussenhandel."
+        }
+      ],
+      "varianten": [
+        {
+          "vermogen_kw": 6,
+          "isde_eur": 2575,
+          "meldcode": "KA28196"
+        },
+        {
+          "vermogen_kw": 8,
+          "isde_eur": 3025,
+          "meldcode": "KA25415"
         }
       ]
     },
@@ -675,7 +860,29 @@
       ],
       "prijs_datum": "2026-07-28",
       "isde_meldcode": "KA19406",
-      "opmerkingen": "Propaan, 75 graden aanvoer en officiële Home Assistant-integratie: een combinatie die je niet vaak samen ziet. Met 54 dB(A) hoort hij bij de stillere helft. Een degelijke keus als je van het gas af wilt zonder je afgiftesysteem te verbouwen."
+      "opmerkingen": "Propaan, 75 graden aanvoer en officiële Home Assistant-integratie: een combinatie die je niet vaak samen ziet. Met 54 dB(A) hoort hij bij de stillere helft. Een degelijke keus als je van het gas af wilt zonder je afgiftesysteem te verbouwen.",
+      "varianten": [
+        {
+          "vermogen_kw": 5,
+          "isde_eur": 2350,
+          "meldcode": "KA19405"
+        },
+        {
+          "vermogen_kw": 7,
+          "isde_eur": 2800,
+          "meldcode": "KA19406"
+        },
+        {
+          "vermogen_kw": 10,
+          "isde_eur": 3275,
+          "meldcode": "KA31157"
+        },
+        {
+          "vermogen_kw": 13,
+          "isde_eur": 3950,
+          "meldcode": "KA29827"
+        }
+      ]
     },
     {
       "id": "wolf-cha-07",
@@ -729,7 +936,19 @@
       ],
       "prijs_datum": "2026-07-27",
       "isde_meldcode": "KA15251",
-      "opmerkingen": "Propaan en 70 graden aanvoer voor een nette prijs. De koppeling is het zwakke punt: geen officiële integratie met Home Assistant of Homey, en aansturen loopt via de thermostaat. Prima pomp als slimme sturing voor jou geen eis is."
+      "opmerkingen": "Propaan en 70 graden aanvoer voor een nette prijs. De koppeling is het zwakke punt: geen officiële integratie met Home Assistant of Homey, en aansturen loopt via de thermostaat. Prima pomp als slimme sturing voor jou geen eis is.",
+      "varianten": [
+        {
+          "vermogen_kw": 6,
+          "isde_eur": 2575,
+          "meldcode": "KA15251"
+        },
+        {
+          "vermogen_kw": 8,
+          "isde_eur": 3025,
+          "meldcode": "KA15252"
+        }
+      ]
     },
     {
       "id": "itho-amber-95",
@@ -784,7 +1003,24 @@
       ],
       "prijs_datum": "2026-07-28",
       "isde_meldcode": "KA24521",
-      "opmerkingen": "Met 9,5 kW een van de krachtigste hier, bedoeld voor grotere of slechter geïsoleerde woningen. Op 52 dB(A) blijft hij ondanks dat vermogen opvallend stil - alleen de Bosch en de Inventum doen het beter. Nederlands merk met een breed servicenetwerk; koppelen kan, maar overal via een omweg."
+      "opmerkingen": "Met 9,5 kW een van de krachtigste hier, bedoeld voor grotere of slechter geïsoleerde woningen. Op 52 dB(A) blijft hij ondanks dat vermogen opvallend stil - alleen de Bosch en de Inventum doen het beter. Nederlands merk met een breed servicenetwerk; koppelen kan, maar overal via een omweg.",
+      "varianten": [
+        {
+          "vermogen_kw": 4,
+          "isde_eur": 2125,
+          "meldcode": "KA24520"
+        },
+        {
+          "vermogen_kw": 6,
+          "isde_eur": 2575,
+          "meldcode": "KA24521"
+        },
+        {
+          "vermogen_kw": 8,
+          "isde_eur": 3025,
+          "meldcode": "KA24522"
+        }
+      ]
     },
     {
       "id": "inventum-ecolution-combi",
@@ -875,7 +1111,34 @@
       ],
       "prijs_datum": "2026-07-28",
       "isde_meldcode": "KA22405",
-      "opmerkingen": "Tien kilowatt voor een prijs waar de meeste merken de helft voor leveren. Daar hoort een kanttekening bij: de aanvoertemperatuur blijft op 60 graden steken, wat hem minder geschikt maakt voor oude radiatoren, en slim aansturen kan alleen via een omweg."
+      "opmerkingen": "Tien kilowatt voor een prijs waar de meeste merken de helft voor leveren. Daar hoort een kanttekening bij: de aanvoertemperatuur blijft op 60 graden steken, wat hem minder geschikt maakt voor oude radiatoren, en slim aansturen kan alleen via een omweg.",
+      "varianten": [
+        {
+          "vermogen_kw": 8,
+          "isde_eur": 3025,
+          "meldcode": "KA26333"
+        },
+        {
+          "vermogen_kw": 9,
+          "isde_eur": 3050,
+          "meldcode": "KA22405"
+        },
+        {
+          "vermogen_kw": 10,
+          "isde_eur": 3275,
+          "meldcode": "KA26336"
+        },
+        {
+          "vermogen_kw": 11,
+          "isde_eur": 3700,
+          "meldcode": "KA22406"
+        },
+        {
+          "vermogen_kw": 12,
+          "isde_eur": 3925,
+          "meldcode": "KA22407"
+        }
+      ]
     },
     {
       "id": "atag-energion-m-hybrid",
@@ -914,7 +1177,29 @@
           "datum": "2026-07-28"
         }
       ],
-      "prijs_datum": "2026-07-28"
+      "prijs_datum": "2026-07-28",
+      "varianten": [
+        {
+          "vermogen_kw": 5,
+          "isde_eur": 2350,
+          "meldcode": "KA21379"
+        },
+        {
+          "vermogen_kw": 7,
+          "isde_eur": 2800,
+          "meldcode": "KA21381"
+        },
+        {
+          "vermogen_kw": 10,
+          "isde_eur": 3475,
+          "meldcode": "KA21382"
+        },
+        {
+          "vermogen_kw": 11,
+          "isde_eur": 3700,
+          "meldcode": "KA21383"
+        }
+      ]
     },
     {
       "id": "itho-vincent-v45-hybride",
@@ -985,6 +1270,38 @@
           "url": "https://www.intercool.nl/assortiment/warmtepompen/bi-bloc-r290/toshiba-bi-bloc-r290/",
           "dekt": "Intercool is de Nederlandse distributeur; prijzen lopen doorgaans via de installateur."
         }
+      ],
+      "varianten": [
+        {
+          "vermogen_kw": 4,
+          "isde_eur": 2125,
+          "meldcode": "KA30467"
+        },
+        {
+          "vermogen_kw": 5,
+          "isde_eur": 2350,
+          "meldcode": "KA30469"
+        },
+        {
+          "vermogen_kw": 6,
+          "isde_eur": 2575,
+          "meldcode": "KA30471"
+        },
+        {
+          "vermogen_kw": 9,
+          "isde_eur": 3250,
+          "meldcode": "KA30457"
+        },
+        {
+          "vermogen_kw": 11,
+          "isde_eur": 3700,
+          "meldcode": "KA30461"
+        },
+        {
+          "vermogen_kw": 12,
+          "isde_eur": 3925,
+          "meldcode": "KA30465"
+        }
       ]
     },
     {
@@ -1014,7 +1331,19 @@
         "tekst": "Geen betrouwbare bron gevonden over een integratie voor deze warmtepomp."
       },
       "opmerkingen": "Deze kom je tegen in een offerte, niet in een winkelmandje: in de Benelux levert de importeur alleen aan installateurs. Handig dus vooral om een offerte mee te controleren. De vijf jaar garantie geldt alleen als je het jaarlijks onderhoud kunt aantonen.",
-      "product_url": "https://hitachi-warmtepompen.nl/"
+      "product_url": "https://hitachi-warmtepompen.nl/",
+      "varianten": [
+        {
+          "vermogen_kw": 4,
+          "isde_eur": 2125,
+          "meldcode": "KA15892"
+        },
+        {
+          "vermogen_kw": 6,
+          "isde_eur": 2575,
+          "meldcode": "KA15893"
+        }
+      ]
     },
     {
       "id": "atlantic-alfea-extensa",
@@ -1050,6 +1379,28 @@
           "url": "https://stookcentrale.nl/atlantic-alfea-extensa-8kw/",
           "dekt": "Deze winkel voert de 8 kW-uitvoering; de gegevens hiernaast gaan over de 6 kW."
         }
+      ],
+      "varianten": [
+        {
+          "vermogen_kw": 4,
+          "isde_eur": 2125,
+          "meldcode": "KA17817"
+        },
+        {
+          "vermogen_kw": 5,
+          "isde_eur": 2350,
+          "meldcode": "KA18006"
+        },
+        {
+          "vermogen_kw": 6,
+          "isde_eur": 2575,
+          "meldcode": "KA17840"
+        },
+        {
+          "vermogen_kw": 8,
+          "isde_eur": 3025,
+          "meldcode": "KA20245"
+        }
       ]
     },
     {
@@ -1084,6 +1435,254 @@
         {
           "winkel": "Woonwijzerwinkel",
           "url": "https://www.woonwijzerwinkel.nl/product/pomp-ao-van-dewarmte/"
+        }
+      ]
+    },
+    {
+      "id": "viessmann-vitocal-150a",
+      "merk": "Viessmann",
+      "model": "Vitocal 150-A",
+      "type": "all-electric",
+      "voorbeeld_variant": "Vitocal 150-A 11 kW (AWO-E-AC, 400 V)",
+      "vermogen_kw": 11,
+      "scop_toelichting": "de toegankelijkere lijn naast de Vitocal 250-A, gericht op grotere woningen",
+      "geluid_toelichting": "geluidsvermogen nog niet vastgesteld",
+      "koudemiddel": "R290 (natuurlijk)",
+      "tapwater": "via een aparte boiler",
+      "isde_indicatie_eur": 3700,
+      "isde_meldcode": "KA28423",
+      "sturing": {
+        "status": "onbekend",
+        "tekst": "Niet vastgesteld; de 250-A van hetzelfde merk biedt open aansturing, maar dit is een andere lijn."
+      },
+      "home_assistant": {
+        "status": "onbekend",
+        "tekst": "Niet vastgesteld voor deze lijn."
+      },
+      "homey": {
+        "status": "onbekend",
+        "tekst": "Niet vastgesteld voor deze lijn."
+      },
+      "opmerkingen": "Voor wie een groter of slechter geïsoleerd huis heeft en de 250-A te duur vindt: dezelfde fabrikant, een toegankelijker lijn, op propaan. Met 11 kW zit hij in de klasse waar de meeste vrijstaande woningen uitkomen.",
+      "product_url": "https://www.viessmann.nl/nl/warmtepompen.html",
+      "varianten": [
+        {
+          "vermogen_kw": 9,
+          "isde_eur": 3250,
+          "meldcode": "KA28399"
+        },
+        {
+          "vermogen_kw": 11,
+          "isde_eur": 3700,
+          "meldcode": "KA28423"
+        },
+        {
+          "vermogen_kw": 12,
+          "isde_eur": 3925,
+          "meldcode": "KA28310"
+        }
+      ]
+    },
+    {
+      "id": "panasonic-aquarea-wxg",
+      "merk": "Panasonic",
+      "model": "Aquarea Bi-bloc WXG",
+      "type": "all-electric",
+      "voorbeeld_variant": "WH-WXG12ME8 (12 kW, bi-bloc)",
+      "vermogen_kw": 12,
+      "scop_toelichting": "de zwaardere bi-bloc naast de L-generatie, voor woningen met een hogere warmtevraag",
+      "geluid_toelichting": "geluidsvermogen nog niet vastgesteld",
+      "koudemiddel": "R290 (natuurlijk)",
+      "tapwater": "via een aparte boiler of hydromodule",
+      "isde_indicatie_eur": 3925,
+      "isde_meldcode": "KA28403",
+      "sturing": {
+        "status": "ja",
+        "tekst": "SG-ready; via de CZ-TAW1-module op de Aquarea-cloud, of volledig lokaal via HeishaMon."
+      },
+      "home_assistant": {
+        "status": "deels",
+        "tekst": "Grote community: HeishaMon (volledig lokaal, zeer uitgebreid) of de Aquarea Smart Cloud-integratie; geen officiële integratie."
+      },
+      "homey": {
+        "status": "deels",
+        "tekst": "Community-app voor Aquarea Smart Cloud in de Homey App Store."
+      },
+      "opmerkingen": "De grote broer van de Aquarea L. Dezelfde open route via HeishaMon werkt hier ook, dus je houdt volledige lokale controle zonder cloud. Met 12 kW bedoeld voor woningen waar de kleinere modellen tekortschieten.",
+      "product_url": "https://www.panasonic.com/nl/consumer/verwarming-koeling/aquarea-warmtepompen.html",
+      "varianten": [
+        {
+          "vermogen_kw": 9,
+          "isde_eur": 3250,
+          "meldcode": "KA28402"
+        },
+        {
+          "vermogen_kw": 12,
+          "isde_eur": 3925,
+          "meldcode": "KA28403"
+        },
+        {
+          "vermogen_kw": 16,
+          "isde_eur": 4825,
+          "meldcode": "KA28404"
+        },
+        {
+          "vermogen_kw": 22,
+          "isde_eur": 5975,
+          "meldcode": "KA29283"
+        },
+        {
+          "vermogen_kw": 27,
+          "isde_eur": 7100,
+          "meldcode": "KA29284"
+        },
+        {
+          "vermogen_kw": 30,
+          "isde_eur": 7775,
+          "meldcode": "KA29285"
+        }
+      ]
+    },
+    {
+      "id": "stiebel-wpl-a13",
+      "merk": "Stiebel Eltron",
+      "model": "WPL-A 13.2 Trend",
+      "type": "all-electric",
+      "voorbeeld_variant": "WPL-A 13.2 Trend HK 400 (13 kW, driefase)",
+      "vermogen_kw": 13,
+      "scop_toelichting": "grootste propaanmodel in deze vergelijking; driefase-aansluiting nodig",
+      "geluid_toelichting": "geluidsvermogen nog niet vastgesteld",
+      "koudemiddel": "R290 (propaan)",
+      "tapwater": "via een aparte boiler",
+      "max_aanvoer_c": 75,
+      "isde_indicatie_eur": 4150,
+      "isde_meldcode": "KA30312",
+      "sturing": {
+        "status": "ja",
+        "tekst": "Modbus via de ISG-gateway; SG-ready."
+      },
+      "home_assistant": {
+        "status": "ja",
+        "tekst": "Officiële Home Assistant-integratie (stiebel_eltron) via de ISG-gateway met Modbus."
+      },
+      "homey": {
+        "status": "deels",
+        "tekst": "Geen officiële app; community-oplossingen via de ISG-gateway en Modbus."
+      },
+      "opmerkingen": "Het zwaarste toestel op propaan dat we voeren, met 75 graden aanvoer: bedoeld voor grote of slecht geïsoleerde woningen waar de radiatoren moeten blijven hangen. Let op de driefase-aansluiting - die heeft niet elke meterkast.",
+      "product_url": "https://www.stiebel-eltron.nl/nl/home/producten-oplossingen/hernieuwbare_energie/warmtepomp.html",
+      "varianten": [
+        {
+          "vermogen_kw": 5,
+          "isde_eur": 2350,
+          "meldcode": "KA31830"
+        },
+        {
+          "vermogen_kw": 7,
+          "isde_eur": 2800,
+          "meldcode": "KA31831"
+        },
+        {
+          "vermogen_kw": 9,
+          "isde_eur": 3250,
+          "meldcode": "KA30310"
+        },
+        {
+          "vermogen_kw": 13,
+          "isde_eur": 4150,
+          "meldcode": "KA30312"
+        },
+        {
+          "vermogen_kw": 18,
+          "isde_eur": 5275,
+          "meldcode": "KA31832"
+        }
+      ]
+    },
+    {
+      "id": "bosch-compress-5800i-12",
+      "merk": "Bosch",
+      "model": "Compress 5800i AW 12",
+      "type": "all-electric",
+      "voorbeeld_variant": "Compress 5800i AW 12 OR-T (12 kW, driefase)",
+      "vermogen_kw": 12,
+      "scop_toelichting": "driefase-uitvoering van de 5800i-reeks voor grotere woningen",
+      "geluid_toelichting": "geluidsvermogen nog niet vastgesteld voor deze maat; de 5 kW-uitvoering staat op 51 dB(A)",
+      "koudemiddel": "R290 (natuurlijk)",
+      "tapwater": "via een aparte boiler",
+      "max_aanvoer_c": 75,
+      "isde_indicatie_eur": 3925,
+      "isde_meldcode": "KA28183",
+      "sturing": {
+        "status": "ja",
+        "tekst": "SG-ready en EEBUS; energiemanagers van derden kunnen hem aansturen."
+      },
+      "home_assistant": {
+        "status": "deels",
+        "tekst": "Via de community: EMS-ESP leest de Bosch/Nefit EMS-bus volledig lokaal uit; officiële integratie ontbreekt (wel HomeCom-cloud)."
+      },
+      "homey": {
+        "status": "nee",
+        "tekst": "Geen bekende Homey-app; verbruik zichtbaar via de Homey Energy Dongle (P1)."
+      },
+      "opmerkingen": "De zware uitvoering van de reeks die in de kleinere maat als een van de stilste geldt. Propaan en 75 graden aanvoer, dus geschikt voor bestaande radiatoren in een groot huis. Vraagt een driefase-aansluiting.",
+      "product_url": "https://www.nefit-bosch.nl/producten/warmtepompen/de-compress-5800-awr-warmtepompen/",
+      "varianten": [
+        {
+          "vermogen_kw": 9,
+          "isde_eur": 3250,
+          "meldcode": "KA28182"
+        },
+        {
+          "vermogen_kw": 12,
+          "isde_eur": 3925,
+          "meldcode": "KA28183"
+        }
+      ]
+    },
+    {
+      "id": "mitsubishi-ecodan-120",
+      "merk": "Mitsubishi Electric",
+      "model": "Ecodan PMHR-Z120",
+      "type": "all-electric",
+      "voorbeeld_variant": "PMHR-Z120Y-E set (10 kW, met binnenunit)",
+      "vermogen_kw": 10,
+      "scop_toelichting": "complete set met binnenunit, voor woningen met een hogere warmtevraag",
+      "geluid_toelichting": "geluidsvermogen nog niet vastgesteld voor deze maat; de 6 kW-uitvoering staat op 55 dB(A)",
+      "koudemiddel": "R290 (natuurlijk)",
+      "tapwater": "via de binnenunit",
+      "max_aanvoer_c": 70,
+      "isde_indicatie_eur": 3475,
+      "isde_meldcode": "KA32008",
+      "sturing": {
+        "status": "ja",
+        "tekst": "SG-ready en Modbus via interface; MELCloud-regeling standaard."
+      },
+      "home_assistant": {
+        "status": "ja",
+        "tekst": "MELCloud-integratie in Home Assistant (cloud); ook lokale routes via de CN105-aansluiting bekend uit de community."
+      },
+      "homey": {
+        "status": "ja",
+        "tekst": "MELCloud-app in de Homey App Store, plus een MELCloud Optimizer die op dynamische stroomprijzen stuurt."
+      },
+      "opmerkingen": "Wordt als complete set geleverd, buitenunit plus binnenunit, wat installeren eenvoudiger maakt. Erft de sterke koppelbaarheid van de kleinere Ecodan: officiële ondersteuning in zowel Home Assistant als Homey.",
+      "product_url": "https://alklima.nl/ecodan-monoblock-warmtepompen-met-propaan-r290",
+      "varianten": [
+        {
+          "vermogen_kw": 7,
+          "isde_eur": 2800,
+          "meldcode": "KA32009"
+        },
+        {
+          "vermogen_kw": 8,
+          "isde_eur": 3025,
+          "meldcode": "KA32007"
+        },
+        {
+          "vermogen_kw": 10,
+          "isde_eur": 3475,
+          "meldcode": "KA32008"
         }
       ]
     }
